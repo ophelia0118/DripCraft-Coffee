@@ -196,8 +196,6 @@
   background-color: #5f4b41;
 }
 
-}
-
 /* 时间轴样式 */
 .timeline {
   margin-top: 30rpx;
@@ -287,6 +285,4 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 50rpx 50rpx;
-}
-
 } 
