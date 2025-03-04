@@ -1,4 +1,5 @@
 <!--brew-methods.wxml-->
+<navigation-bar title="选择滤杯" back="{{true}}" color="black" background="white"></navigation-bar>
 <view class="page-container">
   <!-- 顶部区域 -->
   <view class="header">
@@ -17,13 +18,13 @@
     
     <view class="brew-methods-grid">
       <view class="brew-method-card" bindtap="selectBrewMethod" data-method="hario-v60">
-        <image class="method-image" src="/assets/images/v60.png" mode="aspectFit"></image>
+        <image class="method-image" src="/assets/images/hariov60.png" mode="aspectFit"></image>
         <view class="method-name">Hario V60</view>
         <view class="method-desc">(锥形滤杯)</view>
       </view>
       
       <view class="brew-method-card" bindtap="selectBrewMethod" data-method="kalita-wave">
-        <image class="method-image" src="/assets/images/kalita.png" mode="aspectFit"></image>
+        <image class="method-image" src="/assets/images/kalitawave.png" mode="aspectFit"></image>
         <view class="method-name">Kalita Wave</view>
         <view class="method-desc">(平底滤杯)</view>
       </view>

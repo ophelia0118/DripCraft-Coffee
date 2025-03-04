@@ -1,0 +1,116 @@
+/* about.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx 0;
+}
+
+.logo {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 20rpx;
+  border-radius: 20rpx;
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.app-name {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #6F4E37;
+  margin-bottom: 10rpx;
+}
+
+.app-version {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.about-content {
+  flex: 1;
+}
+
+.section {
+  background-color: white;
+  border-radius: 15rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #6F4E37;
+  margin-bottom: 20rpx;
+}
+
+.section-content {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.feature-item icon {
+  margin-right: 15rpx;
+  flex-shrink: 0;
+}
+
+.feature-item text {
+  flex: 1;
+}
+
+.contact-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  margin-top: 15rpx;
+}
+
+.contact-item icon {
+  margin-right: 15rpx;
+  flex-shrink: 0;
+}
+
+.contact-item text {
+  flex: 1;
+}
+
+.copyright {
+  text-align: center;
+  font-size: 24rpx;
+  color: #999;
+  padding: 30rpx 0;
+}
+
+/* app.wxss */
+@font-face {
+  font-family: 'MyIcons';
+  src: url('data:application/font-woff;charset=utf-8;base64,BASE64FONTDATA') format('woff');
+}
+
+.icon {
+  font-family: 'MyIcons';
+}
+
+.icon-home:before {
+  content: '\e900';
+} 

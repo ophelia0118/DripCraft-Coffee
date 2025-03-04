@@ -43,7 +43,8 @@
   "componentFramework": "glass-easel",
   "sitemapLocation": "sitemap.json",
   "lazyCodeLoading": "requiredComponents",
-  "setting": {
-    "minLibVersion": "3.0.2"
-  }
+  "useExtendedLib": {
+    "weui": true
+  },
+  "debug": false
 }

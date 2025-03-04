@@ -1,0 +1,106 @@
+/* brew-timer.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx;
+  background-color: #2C0E0A;
+  min-height: 100vh;
+  color: white;
+}
+
+.brew-method-info {
+  padding: 20rpx;
+  text-align: center;
+  margin-bottom: 50rpx;
+}
+
+.method-name {
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+.timer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  position: relative;
+}
+
+.timer-circle {
+  width: 500rpx;
+  height: 500rpx;
+  border-radius: 50%;
+  border: 10rpx solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.timer-circle::before {
+  content: '';
+  position: absolute;
+  top: -10rpx;
+  left: -10rpx;
+  right: -10rpx;
+  bottom: -10rpx;
+  border-radius: 50%;
+  border: 2rpx solid rgba(255, 255, 255, 0.3);
+}
+
+.timer-display {
+  font-size: 80rpx;
+  font-weight: lighter;
+  font-family: monospace;
+  color: white;
+}
+
+.step-hint {
+  margin-top: 80rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.step-box {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 20rpx 40rpx;
+  border-radius: 10rpx;
+  text-align: center;
+}
+
+.step-box text {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.timer-controls {
+  display: flex;
+  justify-content: space-around;
+  padding: 40rpx 20rpx;
+  margin-top: 40rpx;
+}
+
+.control-btn {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.control-btn image {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.play-btn {
+  background-color: #F9F1E7;
+}
+
+.pause-btn {
+  background-color: rgba(255, 255, 255, 0.3);
+} 

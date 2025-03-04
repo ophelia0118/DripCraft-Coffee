@@ -1,0 +1,89 @@
+/* settings.wxss */
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  min-height: 100vh;
+}
+
+.settings-list {
+  flex: 1;
+}
+
+.settings-section {
+  background-color: white;
+  border-radius: 15rpx;
+  padding: 20rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #6F4E37;
+  margin-bottom: 20rpx;
+  padding-left: 10rpx;
+}
+
+.settings-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 10rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.settings-item:last-child {
+  border-bottom: none;
+}
+
+.item-label {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.item-label.danger {
+  color: #E74C3C;
+}
+
+.item-value {
+  display: flex;
+  align-items: center;
+}
+
+.settings-input {
+  width: 100rpx;
+  text-align: right;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.unit {
+  margin-left: 10rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.item-arrow {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 10rpx;
+}
+
+.action-buttons {
+  margin-top: 20rpx;
+  padding: 0 20rpx;
+}
+
+.btn {
+  font-size: 28rpx;
+  border-radius: 50rpx;
+  padding: 15rpx 0;
+}
+
+.save-btn {
+  background-color: #6F4E37;
+  color: white;
+} 
