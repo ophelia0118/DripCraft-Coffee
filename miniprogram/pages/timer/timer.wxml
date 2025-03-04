@@ -1,0 +1,36 @@
+<!--timer.wxml-->
+<view class="container">
+  <view class="nav-header">
+    <view class="back-button" bindtap="navigateBack">
+      <view class="back-arrow"></view>
+    </view>
+    <view class="nav-title">当前冲泡方法</view>
+  </view>
+  
+  <view class="method-info">
+    <text class="method-name">{{brewMethod}} {{brewMethodDesc}}</text>
+  </view>
+
+  <view class="timer-container">
+    <view class="timer-circle">
+      <view class="dotted-circle"></view>
+      <view class="timer-progress" style="transform: rotate({{progressDegree}}deg)">
+        <view class="progress-line"></view>
+        <view class="progress-dot"></view>
+      </view>
+      <text class="timer-display">{{minutes}}:{{seconds}}:{{milliseconds}}</text>
+    </view>
+  </view>
+
+  <view class="action-buttons">
+    <view class="action-button reset-button" bindtap="resetTimer">
+      <view class="reset-icon"></view>
+    </view>
+    <view class="action-button play-button" bindtap="toggleTimer">
+      <view class="{{isRunning ? 'pause-icon' : 'play-icon'}}"></view>
+    </view>
+    <view class="action-button bell-button" bindtap="toggleNotification">
+      <view class="bell-icon"></view>
+    </view>
+  </view>
+</view> 

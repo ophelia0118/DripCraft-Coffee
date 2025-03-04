@@ -1,0 +1,74 @@
+<!--record.wxml-->
+<navigation-bar title="冲泡记录" back="{{false}}" color="white" background="#6F4E37"></navigation-bar>
+<view class="container">
+  <view class="record-list" wx:if="{{records.length > 0}}">
+    <view class="record-item" wx:for="{{records}}" wx:key="index" bindtap="viewRecordDetail" data-index="{{index}}">
+      <view class="record-header">
+        <view class="record-date">{{item.formattedDate}}</view>
+        <view class="record-time">{{item.time}}</view>
+      </view>
+      <view class="record-content">
+        <view class="coffee-type">{{item.coffeeType}}</view>
+        <view class="coffee-details">
+          <text>{{item.coffeeWeight}}g</text>
+          <text class="separator">|</text>
+          <text>{{item.waterWeight}}g</text>
+          <text class="separator">|</text>
+          <text>1:{{item.ratio}}</text>
+        </view>
+      </view>
+      <view class="record-actions">
+        <view class="action-btn delete-btn" catchtap="deleteRecord" data-index="{{index}}">删除</view>
+        <view class="action-btn share-btn" catchtap="shareRecord" data-index="{{index}}">分享</view>
+      </view>
+    </view>
+  </view>
+  
+  <view class="empty-state" wx:else>
+    <image class="empty-image" src="/assets/images/empty.png" mode="aspectFit"></image>
+    <view class="empty-text">暂无冲泡记录</view>
+    <view class="empty-subtext">开始记录你的咖啡冲泡过程吧</view>
+    <button class="start-btn" bindtap="goToTimer">开始冲泡</button>
+  </view>
+</view>
+
+<!-- 记录详情弹窗 -->
+<view class="record-detail-modal" wx:if="{{showDetailModal}}">
+  <view class="modal-mask" bindtap="closeDetailModal"></view>
+  <view class="modal-content">
+    <view class="modal-header">
+      <view class="modal-title">冲泡详情</view>
+      <view class="modal-close" bindtap="closeDetailModal">×</view>
+    </view>
+    <view class="modal-body">
+      <view class="detail-item">
+        <view class="detail-label">咖啡种类</view>
+        <view class="detail-value">{{currentRecord.coffeeType}}</view>
+      </view>
+      <view class="detail-item">
+        <view class="detail-label">咖啡粉重量</view>
+        <view class="detail-value">{{currentRecord.coffeeWeight}}g</view>
+      </view>
+      <view class="detail-item">
+        <view class="detail-label">水重量</view>
+        <view class="detail-value">{{currentRecord.waterWeight}}g</view>
+      </view>
+      <view class="detail-item">
+        <view class="detail-label">比例</view>
+        <view class="detail-value">1:{{currentRecord.ratio}}</view>
+      </view>
+      <view class="detail-item">
+        <view class="detail-label">冲泡时间</view>
+        <view class="detail-value">{{currentRecord.time}}</view>
+      </view>
+      <view class="detail-item">
+        <view class="detail-label">日期</view>
+        <view class="detail-value">{{currentRecord.formattedDate}}</view>
+      </view>
+    </view>
+    <view class="modal-footer">
+      <button class="modal-btn cancel-btn" bindtap="closeDetailModal">关闭</button>
+      <button class="modal-btn share-btn" bindtap="shareCurrentRecord">分享</button>
+    </view>
+  </view>
+</view> 

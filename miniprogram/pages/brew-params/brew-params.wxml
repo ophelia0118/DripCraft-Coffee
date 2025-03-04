@@ -1,0 +1,73 @@
+<!--brew-params.wxml-->
+<navigation-bar title="调整冲泡参数" back="{{true}}" color="black" background="white"></navigation-bar>
+<view class="container">
+  <view class="brew-method-header">
+    <view class="method-name">{{methodName}} {{methodDesc}}</view>
+    <image class="method-image" src="{{methodImage}}" mode="aspectFit"></image>
+  </view>
+  
+  <view class="params-form">
+    <view class="param-item">
+      <view class="param-label">咖啡粉量</view>
+      <view class="param-control">
+        <view class="btn-decrease" bindtap="decreaseCoffeeAmount">-</view>
+        <view class="param-value">{{coffeeAmount}} g</view>
+        <view class="btn-increase" bindtap="increaseCoffeeAmount">+</view>
+      </view>
+    </view>
+    
+    <view class="param-item">
+      <view class="param-label">水温</view>
+      <view class="param-control">
+        <view class="btn-decrease" bindtap="decreaseWaterTemp">-</view>
+        <view class="param-value">{{waterTemp}}°C</view>
+        <view class="btn-increase" bindtap="increaseWaterTemp">+</view>
+      </view>
+    </view>
+    
+    <view class="param-item">
+      <view class="param-label">研磨度</view>
+      <view class="param-slider">
+        <slider min="1" max="5" step="1" value="{{grindSizeValue}}" block-size="24" 
+                active-color="#6F4E37" backgroundColor="#e0e0e0"
+                bindchange="onGrindSizeChange"></slider>
+        <view class="slider-labels">
+          <view class="slider-label">细</view>
+          <view class="slider-label">中细</view>
+          <view class="slider-label">中</view>
+          <view class="slider-label">中粗</view>
+          <view class="slider-label">粗</view>
+        </view>
+        <view class="selected-grind">{{grindSize}}</view>
+      </view>
+    </view>
+    
+    <view class="param-item">
+      <view class="param-label">水粉比</view>
+      <view class="param-slider">
+        <slider min="0" max="4" step="1" value="{{ratioIndex}}" block-size="24" 
+                active-color="#6F4E37" backgroundColor="#e0e0e0"
+                bindchange="onRatioChange"></slider>
+        <view class="slider-labels ratio-labels">
+          <view class="slider-label">1:14</view>
+          <view class="slider-label">1:15</view>
+          <view class="slider-label">1:16</view>
+          <view class="slider-label">1:17</view>
+          <view class="slider-label">1:18</view>
+        </view>
+        <view class="selected-ratio">{{waterRatio}}</view>
+      </view>
+    </view>
+    
+    <view class="water-amount">
+      <text>水量：{{waterAmount}}</text>
+    </view>
+    
+    <view class="auto-calculate">
+      <switch checked="{{autoCalculate}}" color="#6F4E37" bindchange="toggleAutoCalculate"></switch>
+      <text>根据水粉比自动调节水量</text>
+    </view>
+  </view>
+  
+  <view class="start-btn" bindtap="startBrewing">开始</view>
+</view> 

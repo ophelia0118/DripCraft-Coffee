@@ -1,0 +1,31 @@
+<!--brew-timer.wxml-->
+<navigation-bar title="当前冲煮方法" back="{{true}}" color="white" background="#6F4E37"></navigation-bar>
+<view class="container">
+  <view class="brew-method-info">
+    <view class="method-name">{{brewParams.methodName}} {{brewParams.methodDesc}}</view>
+  </view>
+  
+  <view class="timer-container">
+    <view class="timer-circle">
+      <view class="timer-display">{{displayTime}}</view>
+    </view>
+    
+    <view class="step-hint">
+      <view class="step-box">
+        <text>关键时刻有震动反馈提醒</text>
+      </view>
+    </view>
+  </view>
+  
+  <view class="timer-controls">
+    <view class="control-btn reset-btn" bindtap="resetTimer">
+      <image src="/assets/icons/WeuiDeleteFilled.svg" mode="aspectFit"></image>
+    </view>
+    <view class="control-btn {{isRunning ? 'pause-btn' : 'play-btn'}}" bindtap="toggleTimer">
+      <image src="{{isRunning ? '/assets/icons/WeuiLinkFilled.svg' : '/assets/icons/WeuiAddFilled.svg'}}" mode="aspectFit"></image>
+    </view>
+    <view class="control-btn alert-btn" bindtap="toggleAlert">
+      <image src="/assets/icons/WeuiMeFilled.svg" mode="aspectFit"></image>
+    </view>
+  </view>
+</view> 

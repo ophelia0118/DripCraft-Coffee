@@ -1,0 +1,62 @@
+<!--settings.wxml-->
+<navigation-bar title="设置" back="{{true}}" color="white" background="#6F4E37"></navigation-bar>
+<view class="container">
+  <view class="settings-list">
+    <view class="settings-section">
+      <view class="section-title">基本设置</view>
+      
+      <view class="settings-item">
+        <view class="item-label">深色模式</view>
+        <switch checked="{{darkMode}}" bindchange="toggleDarkMode" color="#6F4E37"/>
+      </view>
+      
+      <view class="settings-item">
+        <view class="item-label">声音提示</view>
+        <switch checked="{{soundEnabled}}" bindchange="toggleSound" color="#6F4E37"/>
+      </view>
+      
+      <view class="settings-item">
+        <view class="item-label">振动提示</view>
+        <switch checked="{{vibrationEnabled}}" bindchange="toggleVibration" color="#6F4E37"/>
+      </view>
+    </view>
+    
+    <view class="settings-section">
+      <view class="section-title">计时器设置</view>
+      
+      <view class="settings-item">
+        <view class="item-label">默认咖啡粉重量</view>
+        <view class="item-value">
+          <input type="digit" value="{{defaultCoffeeWeight}}" bindinput="onDefaultCoffeeWeightChange" class="settings-input"/>
+          <text class="unit">g</text>
+        </view>
+      </view>
+      
+      <view class="settings-item">
+        <view class="item-label">默认比例</view>
+        <view class="item-value">
+          <text>1:</text>
+          <input type="digit" value="{{defaultRatio}}" bindinput="onDefaultRatioChange" class="settings-input"/>
+        </view>
+      </view>
+    </view>
+    
+    <view class="settings-section">
+      <view class="section-title">其他</view>
+      
+      <view class="settings-item" bindtap="clearAllRecords">
+        <view class="item-label danger">清除所有记录</view>
+        <view class="item-arrow">></view>
+      </view>
+      
+      <view class="settings-item" bindtap="resetSettings">
+        <view class="item-label">恢复默认设置</view>
+        <view class="item-arrow">></view>
+      </view>
+    </view>
+  </view>
+  
+  <view class="action-buttons">
+    <button class="btn save-btn" bindtap="saveSettings">保存设置</button>
+  </view>
+</view> 

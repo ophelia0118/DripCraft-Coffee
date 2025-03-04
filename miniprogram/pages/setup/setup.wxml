@@ -1,0 +1,58 @@
+<!--setup.wxml-->
+<navigation-bar title="咖啡设置" back="{{true}}" color="white" background="#6F4E37"></navigation-bar>
+<view class="container">
+  <view class="setup-form">
+    <view class="form-item">
+      <view class="form-label">咖啡种类</view>
+      <input class="form-input" type="text" value="{{coffeeType}}" bindinput="onCoffeeTypeChange" placeholder="请输入咖啡种类"/>
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">咖啡粉重量 (g)</view>
+      <input class="form-input" type="digit" value="{{coffeeWeight}}" bindinput="onCoffeeWeightChange" placeholder="请输入咖啡粉重量"/>
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">比例 (1:x)</view>
+      <input class="form-input" type="digit" value="{{ratio}}" bindinput="onRatioChange" placeholder="请输入比例"/>
+    </view>
+    
+    <view class="form-item">
+      <view class="form-label">水重量 (g)</view>
+      <input class="form-input" type="digit" value="{{waterWeight}}" bindinput="onWaterWeightChange" placeholder="请输入水重量" disabled="{{waterWeightLocked}}"/>
+      <switch checked="{{waterWeightLocked}}" bindchange="toggleWaterWeightLock" color="#6F4E37"/>
+    </view>
+  </view>
+  
+  <view class="brewing-steps-section">
+    <view class="section-title">冲泡步骤</view>
+    <view class="brewing-steps">
+      <view class="step-item" wx:for="{{brewingSteps}}" wx:key="index">
+        <view class="step-header">
+          <view class="step-number">步骤 {{index + 1}}</view>
+          <view class="step-delete" bindtap="deleteStep" data-index="{{index}}">删除</view>
+        </view>
+        <view class="step-content">
+          <view class="step-time-input">
+            <view class="form-label">时间</view>
+            <input class="form-input" type="text" value="{{item.time}}" bindinput="onStepTimeChange" data-index="{{index}}" placeholder="格式: 00:00"/>
+          </view>
+          <view class="step-desc-input">
+            <view class="form-label">描述</view>
+            <input class="form-input" type="text" value="{{item.description}}" bindinput="onStepDescChange" data-index="{{index}}" placeholder="请输入步骤描述"/>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <view class="add-step" bindtap="addStep">
+      <text class="add-icon">+</text>
+      <text>添加步骤</text>
+    </view>
+  </view>
+  
+  <view class="action-buttons">
+    <button class="btn cancel-btn" bindtap="cancel">取消</button>
+    <button class="btn save-btn" bindtap="saveSettings">保存</button>
+  </view>
+</view> 

@@ -1,0 +1,58 @@
+<!--about.wxml-->
+<navigation-bar title="关于我们" back="{{true}}" color="white" background="#6F4E37"></navigation-bar>
+<view class="container">
+  <view class="logo-container">
+    <image class="logo" src="/assets/images/01.png" mode="aspectFit"></image>
+    <view class="app-name">DripCraft Coffee</view>
+    <view class="app-version">v1.0.0</view>
+  </view>
+  
+  <view class="about-content">
+    <view class="section">
+      <view class="section-title">应用简介</view>
+      <view class="section-content">
+        <text>DripCraft Coffee是一款专为咖啡爱好者设计的手冲咖啡计时工具，帮助您记录每一次冲泡过程，提升咖啡品质。</text>
+      </view>
+    </view>
+    
+    <view class="section">
+      <view class="section-title">功能特点</view>
+      <view class="section-content">
+        <view class="feature-item">
+          <icon type="add" size="30" color="#6F4E37"></icon>
+          <text>精确计时：毫秒级精确计时，掌握每一步冲泡时间</text>
+        </view>
+        <view class="feature-item">
+          <icon type="link" size="30" color="#6F4E37"></icon>
+          <text>步骤提醒：自定义冲泡步骤，到点振动提醒</text>
+        </view>
+        <view class="feature-item">
+          <icon type="me" size="30" color="#6F4E37"></icon>
+          <text>记录管理：保存冲泡记录，随时查看历史数据</text>
+        </view>
+        <view class="feature-item">
+          <icon type="more" size="30" color="#6F4E37"></icon>
+          <text>比例计算：自动计算咖啡粉与水的最佳比例</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="section">
+      <view class="section-title">联系我们</view>
+      <view class="section-content contact-section">
+        <view class="contact-item">
+          <icon type="me" size="24" color="#6F4E37"></icon>
+          <text>邮箱：contact@dripcraft.com</text>
+        </view>
+        <view class="contact-item">
+          <icon type="link" size="24" color="#6F4E37"></icon>
+          <text>微信公众号：DripCraftCoffee</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <view class="copyright">
+    <text>© 2023 DripCraft Coffee. All rights reserved.</text>
+  </view>
+</view>

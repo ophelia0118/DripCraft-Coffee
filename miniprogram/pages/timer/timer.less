@@ -1,0 +1,258 @@
+/* timer.less */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+  background-color: #3A1E0C; /* 深咖啡色背景 */
+  min-height: 100vh;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.nav-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 88rpx;
+  padding: 0 30rpx;
+}
+
+.back-button {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-arrow {
+  width: 24rpx;
+  height: 24rpx;
+  border-left: 4rpx solid white;
+  border-bottom: 4rpx solid white;
+  transform: rotate(45deg);
+}
+
+.nav-title {
+  flex: 1;
+  text-align: center;
+  font-size: 36rpx;
+  color: white;
+  font-weight: normal;
+  margin-right: 60rpx; /* 平衡左侧返回按钮 */
+}
+
+.method-info {
+  width: 100%;
+  text-align: left;
+  padding: 20rpx 30rpx;
+}
+
+.method-name {
+  font-size: 32rpx;
+  color: white;
+  font-weight: normal;
+}
+
+.timer-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 120rpx 0;
+  padding: 0 30rpx;
+  box-sizing: border-box;
+}
+
+.timer-circle {
+  position: relative;
+  width: 500rpx;
+  height: 500rpx;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #3A1E0C;
+  overflow: visible;
+}
+
+.dotted-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: none;
+  box-sizing: border-box;
+}
+
+.dotted-circle:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  border: 2rpx dotted rgba(255, 255, 255, 0.7);
+}
+
+.timer-progress {
+  position: absolute;
+  top: 0;
+  right: 50%;
+  width: 50%;
+  height: 100%;
+  transform-origin: 100% 50%;
+  overflow: visible;
+}
+
+.progress-line {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 3rpx;
+  background-color: white;
+  transform-origin: 100% 50%;
+}
+
+.progress-dot {
+  position: absolute;
+  top: -6rpx;
+  right: -6rpx;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.timer-display {
+  font-size: 84rpx;
+  font-weight: normal;
+  color: white;
+  text-align: center;
+}
+
+.action-buttons {
+  position: fixed;
+  bottom: 100rpx;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 60rpx;
+}
+
+.action-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reset-button {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reset-icon {
+  width: 36rpx;
+  height: 36rpx;
+  position: relative;
+}
+
+.reset-icon:before {
+  content: '';
+  position: absolute;
+  width: 36rpx;
+  height: 36rpx;
+  border: 3rpx solid white;
+  border-radius: 50%;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  transform: rotate(135deg);
+}
+
+.play-button {
+  width: 120rpx;
+  height: 120rpx;
+  background-color: #F1DFC8;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.play-icon {
+  width: 0;
+  height: 0;
+  border-top: 25rpx solid transparent;
+  border-left: 40rpx solid #3A1E0C;
+  border-bottom: 25rpx solid transparent;
+  margin-left: 10rpx;
+}
+
+.pause-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pause-icon:before,
+.pause-icon:after {
+  content: '';
+  width: 8rpx;
+  height: 40rpx;
+  background-color: #3A1E0C;
+  margin: 0 6rpx;
+}
+
+.bell-button {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bell-icon {
+  width: 36rpx;
+  height: 36rpx;
+  position: relative;
+}
+
+.bell-icon:before {
+  content: '';
+  position: absolute;
+  width: 30rpx;
+  height: 30rpx;
+  border: 3rpx solid white;
+  border-radius: 40% 40% 10% 10%;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bell-icon:after {
+  content: '';
+  position: absolute;
+  width: 10rpx;
+  height: 10rpx;
+  background-color: white;
+  border-radius: 50%;
+  bottom: -5rpx;
+  left: 50%;
+  transform: translateX(-50%);
+}

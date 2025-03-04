@@ -1,0 +1,66 @@
+<!--brew-methods.wxml-->
+<view class="page-container">
+  <!-- 顶部区域 -->
+  <view class="header">
+    <view class="welcome-area">
+      <text class="welcome-text">Welcome!</text>
+      <text class="user-name">吴同学</text>
+    </view>
+    <view class="user-icon">
+      <image src="/assets/images/user.png" mode="aspectFit"></image>
+    </view>
+  </view>
+  
+  <!-- 主内容区域 -->
+  <view class="main-content">
+    <view class="section-title">选择滤杯</view>
+    
+    <view class="brew-methods-grid">
+      <view class="brew-method-card" bindtap="selectBrewMethod" data-method="hario-v60">
+        <image class="method-image" src="/assets/images/v60.png" mode="aspectFit"></image>
+        <view class="method-name">Hario V60</view>
+        <view class="method-desc">(锥形滤杯)</view>
+      </view>
+      
+      <view class="brew-method-card" bindtap="selectBrewMethod" data-method="kalita-wave">
+        <image class="method-image" src="/assets/images/kalita.png" mode="aspectFit"></image>
+        <view class="method-name">Kalita Wave</view>
+        <view class="method-desc">(平底滤杯)</view>
+      </view>
+      
+      <view class="brew-method-card" bindtap="selectBrewMethod" data-method="chemex">
+        <image class="method-image" src="/assets/images/chemex.png" mode="aspectFit"></image>
+        <view class="method-name">Chemex</view>
+      </view>
+      
+      <view class="brew-method-card" bindtap="selectBrewMethod" data-method="melitta">
+        <image class="method-image" src="/assets/images/melitta.png" mode="aspectFit"></image>
+        <view class="method-name">Melitta</view>
+      </view>
+      
+      <view class="brew-method-card" bindtap="selectBrewMethod" data-method="bee-house">
+        <image class="method-image" src="/assets/images/beehouse.png" mode="aspectFit"></image>
+        <view class="method-name">Bee House</view>
+      </view>
+      
+      <view class="brew-method-card" bindtap="selectBrewMethod" data-method="kono">
+        <image class="method-image" src="/assets/images/kono.png" mode="aspectFit"></image>
+        <view class="method-name">Kono</view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 底部导航 -->
+  <view class="nav-footer">
+    <view class="add-button-container">
+      <view class="add-button" bindtap="goToHome">
+        <text class="add-icon">+</text>
+      </view>
+      <text class="nav-text">首页</text>
+    </view>
+    
+    <view class="right-nav">
+      <text class="nav-text">我的记录</text>
+    </view>
+  </view>
+</view> 

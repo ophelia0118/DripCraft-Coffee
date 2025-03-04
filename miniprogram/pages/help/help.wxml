@@ -1,0 +1,70 @@
+<!--help.wxml-->
+<navigation-bar title="使用帮助" back="{{true}}" color="white" background="#6F4E37"></navigation-bar>
+<view class="container">
+  <view class="help-content">
+    <view class="section">
+      <view class="section-title">基本操作</view>
+      <view class="section-content">
+        <view class="help-item">
+          <view class="help-title">如何开始计时？</view>
+          <view class="help-desc">在计时页面点击"开始"按钮即可开始计时。计时过程中，系统会根据预设的冲泡步骤提醒您进行相应操作。</view>
+        </view>
+        
+        <view class="help-item">
+          <view class="help-title">如何暂停/继续计时？</view>
+          <view class="help-desc">计时过程中，点击"暂停"按钮可以暂停计时，点击"继续"按钮可以继续计时。</view>
+        </view>
+        
+        <view class="help-item">
+          <view class="help-title">如何重置计时？</view>
+          <view class="help-desc">计时过程中或暂停状态下，点击"重置"按钮可以重置计时器。</view>
+        </view>
+        
+        <view class="help-item">
+          <view class="help-title">如何保存记录？</view>
+          <view class="help-desc">计时过程中或暂停状态下，点击"保存记录"按钮可以保存当前的冲泡记录。</view>
+        </view>
+      </view>
+    </view>
+    
+    <view class="section">
+      <view class="section-title">咖啡设置</view>
+      <view class="section-content">
+        <view class="help-item">
+          <view class="help-title">如何设置咖啡参数？</view>
+          <view class="help-desc">在计时页面点击"设置"按钮，可以设置咖啡种类、咖啡粉重量、水重量和比例等参数。</view>
+        </view>
+        
+        <view class="help-item">
+          <view class="help-title">如何自定义冲泡步骤？</view>
+          <view class="help-desc">在设置页面的"冲泡步骤"部分，可以添加、编辑和删除冲泡步骤，每个步骤包括时间点和操作描述。</view>
+        </view>
+        
+        <view class="help-item">
+          <view class="help-title">如何锁定水重量？</view>
+          <view class="help-desc">在设置页面，水重量输入框旁边有一个开关，打开开关后，水重量会根据咖啡粉重量和比例自动计算；关闭开关后，可以手动输入水重量，比例会自动计算。</view>
+        </view>
+      </view>
+    </view>
+    
+    <view class="section">
+      <view class="section-title">记录管理</view>
+      <view class="section-content">
+        <view class="help-item">
+          <view class="help-title">如何查看冲泡记录？</view>
+          <view class="help-desc">点击底部导航栏的"记录"选项，可以查看所有保存的冲泡记录。</view>
+        </view>
+        
+        <view class="help-item">
+          <view class="help-title">如何删除记录？</view>
+          <view class="help-desc">在记录列表中，点击记录右侧的"删除"按钮可以删除该记录。</view>
+        </view>
+        
+        <view class="help-item">
+          <view class="help-title">如何分享记录？</view>
+          <view class="help-desc">在记录列表中，点击记录右侧的"分享"按钮可以分享该记录，系统会将记录内容复制到剪贴板。</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view> 
