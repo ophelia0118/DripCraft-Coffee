@@ -340,7 +340,9 @@ Page({
       currentStep: 0,
       currentTime: 0,
       totalTime: '00:00',
-      currentStepInfo: this.data.steps[0]
+      currentStepInfo: this.data.steps[0],
+      stepProgress: 0,
+      progressStyle: 'conic-gradient(#d4a26a 0% 0%, rgba(255, 255, 255, 0.15) 0% 100%)'
     });
   },
 
