@@ -131,4 +131,55 @@
   font-weight: bold;
   margin: 30rpx auto;
   box-shadow: 0 4rpx 8rpx rgba(111, 78, 55, 0.1);
+}
+
+/* 添加新样式 */
+.science-params-btn {
+  margin: 30rpx auto;
+  background-color: #8E6E4E;
+  color: white;
+  padding: 15rpx 30rpx;
+  border-radius: 30rpx;
+  text-align: center;
+  font-size: 28rpx;
+  width: 80%;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.science-tooltip {
+  background-color: rgba(255, 245, 225, 0.95);
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin: 0 30rpx 30rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+  position: relative;
+  border-left: 8rpx solid #6F4E37;
+}
+
+.tooltip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+
+.tooltip-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #6F4E37;
+}
+
+.close-btn {
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 36rpx;
+  text-align: center;
+  font-size: 32rpx;
+  color: #999;
+}
+
+.tooltip-content {
+  font-size: 26rpx;
+  color: #333;
+  line-height: 1.6;
 } 

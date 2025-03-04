@@ -6,6 +6,15 @@
     <image class="method-image" src="{{methodImage}}" mode="aspectFit"></image>
   </view>
   
+  <!-- 科学参数提示框 -->
+  <view class="science-tooltip" wx:if="{{showScienceTooltip}}">
+    <view class="tooltip-header">
+      <text class="tooltip-title">科学冲泡指导</text>
+      <view class="close-btn" bindtap="closeScienceTip">×</view>
+    </view>
+    <view class="tooltip-content">{{scienceTip}}</view>
+  </view>
+  
   <view class="params-form">
     <view class="param-item">
       <view class="param-label">咖啡粉量</view>
@@ -66,6 +75,11 @@
     <view class="auto-calculate">
       <switch checked="{{autoCalculate}}" color="#6F4E37" bindchange="toggleAutoCalculate"></switch>
       <text>根据水粉比自动调节水量</text>
+    </view>
+    
+    <!-- 科学参数按钮 -->
+    <view class="science-params-btn" bindtap="applyScienceParams">
+      <text>应用科学冲泡参数</text>
     </view>
   </view>
   

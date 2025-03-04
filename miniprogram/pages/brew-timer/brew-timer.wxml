@@ -3,16 +3,40 @@
 <view class="container">
   <view class="brew-method-info">
     <view class="method-name">{{brewParams.methodName}} {{brewParams.methodDesc}}</view>
+    <view class="method-params">
+      <text>水粉比：{{brewParams.waterRatio}}</text>
+      <text>研磨度：{{brewParams.grindSize}}</text>
+      <text>水温：{{brewParams.waterTemp}}°C</text>
+    </view>
   </view>
   
   <view class="timer-container">
-    <view class="timer-circle">
-      <view class="timer-display">{{displayTime}}</view>
+    <!-- 总时间显示 -->
+    <view class="total-time">总时间：{{totalTime}} / {{formatTime(targetTotalTime)}}</view>
+    
+    <!-- 改造后的圆环计时器 -->
+    <view class="timer-circle-container">
+      <!-- 圆形进度条 -->
+      <view class="timer-circle">
+        <!-- 进度环 -->
+        <view class="timer-progress-circle" style="background: {{progressStyle}}"></view>
+        
+        <!-- 时间显示 -->
+        <view class="timer-time">{{totalTime}}</view>
+        
+        <!-- 当前步骤小标记 -->
+        <view wx:for="{{steps}}" wx:key="index" 
+              class="step-marker {{currentTime >= item.timeMarker ? 'active-marker' : ''}}"
+              style="transform: rotate({{(item.timeMarker / targetTotalTime) * 360}}deg);"></view>
+      </view>
     </view>
     
     <view class="step-hint">
       <view class="step-box">
-        <text>关键时刻有震动反馈提醒</text>
+        <text class="step-name">{{currentStepInfo.name}}</text>
+        <text class="step-instruction">{{currentStepInfo.instruction}}</text>
+        <text class="water-amount" wx:if="{{currentStepInfo.waterAmount > 0}}">水量: {{currentStepInfo.waterAmount}}ml</text>
+        <text class="step-tips">{{currentStepInfo.tips}}</text>
       </view>
     </view>
   </view>
@@ -24,8 +48,21 @@
     <view class="control-btn {{isRunning ? 'pause-btn' : 'play-btn'}}" bindtap="toggleTimer">
       <image src="{{isRunning ? '/assets/icons/WeuiLinkFilled.svg' : '/assets/icons/WeuiAddFilled.svg'}}" mode="aspectFit"></image>
     </view>
-    <view class="control-btn alert-btn" bindtap="toggleAlert">
+    <view class="control-btn alert-btn {{alertEnabled ? 'alert-on' : 'alert-off'}}" bindtap="toggleAlert">
       <image src="/assets/icons/WeuiMeFilled.svg" mode="aspectFit"></image>
+    </view>
+  </view>
+  
+  <!-- 步骤时间轴 -->
+  <view class="timeline">
+    <view class="timeline-container">
+      <view class="timeline-step {{index <= currentStep ? 'active' : ''}}" 
+            wx:for="{{steps}}" 
+            wx:key="index">
+        <view class="timeline-point"></view>
+        <text class="timeline-time">{{index === 0 ? '0:00' : formatTime(item.timeMarker)}}</text>
+        <text class="timeline-label">{{item.name}}</text>
+      </view>
     </view>
   </view>
 </view> 

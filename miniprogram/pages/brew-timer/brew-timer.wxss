@@ -11,12 +11,28 @@
 .brew-method-info {
   padding: 20rpx;
   text-align: center;
-  margin-bottom: 50rpx;
+  margin-bottom: 30rpx;
 }
 
 .method-name {
   font-size: 32rpx;
   font-weight: 500;
+  margin-bottom: 10rpx;
+}
+
+.method-params {
+  display: flex;
+  justify-content: space-around;
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 10rpx;
+}
+
+.method-params text {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  margin: 0 10rpx;
 }
 
 .timer-container {
@@ -28,37 +44,77 @@
   position: relative;
 }
 
-.timer-circle {
-  width: 500rpx;
-  height: 500rpx;
-  border-radius: 50%;
-  border: 10rpx solid rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.total-time {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 15rpx;
+  text-align: center;
+}
+
+/* 圆环容器，用于定位步骤标记 */
+.timer-circle-container {
   position: relative;
+  width: 240px;
+  height: 240px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.timer-circle::before {
-  content: '';
-  position: absolute;
-  top: -10rpx;
-  left: -10rpx;
-  right: -10rpx;
-  bottom: -10rpx;
+/* 圆环计时器 */
+.timer-circle {
+  position: relative;
+  width: 220px;
+  height: 220px;
   border-radius: 50%;
-  border: 2rpx solid rgba(255, 255, 255, 0.3);
+  background-color: #222;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-.timer-display {
-  font-size: 80rpx;
-  font-weight: lighter;
-  font-family: monospace;
-  color: white;
+/* 进度环 */
+.timer-progress-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  opacity: 0.7;
+}
+
+/* 时间显示 */
+.timer-time {
+  font-size: 44px;
+  color: #fff;
+  z-index: 2;
+  font-weight: bold;
+}
+
+/* 步骤标记 */
+.step-marker {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  top: 5px;
+  left: 50%;
+  transform-origin: 0 105px;
+  z-index: 3;
+}
+
+/* 激活的步骤标记 */
+.active-marker {
+  background-color: #1aad19;
+  box-shadow: 0 0 5px #1aad19;
 }
 
 .step-hint {
-  margin-top: 80rpx;
+  margin-top: 30rpx;
   display: flex;
   justify-content: center;
 }
@@ -68,18 +124,44 @@
   padding: 20rpx 40rpx;
   border-radius: 10rpx;
   text-align: center;
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.step-box text {
+.step-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 10rpx;
+}
+
+.step-instruction {
   font-size: 26rpx;
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 10rpx;
+}
+
+.water-amount {
+  font-size: 28rpx;
+  color: #F9F1E7;
+  font-weight: 500;
+  margin-bottom: 10rpx;
+}
+
+.step-tips {
+  font-size: 24rpx;
+  color: rgba(255, 220, 180, 0.8);
+  margin-top: 15rpx;
+  font-style: italic;
 }
 
 .timer-controls {
   display: flex;
   justify-content: space-around;
   padding: 40rpx 20rpx;
-  margin-top: 40rpx;
+  margin-top: 20rpx;
 }
 
 .control-btn {
@@ -103,4 +185,81 @@
 
 .pause-btn {
   background-color: rgba(255, 255, 255, 0.3);
+}
+
+.alert-on {
+  background-color: rgba(255, 200, 0, 0.3);
+}
+
+.alert-off {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 时间轴样式 */
+.timeline {
+  margin-top: 30rpx;
+  width: 100%;
+  overflow-x: auto;
+  padding-bottom: 20rpx;
+}
+
+.timeline-container {
+  display: flex;
+  min-width: 100%;
+  padding: 0 20rpx;
+}
+
+.timeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  flex: 1;
+}
+
+.timeline-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 8rpx;
+  left: 50%;
+  right: -50%;
+  height: 2rpx;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.timeline-step.active:not(:last-child)::after {
+  background-color: #F9F1E7;
+}
+
+.timeline-point {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin-bottom: 10rpx;
+}
+
+.timeline-step.active .timeline-point {
+  background-color: #F9F1E7;
+}
+
+.timeline-time {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 4rpx;
+}
+
+.timeline-label {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  max-width: 100rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.timeline-step.active .timeline-time,
+.timeline-step.active .timeline-label {
+  color: #F9F1E7;
 } 
