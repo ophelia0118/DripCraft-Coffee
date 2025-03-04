@@ -46,8 +46,6 @@
     </view>
     <view class="control-btn {{isRunning ? 'pause-btn' : 'play-btn'}}" bindtap="toggleTimer">
     </view>
-    <view class="control-btn alert-btn {{alertEnabled ? 'alert-on' : 'alert-off'}}" bindtap="toggleAlert">
-    </view>
   </view>
   
   <!-- 步骤时间轴 -->

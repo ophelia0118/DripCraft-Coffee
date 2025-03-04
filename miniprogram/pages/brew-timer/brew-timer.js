@@ -7,7 +7,6 @@ Page({
     isRunning: false,
     isPaused: false,
     steps: [],
-    alertEnabled: true,
     currentTime: 0, // 当前冲泡时间（秒）
     targetTotalTime: 240, // 目标总时间（秒）
     currentStepInfo: {},
@@ -366,18 +365,16 @@ Page({
         if (currentTime <= steps[i].timeMarker) {
           if (newStep !== i) {
             newStep = i;
-            // 如果启用了震动提醒，在步骤变化时震动
-            if (this.data.alertEnabled) {
-              console.log('步骤变化触发震动');
-              wx.vibrateLong({
-                success: function() {
-                  console.log('震动触发成功');
-                },
-                fail: function(err) {
-                  console.error('震动触发失败:', err);
-                }
-              });
-            }
+            // 步骤变化时强制震动提醒
+            console.log('步骤变化触发震动');
+            wx.vibrateLong({
+              success: function() {
+                console.log('震动触发成功');
+              },
+              fail: function(err) {
+                console.error('震动触发失败:', err);
+              }
+            });
           }
           break;
         }
@@ -444,35 +441,6 @@ Page({
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   },
 
-  toggleAlert() {
-    console.log('切换震动提醒状态');
-    const newAlertState = !this.data.alertEnabled;
-    
-    this.setData({
-      alertEnabled: newAlertState
-    });
-    
-    // 在切换到开启状态时，提供一个短震动作为反馈
-    if (newAlertState) {
-      console.log('尝试触发测试震动');
-      wx.vibrateShort({
-        type: 'medium',
-        success: function() {
-          console.log('测试震动成功');
-        },
-        fail: function(err) {
-          console.error('测试震动失败:', err);
-        }
-      });
-    }
-    
-    wx.showToast({
-      title: newAlertState ? '震动提醒已开启' : '震动提醒已关闭',
-      icon: 'none',
-      duration: 1500
-    });
-  },
-
   completeBrewProcess() {
     this.setData({
       isRunning: false
@@ -489,28 +457,26 @@ Page({
       duration: 2000
     });
     
-    // 震动提醒冲泡完成
-    if (this.data.alertEnabled) {
-      console.log('冲泡完成触发震动');
+    // 冲泡完成强制震动提醒
+    console.log('冲泡完成触发震动');
+    wx.vibrateLong({
+      success: function() {
+        console.log('冲泡完成震动1触发成功');
+      },
+      fail: function(err) {
+        console.error('冲泡完成震动1触发失败:', err);
+      }
+    });
+    setTimeout(() => {
       wx.vibrateLong({
         success: function() {
-          console.log('冲泡完成震动1触发成功');
+          console.log('冲泡完成震动2触发成功');
         },
         fail: function(err) {
-          console.error('冲泡完成震动1触发失败:', err);
+          console.error('冲泡完成震动2触发失败:', err);
         }
       });
-      setTimeout(() => {
-        wx.vibrateLong({
-          success: function() {
-            console.log('冲泡完成震动2触发成功');
-          },
-          fail: function(err) {
-            console.error('冲泡完成震动2触发失败:', err);
-          }
-        });
-      }, 1000);
-    }
+    }, 1000);
     
     // 可以跳转到完成页面
     setTimeout(() => {
