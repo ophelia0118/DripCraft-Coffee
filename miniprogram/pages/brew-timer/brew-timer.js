@@ -12,7 +12,7 @@ Page({
     targetTotalTime: 240, // 目标总时间（秒）
     currentStepInfo: {},
     stepProgress: 0,
-    progressStyle: 'conic-gradient(#1aad19 0% 0%, rgba(255, 255, 255, 0.2) 0% 100%)' // 初始进度样式
+    progressStyle: 'conic-gradient(#d4a26a 0% 0%, rgba(255, 255, 255, 0.15) 0% 100%)' // 初始进度样式，改为咖啡金色
   },
 
   onLoad(options) {
@@ -58,7 +58,7 @@ Page({
         { 
           name: '闷蒸', 
           timeMarker: 30, 
-          instruction: '均匀浇水形成咖啡床，等待咖啡释放气体。使用圆形方式倒水。', 
+          instruction: '使用Hario V60专用滤纸，以鹅颈壶圆形方式倒水进行预浸，释放气体', 
           waterAmount: params.coffeeAmount * 2,
           tips: '研磨度：中细，水温：96°C'
         },
@@ -88,7 +88,7 @@ Page({
         { 
           name: '闷蒸', 
           timeMarker: 30, 
-          instruction: '均匀浇水形成咖啡床，等待咖啡释放气体', 
+          instruction: '使用Kalita Wave专用滤纸，进行预浸，保持水位稳定，避免边缘倒水', 
           waterAmount: params.coffeeAmount * 2,
           tips: '研磨度：中，水温：96°C'
         },
@@ -125,7 +125,7 @@ Page({
         { 
           name: '闷蒸', 
           timeMarker: 30, 
-          instruction: '均匀浇水形成咖啡床，等待咖啡释放气体', 
+          instruction: '使用Chemex专用滤纸，进行预浸，等待30秒后继续，适合较大批量冲泡', 
           waterAmount: params.coffeeAmount * 2,
           tips: '研磨度：粗，水温：96°C'
         },
@@ -162,7 +162,7 @@ Page({
         { 
           name: '闷蒸', 
           timeMarker: 30, 
-          instruction: '均匀浇水形成咖啡床，等待咖啡释放气体', 
+          instruction: '使用标准Melitta锥形滤纸，均匀倒水，预浸30秒后继续，适合小型冲泡', 
           waterAmount: params.coffeeAmount * 2,
           tips: '研磨度：中细至中，水温：93°C'
         },
@@ -192,7 +192,7 @@ Page({
         { 
           name: '闷蒸', 
           timeMarker: 30, 
-          instruction: '均匀浇水形成咖啡床，等待咖啡释放气体', 
+          instruction: '使用标准Melitta锥形滤纸，均匀倒水，预浸后分阶段倒水', 
           waterAmount: params.coffeeAmount * 2,
           tips: '研磨度：中细，水温：93-96°C'
         },
@@ -222,7 +222,7 @@ Page({
         { 
           name: '闷蒸', 
           timeMarker: 30, 
-          instruction: '均匀浇水形成咖啡床，等待咖啡释放气体', 
+          instruction: '使用Kono专用滤纸，控制倒水速度以保持稳定滴流，预浸30秒后分阶段倒水', 
           waterAmount: params.coffeeAmount * 2,
           tips: '研磨度：中，水温：93-96°C'
         },
@@ -387,7 +387,7 @@ Page({
       
       // 计算进度百分比并转换为CSS样式
       const progress = this.calculateStepProgress(currentTime, newStep);
-      const progressStyle = `conic-gradient(#1aad19 0% ${progress}%, rgba(255, 255, 255, 0.2) ${progress}% 100%)`;
+      const progressStyle = `conic-gradient(#d4a26a 0% ${progress}%, rgba(255, 255, 255, 0.15) ${progress}% 100%)`;
       
       // 更新数据
       this.setData({
