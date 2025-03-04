@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   padding: 20rpx;
-  background-color: #2C0E0A;
+  background-color: #281815;
   min-height: 100vh;
   color: white;
 }
@@ -68,11 +68,12 @@
   width: 220px;
   height: 220px;
   border-radius: 50%;
-  background-color: #222;
+  background-color: #40312d;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 /* 进度环 */
@@ -109,8 +110,8 @@
 
 /* 激活的步骤标记 */
 .active-marker {
-  background-color: #1aad19;
-  box-shadow: 0 0 5px #1aad19;
+  background-color: #d4a26a;
+  box-shadow: 0 0 5px #d4a26a;
 }
 
 .step-hint {
@@ -120,7 +121,7 @@
 }
 
 .step-box {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.08);
   padding: 20rpx 40rpx;
   border-radius: 10rpx;
   text-align: center;
@@ -128,6 +129,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid rgba(212, 162, 106, 0.3);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
 
 .step-name {
@@ -145,7 +148,7 @@
 
 .water-amount {
   font-size: 28rpx;
-  color: #F9F1E7;
+  color: #d4a26a;
   font-weight: 500;
   margin-bottom: 10rpx;
 }
@@ -157,42 +160,49 @@
   font-style: italic;
 }
 
+.alert-text {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.6);
+  margin-top: 6rpx;
+}
+
 .timer-controls {
   display: flex;
-  justify-content: space-around;
-  padding: 40rpx 20rpx;
-  margin-top: 20rpx;
+  justify-content: center;
+  margin-top: 50rpx;
+  margin-bottom: 30rpx;
 }
 
 .control-btn {
-  width: 120rpx;
-  height: 120rpx;
+  width: 100rpx;
+  height: 100rpx;
   border-radius: 50%;
+  background-color: #40312d;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.1);
+  align-items: center;
+  margin: 0 20rpx;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.control-btn image {
-  width: 50rpx;
-  height: 50rpx;
+.control-btn icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.play-btn {
-  background-color: #F9F1E7;
+.control-btn.start {
+  background-color: #5f4b41;
 }
 
-.pause-btn {
-  background-color: rgba(255, 255, 255, 0.3);
+.control-btn.alert-on {
+  background-color: #d4a26a;
 }
 
-.alert-on {
-  background-color: rgba(255, 200, 0, 0.3);
-}
-
-.alert-off {
-  background-color: rgba(255, 255, 255, 0.1);
+.control-btn.alert-off {
+  background-color: #40312d;
+  opacity: 0.7;
 }
 
 /* 时间轴样式 */
@@ -262,4 +272,33 @@
 .timeline-step.active .timeline-time,
 .timeline-step.active .timeline-label {
   color: #F9F1E7;
+}
+
+/* SVG 图标作为背景图像 */
+.reset-btn {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 24 24'%3E%3Cpath fill='%23d4a26a' d='M13,3c-4.97,0-9,4.03-9,9H1l3.89,3.89l0.07,0.14L9,12H6c0-3.87,3.13-7,7-7s7,3.13,7,7s-3.13,7-7,7c-1.93,0-3.68-0.79-4.94-2.06 l-1.42,1.42C8.27,19.99,10.51,21,13,21c4.97,0,9-4.03,9-9S17.97,3,13,3z M12,8v5l4.25,2.52l0.77-1.28l-3.52-2.09V8H12z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50rpx 50rpx;
+}
+
+.play-btn {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 24 24'%3E%3Cpath fill='%23d4a26a' d='M8,5.14V19.14L19,12.14L8,5.14Z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50rpx 50rpx;
+}
+
+.pause-btn {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 24 24'%3E%3Cpath fill='%23d4a26a' d='M6,19h4V5H6V19z M14,5v14h4V5H14z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50rpx 50rpx;
+}
+
+.alert-btn {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='128' height='128' viewBox='0 0 24 24'%3E%3Cpath fill='%23d4a26a' d='M1,11l0,8c0,1.1,0.9,2,2,2h0c1.1,0,2-0.9,2-2v-8c0-1.1-0.9-2-2-2h0C1.9,9,1,9.9,1,11z M5,11l0,8c0,1.1,0.9,2,2,2h0 c1.1,0,2-0.9,2-2v-8c0-1.1-0.9-2-2-2h0C5.9,9,5,9.9,5,11z M22.3,11.85c-0.2-0.92-0.94-1.62-1.8-1.62h-3.5v-1.23h1.95 c0.76,0,1.39-0.63,1.39-1.39V6.84c0-0.76-0.63-1.39-1.39-1.39H17V3.31C17,2.59,16.41,2,15.69,2H8.31C7.59,2,7,2.59,7,3.31v2.14 L7,7.77v2.46H0v2h7c0,0.92,0,3.54,0,3.54v1.08c0,0.72,0.59,1.31,1.31,1.31h7.38c0.72,0,1.31-0.59,1.31-1.31v-1.08 c0,0,0-2.56,0-3.46h2.28l1.45,5.32c0.15,0.55,0.66,0.93,1.23,0.93h0c0.82,0,1.45-0.74,1.29-1.54L22.3,11.85z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50rpx 50rpx;
 } 

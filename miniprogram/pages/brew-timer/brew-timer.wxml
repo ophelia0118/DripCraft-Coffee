@@ -43,13 +43,10 @@
   
   <view class="timer-controls">
     <view class="control-btn reset-btn" bindtap="resetTimer">
-      <image src="../../assets/icons/coffee-reset.svg" mode="aspectFit"></image>
     </view>
     <view class="control-btn {{isRunning ? 'pause-btn' : 'play-btn'}}" bindtap="toggleTimer">
-      <image src="{{isRunning ? '../../assets/icons/coffee-pause.svg' : '../../assets/icons/coffee-play.svg'}}" mode="aspectFit"></image>
     </view>
     <view class="control-btn alert-btn {{alertEnabled ? 'alert-on' : 'alert-off'}}" bindtap="toggleAlert">
-      <image src="../../assets/icons/coffee-vibrate.svg" mode="aspectFit"></image>
     </view>
   </view>
   
