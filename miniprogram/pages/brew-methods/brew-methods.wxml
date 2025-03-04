@@ -1,5 +1,6 @@
 <!--brew-methods.wxml-->
-<navigation-bar title="选择滤杯" back="{{true}}" color="black" background="white"></navigation-bar>
+<navigation-bar title="冲煮方法" back="{{true}}" color="white" background="#6F4E37"></navigation-bar>
+
 <view class="page-container">
   <!-- 顶部区域 -->
   <view class="header">
@@ -11,57 +12,85 @@
       <image src="/assets/images/user.png" mode="aspectFit"></image>
     </view>
   </view>
-  
+
   <!-- 主内容区域 -->
   <view class="main-content">
     <view class="section-title">选择滤杯</view>
     
-    <view class="brew-methods-grid">
-      <view class="brew-method-card" bindtap="selectBrewMethod" data-method="hario-v60">
-        <image class="method-image" src="/assets/images/hariov60.png" mode="aspectFit"></image>
-        <view class="method-name">Hario V60</view>
-        <view class="method-desc">(锥形滤杯)</view>
+    <view class="methods-grid">
+      <!-- 第一行 -->
+      <view class="methods-row">
+        <!-- Hario V60 -->
+        <view class="method-item" bindtap="selectBrewMethod" data-method="hario-v60">
+          <image class="method-image" src="/assets/images/v60.jpg" mode="aspectFit"></image>
+          <view class="method-info">
+            <text class="method-name">Hario V60</text>
+            <text class="method-desc">(锥形滤杯)</text>
+          </view>
+        </view>
+        
+        <!-- Kalita Wave -->
+        <view class="method-item" bindtap="selectBrewMethod" data-method="kalita-wave">
+          <image class="method-image" src="/assets/images/kalita.jpg" mode="aspectFit"></image>
+          <view class="method-info">
+            <text class="method-name">Kalita Wave</text>
+            <text class="method-desc">(平底滤杯)</text>
+          </view>
+        </view>
       </view>
       
-      <view class="brew-method-card" bindtap="selectBrewMethod" data-method="kalita-wave">
-        <image class="method-image" src="/assets/images/kalitawave.png" mode="aspectFit"></image>
-        <view class="method-name">Kalita Wave</view>
-        <view class="method-desc">(平底滤杯)</view>
+      <!-- 第二行 -->
+      <view class="methods-row">
+        <!-- Chemex -->
+        <view class="method-item" bindtap="selectBrewMethod" data-method="chemex">
+          <image class="method-image" src="/assets/images/chemex.jpg" mode="aspectFit"></image>
+          <view class="method-info">
+            <text class="method-name">Chemex</text>
+            <text class="method-desc"></text>
+          </view>
+        </view>
+        
+        <!-- Melitta -->
+        <view class="method-item" bindtap="selectBrewMethod" data-method="melitta">
+          <image class="method-image" src="/assets/images/melitta.jpg" mode="aspectFit"></image>
+          <view class="method-info">
+            <text class="method-name">Melitta</text>
+            <text class="method-desc"></text>
+          </view>
+        </view>
       </view>
       
-      <view class="brew-method-card" bindtap="selectBrewMethod" data-method="chemex">
-        <image class="method-image" src="/assets/images/chemex.png" mode="aspectFit"></image>
-        <view class="method-name">Chemex</view>
+      <!-- 第三行 -->
+      <view class="methods-row">
+        <!-- Bee House -->
+        <view class="method-item" bindtap="selectBrewMethod" data-method="bee-house">
+          <image class="method-image" src="/assets/images/beehouse.jpg" mode="aspectFit"></image>
+          <view class="method-info">
+            <text class="method-name">Bee House</text>
+            <text class="method-desc"></text>
+          </view>
+        </view>
+        
+        <!-- Kono -->
+        <view class="method-item" bindtap="selectBrewMethod" data-method="kono">
+          <image class="method-image" src="/assets/images/kono.jpg" mode="aspectFit"></image>
+          <view class="method-info">
+            <text class="method-name">Kono</text>
+            <text class="method-desc"></text>
+          </view>
+        </view>
       </view>
-      
-      <view class="brew-method-card" bindtap="selectBrewMethod" data-method="melitta">
-        <image class="method-image" src="/assets/images/melitta.png" mode="aspectFit"></image>
-        <view class="method-name">Melitta</view>
-      </view>
-      
-      <view class="brew-method-card" bindtap="selectBrewMethod" data-method="bee-house">
-        <image class="method-image" src="/assets/images/beehouse.png" mode="aspectFit"></image>
-        <view class="method-name">Bee House</view>
-      </view>
-      
-      <view class="brew-method-card" bindtap="selectBrewMethod" data-method="kono">
-        <image class="method-image" src="/assets/images/kono.png" mode="aspectFit"></image>
-        <view class="method-name">Kono</view>
-      </view>
-    </view>
-  </view>
-  
-  <!-- 底部导航 -->
-  <view class="nav-footer">
-    <view class="add-button-container">
-      <view class="add-button" bindtap="goToHome">
-        <text class="add-icon">+</text>
-      </view>
-      <text class="nav-text">首页</text>
     </view>
     
-    <view class="right-nav">
-      <text class="nav-text">我的记录</text>
+    <!-- 底部添加按钮 -->
+    <view class="bottom-button">
+      <view class="add-button-container">
+        <view class="add-button">
+          <text class="add-icon">+</text>
+        </view>
+        <text class="nav-text">添加</text>
+      </view>
+      <view class="nav-text right-text">精品咖啡</view>
     </view>
   </view>
 </view> 

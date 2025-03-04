@@ -3,7 +3,7 @@ Page({
   data: {
     methodName: 'Kalita Wave',
     methodDesc: '(平底滤杯)',
-    methodImage: '/assets/images/kalitawave.png',
+    methodImage: '/assets/images/kalita.jpg',
     coffeeAmount: 15,
     waterTemp: 92,
     grindSizeValue: 3,
@@ -27,7 +27,7 @@ Page({
       'hario-v60': {
         methodName: 'Hario V60',
         methodDesc: '(锥形滤杯)',
-        methodImage: '/assets/images/hariov60.png',
+        methodImage: '/assets/images/v60.jpg',
         grindSizeValue: 2,
         grindSize: '中细',
         waterTemp: 94
@@ -35,7 +35,7 @@ Page({
       'kalita-wave': {
         methodName: 'Kalita Wave',
         methodDesc: '(平底滤杯)',
-        methodImage: '/assets/images/kalitawave.png',
+        methodImage: '/assets/images/kalita.jpg',
         grindSizeValue: 3,
         grindSize: '中',
         waterTemp: 92
@@ -43,7 +43,7 @@ Page({
       'chemex': {
         methodName: 'Chemex',
         methodDesc: '',
-        methodImage: '/assets/images/chemex.png',
+        methodImage: '/assets/images/chemex.jpg',
         grindSizeValue: 4,
         grindSize: '中粗',
         waterTemp: 93
@@ -51,7 +51,7 @@ Page({
       'melitta': {
         methodName: 'Melitta',
         methodDesc: '',
-        methodImage: '/assets/images/melitta.png',
+        methodImage: '/assets/images/melitta.jpg',
         grindSizeValue: 3,
         grindSize: '中',
         waterTemp: 92
@@ -59,7 +59,7 @@ Page({
       'bee-house': {
         methodName: 'Bee House',
         methodDesc: '',
-        methodImage: '/assets/images/beehouse.png',
+        methodImage: '/assets/images/beehouse.jpg',
         grindSizeValue: 3,
         grindSize: '中',
         waterTemp: 90
@@ -67,7 +67,7 @@ Page({
       'kono': {
         methodName: 'Kono',
         methodDesc: '',
-        methodImage: '/assets/images/kono.png',
+        methodImage: '/assets/images/kono.jpg',
         grindSizeValue: 3,
         grindSize: '中',
         waterTemp: 92

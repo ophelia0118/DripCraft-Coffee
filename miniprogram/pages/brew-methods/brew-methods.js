@@ -9,37 +9,37 @@ Page({
         id: 'hario-v60',
         name: 'Hario V60',
         description: '锥形滤杯',
-        image: '/assets/images/hariov60.png'
+        image: '/assets/images/v60.jpg'
       },
       {
         id: 'kalita-wave',
         name: 'Kalita Wave',
         description: '平底滤杯',
-        image: '/assets/images/kalitawave.png'
+        image: '/assets/images/kalita.jpg'
       },
       {
         id: 'chemex',
         name: 'Chemex',
         description: '经典滤杯',
-        image: '/assets/images/chemex.png'
+        image: '/assets/images/chemex.jpg'
       },
       {
         id: 'melitta',
         name: 'Melitta',
         description: '楔形滤杯',
-        image: '/assets/images/melitta.png'
+        image: '/assets/images/melitta.jpg'
       },
       {
         id: 'bee-house',
         name: 'Bee House',
         description: '日式陶瓷滤杯',
-        image: '/assets/images/beehouse.png'
+        image: '/assets/images/beehouse.jpg'
       },
       {
         id: 'kono',
         name: 'Kono',
         description: '日式金属滤杯',
-        image: '/assets/images/kono.png'
+        image: '/assets/images/kono.jpg'
       }
     ]
   },
