@@ -34,55 +34,36 @@ Page({
         methodName: 'Hario V60',
         methodDesc: '(锥形滤杯)',
         methodImage: '/assets/images/v60.jpg',
-        grindSizeValue: 2,
-        grindSize: '中细',
-        waterTemp: 94
       },
       'kalita-wave': {
         methodName: 'Kalita Wave',
         methodDesc: '(平底滤杯)',
         methodImage: '/assets/images/kalita.jpg',
-        grindSizeValue: 3,
-        grindSize: '中',
-        waterTemp: 92
       },
       'chemex': {
         methodName: 'Chemex',
         methodDesc: '',
         methodImage: '/assets/images/chemex.jpg',
-        grindSizeValue: 4,
-        grindSize: '中粗',
-        waterTemp: 93
       },
       'melitta': {
         methodName: 'Melitta',
         methodDesc: '',
         methodImage: '/assets/images/melitta.jpg',
-        grindSizeValue: 3,
-        grindSize: '中',
-        waterTemp: 92
       },
       'bee-house': {
         methodName: 'Bee House',
         methodDesc: '',
         methodImage: '/assets/images/beehouse.jpg',
-        grindSizeValue: 3,
-        grindSize: '中',
-        waterTemp: 90
       },
       'kono': {
         methodName: 'Kono',
         methodDesc: '',
         methodImage: '/assets/images/kono.jpg',
-        grindSizeValue: 3,
-        grindSize: '中',
-        waterTemp: 92
       }
     };
 
     if (methodDetails[method]) {
       this.setData(methodDetails[method]);
-      this.calculateWaterAmount();
     }
   },
 
@@ -96,6 +77,7 @@ Page({
         grindSize: '中细',
         ratioIndex: 2,     // 1:16
         waterRatio: '1:16',
+        coffeeAmount: 20,  // 标准咖啡粉量20g
         scienceTip: '适合快速萃取，强调风味层次。建议使用鹅颈壶以圆形方式倒水，先进行30秒的预浸（bloom），然后分阶段倒水以控制萃取。'
       },
       'Kalita Wave': {
@@ -104,6 +86,7 @@ Page({
         grindSize: '中',
         ratioIndex: 2,     // 1:16
         waterRatio: '1:16',
+        coffeeAmount: 20,  // 标准咖啡粉量20g
         scienceTip: '平底设计有助于均匀萃取。使用Kalita Wave专用滤纸，螺旋式倒水保持水位稳定，避免边缘倒水。'
       },
       'Chemex': {
@@ -112,6 +95,7 @@ Page({
         grindSize: '粗',
         ratioIndex: 1,     // 1:15
         waterRatio: '1:15',
+        coffeeAmount: 20,  // 标准咖啡粉量20g
         scienceTip: '较长冲泡时间适合其较大容量和粗研磨。使用Chemex专用滤纸，分阶段倒水，预浸后等待30秒再继续，适合较大批量的冲泡。'
       },
       'Melitta': {
@@ -120,6 +104,7 @@ Page({
         grindSize: '中细',
         ratioIndex: 3,     // 1:17
         waterRatio: '1:17',
+        coffeeAmount: 20,  // 标准咖啡粉量20g
         scienceTip: '适合日常简单冲泡。使用标准Melitta锥形滤纸，均匀倒水，预浸30秒后继续，适合小型冲泡。'
       },
       'Bee House': {
@@ -128,6 +113,7 @@ Page({
         grindSize: '中细',
         ratioIndex: 2,     // 1:16
         waterRatio: '1:16',
+        coffeeAmount: 20,  // 标准咖啡粉量20g
         scienceTip: '与Melitta类似，适合日常使用。使用标准Melitta锥形滤纸，均匀倒水，预浸后分阶段倒水。'
       },
       'Kono': {
@@ -136,6 +122,7 @@ Page({
         grindSize: '中',
         ratioIndex: 2,     // 1:16
         waterRatio: '1:16',
+        coffeeAmount: 20,  // 标准咖啡粉量20g
         scienceTip: '类似其他锥形滤杯，强调稳定滴流。使用Kono专用滤纸，控制倒水速度以保持稳定滴流，预浸30秒后分阶段倒水。'
       }
     };
@@ -149,6 +136,7 @@ Page({
         grindSize: params.grindSize,
         ratioIndex: params.ratioIndex,
         waterRatio: params.waterRatio,
+        coffeeAmount: params.coffeeAmount,
         scienceTip: params.scienceTip,
         showScienceTooltip: showToast // 只在手动应用时显示提示框
       });
