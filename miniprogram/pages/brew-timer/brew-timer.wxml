@@ -35,7 +35,7 @@
       <view class="step-box">
         <text class="step-name">{{currentStepInfo.name}}</text>
         <text class="step-instruction">{{currentStepInfo.instruction}}</text>
-        <text class="water-amount" wx:if="{{currentStepInfo.waterAmount > 0}}">水量: {{currentStepInfo.waterAmount}}ml</text>
+        <text class="water-amount" wx:if="{{currentStepInfo.waterAmount > 0}}">累计水量: {{currentStepInfo.waterAmount}}ml</text>
         <text class="step-tips">{{currentStepInfo.tips}}</text>
       </view>
     </view>

@@ -65,21 +65,21 @@ Page({
           name: '第一阶段注水', 
           timeMarker: 60, 
           instruction: '以画圈方式缓慢注水，由中心向外，避免直接冲击咖啡床边缘', 
-          waterAmount: params.waterAmount * 0.6,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount * 0.6,
           tips: '使用鹅颈壶以保持稳定的水流控制'
         },
         { 
           name: '第二阶段注水', 
           timeMarker: 120, 
           instruction: '等水位下降后继续注水，保持水位平稳', 
-          waterAmount: params.waterAmount * 0.4,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount,
           tips: '此时应控制总冲泡时间在2.5-3分钟范围内'
         },
         { 
           name: '等待完成', 
           timeMarker: 180, 
           instruction: '等待所有水流过咖啡粉，观察水流速度判断研磨度是否合适', 
-          waterAmount: 0,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount,
           tips: '最终时间：2.5-3分钟，强调风味层次'
         }
       ],
@@ -95,28 +95,28 @@ Page({
           name: '第一阶段注水', 
           timeMarker: 75, 
           instruction: '以螺旋式方式注水，保持水位稳定，避免边缘倒水', 
-          waterAmount: params.waterAmount * 0.4,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount * 0.4,
           tips: '平底设计有助于均匀萃取，保持水位稳定'
         },
         { 
           name: '第二阶段注水', 
           timeMarker: 120, 
           instruction: '保持水位稳定，继续缓慢注水', 
-          waterAmount: params.waterAmount * 0.3,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount * 0.7,
           tips: '确保水流均匀通过整个咖啡床'
         },
         { 
           name: '第三阶段注水', 
           timeMarker: 165, 
           instruction: '完成剩余水量的注入', 
-          waterAmount: params.waterAmount * 0.3,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount,
           tips: '此时应控制总冲泡时间在3-3.5分钟范围内'
         },
         { 
           name: '等待完成', 
           timeMarker: 210, 
           instruction: '等待所有水流过咖啡粉', 
-          waterAmount: 0,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount,
           tips: '平底滤杯设计确保更均匀的萃取'
         }
       ],
@@ -132,28 +132,28 @@ Page({
           name: '第一阶段注水', 
           timeMarker: 90, 
           instruction: '以画圈方式缓慢注水，保持水位稳定', 
-          waterAmount: params.waterAmount * 0.4,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount * 0.4,
           tips: '厚滤纸确保萃取干净，适合较大批量冲泡'
         },
         { 
           name: '第二阶段注水', 
           timeMarker: 150, 
           instruction: '等水位下降后继续注水', 
-          waterAmount: params.waterAmount * 0.3,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount * 0.7,
           tips: '保持均匀注水，避免过度搅动咖啡床'
         },
         { 
           name: '第三阶段注水', 
           timeMarker: 210, 
           instruction: '完成剩余水量的注入', 
-          waterAmount: params.waterAmount * 0.3,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount,
           tips: '控制总冲泡时间在4分钟左右'
         },
         { 
           name: '等待完成', 
           timeMarker: 240, 
           instruction: '等待所有水流过咖啡粉', 
-          waterAmount: 0,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount,
           tips: 'Chemex冲泡特点：清澈口感，突出咖啡果酸'
         }
       ],
@@ -169,21 +169,21 @@ Page({
           name: '第一阶段注水', 
           timeMarker: 90, 
           instruction: '均匀倒水，保持水位稳定', 
-          waterAmount: params.waterAmount * 0.5,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount * 0.5,
           tips: '适合日常简单冲泡，使用标准Melitta锥形滤纸'
         },
         { 
           name: '第二阶段注水', 
           timeMarker: 150, 
           instruction: '完成剩余水量的注入', 
-          waterAmount: params.waterAmount * 0.5,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount,
           tips: '控制总冲泡时间在3-4分钟范围内'
         },
         { 
           name: '等待完成', 
           timeMarker: 210, 
           instruction: '等待所有水流过咖啡粉', 
-          waterAmount: 0,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount,
           tips: '水粉比1:17，适合小型冲泡'
         }
       ],
@@ -199,21 +199,21 @@ Page({
           name: '第一阶段注水', 
           timeMarker: 90, 
           instruction: '均匀倒水，保持水位稳定', 
-          waterAmount: params.waterAmount * 0.5,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount * 0.5,
           tips: '使用标准Melitta锥形滤纸，适合日常使用'
         },
         { 
           name: '第二阶段注水', 
           timeMarker: 150, 
           instruction: '完成剩余水量的注入', 
-          waterAmount: params.waterAmount * 0.5,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount,
           tips: '控制总冲泡时间在3-4分钟范围内'
         },
         { 
           name: '等待完成', 
           timeMarker: 210, 
           instruction: '等待所有水流过咖啡粉', 
-          waterAmount: 0,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount,
           tips: '水粉比1:16，平衡的风味表现'
         }
       ],
@@ -229,28 +229,28 @@ Page({
           name: '第一阶段注水', 
           timeMarker: 90, 
           instruction: '控制倒水速度以保持稳定滴流', 
-          waterAmount: params.waterAmount * 0.4,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount * 0.4,
           tips: '使用Kono专用滤纸，确保稳定滴流'
         },
         { 
           name: '第二阶段注水', 
           timeMarker: 150, 
           instruction: '保持水位，继续缓慢注水', 
-          waterAmount: params.waterAmount * 0.3,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount * 0.7,
           tips: '注重稳定的滴流速度'
         },
         { 
           name: '第三阶段注水', 
           timeMarker: 180, 
           instruction: '完成剩余水量的注入', 
-          waterAmount: params.waterAmount * 0.3,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount,
           tips: '控制总冲泡时间在3-4分钟范围内'
         },
         { 
           name: '等待完成', 
           timeMarker: 210, 
           instruction: '等待所有水流过咖啡粉', 
-          waterAmount: 0,
+          waterAmount: params.coffeeAmount * 2 + params.waterAmount,
           tips: '水粉比1:16，与V60相似但更稳定的萃取'
         }
       ]
@@ -269,21 +269,21 @@ Page({
         name: '第一阶段注水', 
         timeMarker: 90, 
         instruction: '以画圈方式缓慢注水', 
-        waterAmount: params.waterAmount * 0.5,
+        waterAmount: params.coffeeAmount * 2 + params.waterAmount * 0.5,
         tips: '控制水流速度和注水节奏'
       },
       { 
         name: '第二阶段注水', 
         timeMarker: 150, 
         instruction: '完成剩余水量的注入', 
-        waterAmount: params.waterAmount * 0.5,
+        waterAmount: params.coffeeAmount * 2 + params.waterAmount,
         tips: '确保水均匀通过咖啡床'
       },
       { 
         name: '等待完成', 
         timeMarker: 210, 
         instruction: '等待所有水流过咖啡粉', 
-        waterAmount: 0,
+        waterAmount: params.coffeeAmount * 2 + params.waterAmount,
         tips: '观察滴流速度判断研磨度是否合适'
       }
     ];
