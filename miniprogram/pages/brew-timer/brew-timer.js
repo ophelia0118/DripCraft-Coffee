@@ -22,8 +22,8 @@ Page({
         console.log('解析的冲泡参数', brewParams);
         this.setData({ 
           brewParams,
-          // 根据不同冲泡方法设置目标总时间
-          targetTotalTime: this.getTargetTime(brewParams.methodName)
+          // 根据不同冲泡方法和咖啡粉量设置目标总时间
+          targetTotalTime: this.getTargetTime(brewParams.methodName, brewParams.coffeeAmount)
         });
         this.generateSteps(brewParams);
       } catch (error) {
@@ -37,8 +37,10 @@ Page({
   },
 
   // 获取不同冲泡方法的目标总时间（秒）
-  getTargetTime(methodName) {
-    const methodTimes = {
+  getTargetTime(methodName, coffeeAmount) {
+    // 基准咖啡粉量（20g）对应的标准时间
+    const standardCoffeeAmount = 20;
+    const baseMethodTimes = {
       'Hario V60': 180, // 2.5-3分钟
       'Kalita Wave': 210, // 3-3.5分钟
       'Chemex': 240, // 4分钟
@@ -47,48 +49,68 @@ Page({
       'Kono': 210 // 3-4分钟
     };
     
-    return methodTimes[methodName] || 180; // 默认3分钟
+    // 获取该方法的基准时间
+    const baseTime = baseMethodTimes[methodName] || 180; // 默认3分钟
+    
+    // 根据咖啡粉量调整时间，使用平方根比例，避免线性调整导致时间变化过大
+    // 例如，咖啡粉量从20g减少到10g，时间不应减半，而是减少约30%
+    const timeRatio = Math.sqrt(coffeeAmount / standardCoffeeAmount);
+    
+    // 计算调整后的时间，并设置上下限
+    let adjustedTime = Math.round(baseTime * timeRatio);
+    
+    // 设置最小和最大时间限制，避免极端值
+    const minTime = Math.round(baseTime * 0.7); // 最小不低于基准的70%
+    const maxTime = Math.round(baseTime * 1.3); // 最大不超过基准的130%
+    
+    // 确保时间在合理范围内
+    adjustedTime = Math.max(minTime, Math.min(adjustedTime, maxTime));
+    
+    console.log(`冲泡时间计算：方法=${methodName}, 咖啡量=${coffeeAmount}g, 基准时间=${baseTime}秒, 调整后=${adjustedTime}秒`);
+    
+    return adjustedTime;
   },
 
   generateSteps(params) {
     // 计算基本参数
     const totalWater = params.waterAmount; // 总水量
-    console.log('用户设置的总水量:', totalWater);
+    const targetTime = this.data.targetTotalTime; // 获取动态计算后的目标总时间
+    console.log('用户设置的总水量:', totalWater, '目标总时间:', targetTime);
     
     // 各方法的标准步骤和比例
     const methodStepsTemplates = {
       'Hario V60': [
         { 
           name: '闷蒸', 
-          timeMarker: 30, 
+          timeRatio: 0.167, // 30/180 = 0.167
           instruction: '使用Hario V60专用滤纸，以鹅颈壶圆形方式倒水进行预浸，释放气体', 
           waterPercent: 0.125, // 初始注水比例 (40/320 = 0.125)
           tips: '研磨度：中细，水温：96°C'
         },
         { 
           name: '第一阶段注水', 
-          timeMarker: 60, 
+          timeRatio: 0.333, // 60/180 = 0.333
           instruction: '以画圈方式缓慢注水，由中心向外，避免直接冲击咖啡床边缘', 
           waterPercent: 0.438, // 累计比例 (140/320 = 0.438)
           tips: '使用鹅颈壶以保持稳定的水流控制'
         },
         { 
           name: '第二阶段注水', 
-          timeMarker: 90, 
+          timeRatio: 0.5, // 90/180 = 0.5
           instruction: '等水位下降后继续注水，保持水位平稳', 
           waterPercent: 0.75, // 累计比例 (240/320 = 0.75)
           tips: '此时应控制总冲泡时间在2.5-3分钟范围内'
         },
         { 
           name: '第三阶段注水', 
-          timeMarker: 150, 
+          timeRatio: 0.833, // 150/180 = 0.833
           instruction: '完成剩余水量的注入', 
           waterPercent: 1.0, // 累计比例 (320/320 = 1.0)
           tips: '控制流速，确保均匀萃取'
         },
         { 
           name: '等待完成', 
-          timeMarker: 180, 
+          timeRatio: 1.0, // 180/180 = 1.0
           instruction: '等待所有水流过咖啡粉，观察水流速度判断研磨度是否合适', 
           waterPercent: 1.0, // 保持总量不变
           tips: '最终时间：2.5-3分钟，强调风味层次'
@@ -97,28 +119,28 @@ Page({
       'Kalita Wave': [
         { 
           name: '闷蒸', 
-          timeMarker: 30, 
+          timeRatio: 0.143, // 30/210 = 0.143
           instruction: '使用Kalita Wave专用滤纸，进行预浸，保持水位稳定，避免边缘倒水', 
           waterPercent: 0.156, // 50/320 = 0.156
           tips: '研磨度：中，水温：96°C'
         },
         { 
           name: '第一阶段注水', 
-          timeMarker: 90, 
+          timeRatio: 0.429, // 90/210 = 0.429
           instruction: '以螺旋式方式注水，保持水位稳定，避免边缘倒水', 
           waterPercent: 0.625, // 200/320 = 0.625
           tips: '平底设计有助于均匀萃取，保持水位稳定'
         },
         { 
           name: '第二阶段注水', 
-          timeMarker: 210, 
+          timeRatio: 1.0, // 210/210 = 1.0
           instruction: '完成剩余水量的注入', 
           waterPercent: 1.0, // 320/320 = 1.0
           tips: '确保水流均匀通过整个咖啡床'
         },
         { 
           name: '等待完成', 
-          timeMarker: 210, 
+          timeRatio: 1.0, // 210/210 = 1.0
           instruction: '等待所有水流过咖啡粉', 
           waterPercent: 1.0, // 保持总量不变
           tips: '平底滤杯设计确保更均匀的萃取'
@@ -127,28 +149,28 @@ Page({
       'Chemex': [
         { 
           name: '闷蒸', 
-          timeMarker: 30, 
+          timeRatio: 0.125, // 30/240 = 0.125
           instruction: '使用Chemex专用滤纸，进行预浸，等待30秒后继续，适合较大批量冲泡', 
           waterPercent: 0.133, // 40/300 = 0.133
           tips: '研磨度：粗，水温：96°C'
         },
         { 
           name: '第一阶段注水', 
-          timeMarker: 120, 
+          timeRatio: 0.5, // 120/240 = 0.5
           instruction: '以画圈方式缓慢注水，保持水位稳定', 
           waterPercent: 0.633, // 190/300 = 0.633
           tips: '厚滤纸确保萃取干净，适合较大批量冲泡'
         },
         { 
           name: '第二阶段注水', 
-          timeMarker: 240, 
+          timeRatio: 1.0, // 240/240 = 1.0
           instruction: '完成剩余水量的注入', 
           waterPercent: 1.0, // 300/300 = 1.0
           tips: '控制总冲泡时间在4分钟左右'
         },
         { 
           name: '等待完成', 
-          timeMarker: 240, 
+          timeRatio: 1.0, // 240/240 = 1.0
           instruction: '等待所有水流过咖啡粉', 
           waterPercent: 1.0, // 保持总量不变
           tips: 'Chemex冲泡特点：清澈口感，突出咖啡果酸'
@@ -157,28 +179,28 @@ Page({
       'Melitta': [
         { 
           name: '闷蒸', 
-          timeMarker: 30, 
+          timeRatio: 0.125, // 30/240 = 0.125
           instruction: '使用标准Melitta锥形滤纸，均匀倒水，预浸30秒后继续，适合小型冲泡', 
           waterPercent: 0.118, // 40/340 = 0.118
           tips: '研磨度：中细至中，水温：93°C'
         },
         { 
           name: '第一阶段注水', 
-          timeMarker: 120, 
+          timeRatio: 0.5, // 120/240 = 0.5
           instruction: '均匀倒水，保持水位稳定', 
           waterPercent: 0.559, // 190/340 = 0.559
           tips: '适合日常简单冲泡，使用标准Melitta锥形滤纸'
         },
         { 
           name: '第二阶段注水', 
-          timeMarker: 240, 
+          timeRatio: 1.0, // 240/240 = 1.0
           instruction: '完成剩余水量的注入', 
           waterPercent: 1.0, // 340/340 = 1.0
           tips: '控制总冲泡时间在3-4分钟范围内'
         },
         { 
           name: '等待完成', 
-          timeMarker: 240, 
+          timeRatio: 1.0, // 240/240 = 1.0
           instruction: '等待所有水流过咖啡粉', 
           waterPercent: 1.0, // 保持总量不变
           tips: '水粉比1:17，适合小型冲泡'
@@ -187,28 +209,28 @@ Page({
       'Bee House': [
         { 
           name: '闷蒸', 
-          timeMarker: 30, 
+          timeRatio: 0.125, // 30/240 = 0.125
           instruction: '使用标准Melitta锥形滤纸，均匀倒水，预浸后分阶段倒水', 
           waterPercent: 0.156, // 50/320 = 0.156
           tips: '研磨度：中细，水温：93-96°C'
         },
         { 
           name: '第一阶段注水', 
-          timeMarker: 90, 
+          timeRatio: 0.375, // 90/240 = 0.375
           instruction: '均匀倒水，保持水位稳定', 
           waterPercent: 0.625, // 200/320 = 0.625
           tips: '使用标准Melitta锥形滤纸，适合日常使用'
         },
         { 
           name: '第二阶段注水', 
-          timeMarker: 210, 
+          timeRatio: 0.875, // 210/240 = 0.875
           instruction: '完成剩余水量的注入', 
           waterPercent: 1.0, // 320/320 = 1.0
           tips: '控制总冲泡时间在3-4分钟范围内'
         },
         { 
           name: '等待完成', 
-          timeMarker: 240, 
+          timeRatio: 1.0, // 240/240 = 1.0
           instruction: '等待所有水流过咖啡粉', 
           waterPercent: 1.0, // 保持总量不变
           tips: '水粉比1:16，平衡的风味表现'
@@ -217,28 +239,28 @@ Page({
       'Kono': [
         { 
           name: '闷蒸', 
-          timeMarker: 30, 
+          timeRatio: 0.125, // 30/240 = 0.125
           instruction: '使用Kono专用滤纸，控制倒水速度以保持稳定滴流，预浸30秒后分阶段倒水', 
           waterPercent: 0.156, // 50/320 = 0.156
           tips: '研磨度：中，水温：93-96°C'
         },
         { 
           name: '第一阶段注水', 
-          timeMarker: 90, 
+          timeRatio: 0.375, // 90/240 = 0.375
           instruction: '控制倒水速度以保持稳定滴流', 
           waterPercent: 0.625, // 200/320 = 0.625
           tips: '使用Kono专用滤纸，确保稳定滴流'
         },
         { 
           name: '第二阶段注水', 
-          timeMarker: 210, 
+          timeRatio: 0.875, // 210/240 = 0.875
           instruction: '完成剩余水量的注入', 
           waterPercent: 1.0, // 320/320 = 1.0
           tips: '控制总冲泡时间在3-4分钟范围内'
         },
         { 
           name: '等待完成', 
-          timeMarker: 240, 
+          timeRatio: 1.0, // 240/240 = 1.0
           instruction: '等待所有水流过咖啡粉', 
           waterPercent: 1.0, // 保持总量不变
           tips: '水粉比1:16，与V60相似但更稳定的萃取'
@@ -246,15 +268,18 @@ Page({
       ]
     };
     
-    // 使用模板生成动态水量的步骤
+    // 使用模板生成动态水量和时间的步骤
     let stepsTemplate = methodStepsTemplates[params.methodName] || methodStepsTemplates['Hario V60'];
     let steps = stepsTemplate.map(step => {
       // 根据用户设置的总水量计算每个步骤的实际水量
       const actualWaterAmount = Math.round(step.waterPercent * totalWater);
+      // 根据目标总时间和时间比例计算每个步骤的实际时间点
+      const timeMarker = Math.round(step.timeRatio * targetTime);
       
       return {
         ...step,
-        waterAmount: actualWaterAmount
+        waterAmount: actualWaterAmount,
+        timeMarker: timeMarker
       };
     });
     
@@ -264,7 +289,7 @@ Page({
       currentStepInfo: steps[0]
     });
     
-    console.log('根据用户水量生成的冲泡步骤:', steps);
+    console.log('根据用户水量和时间生成的冲泡步骤:', steps);
   },
 
   startTimer() {
