@@ -76,11 +76,6 @@
       <switch checked="{{autoCalculate}}" color="#6F4E37" bindchange="toggleAutoCalculate"></switch>
       <text>根据水粉比自动调节水量</text>
     </view>
-    
-    <!-- 科学参数按钮 -->
-    <view class="science-params-btn" bindtap="applyScienceParams">
-      <text>应用科学冲泡参数</text>
-    </view>
   </view>
   
   <view class="start-btn" bindtap="startBrewing">开始</view>

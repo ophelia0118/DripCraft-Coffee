@@ -19,6 +19,11 @@ Page({
     console.log('参数页面加载:', options);
     if (options.method) {
       this.setMethodDetails(options.method);
+      
+      // 自动应用科学冲泡参数
+      setTimeout(() => {
+        this.applyScienceParams(false);
+      }, 300);
     }
   },
 
@@ -82,7 +87,7 @@ Page({
   },
 
   // 应用科学咖啡冲泡参数
-  applyScienceParams() {
+  applyScienceParams(showToast = true) {
     // 科学化参数配置
     const scienceParams = {
       'Hario V60': {
@@ -145,18 +150,20 @@ Page({
         ratioIndex: params.ratioIndex,
         waterRatio: params.waterRatio,
         scienceTip: params.scienceTip,
-        showScienceTooltip: true
+        showScienceTooltip: showToast // 只在手动应用时显示提示框
       });
       
       // 自动计算水量
       this.calculateWaterAmount();
       
       // 显示提示
-      wx.showToast({
-        title: '已应用科学参数',
-        icon: 'success',
-        duration: 1500
-      });
+      if (showToast) {
+        wx.showToast({
+          title: '已应用科学参数',
+          icon: 'success',
+          duration: 1500
+        });
+      }
       
       // 5秒后隐藏科学提示
       setTimeout(() => {
