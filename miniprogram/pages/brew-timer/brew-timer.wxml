@@ -46,6 +46,9 @@
     </view>
     <view class="control-btn {{isRunning ? 'pause-btn' : 'play-btn'}}" bindtap="toggleTimer">
     </view>
+    <!-- 暂停状态下显示保存按钮 -->
+    <view class="control-btn save-btn" bindtap="showSaveDataModal" wx:if="{{!isRunning && currentTime > 0}}">
+    </view>
   </view>
   
   <!-- 步骤时间轴 -->
