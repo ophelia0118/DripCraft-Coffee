@@ -11,7 +11,8 @@ Page({
     targetTotalTime: 240, // 目标总时间（秒）
     currentStepInfo: {},
     stepProgress: 0,
-    progressStyle: 'conic-gradient(#d4a26a 0% 0%, rgba(255, 255, 255, 0.15) 0% 100%)' // 初始进度样式，改为咖啡金色
+    progressStyle: 'conic-gradient(#d4a26a 0% 0%, rgba(255, 255, 255, 0.15) 0% 100%)', // 初始进度样式，改为咖啡金色
+    showSaveModal: false
   },
 
   onLoad(options) {
@@ -379,7 +380,7 @@ Page({
       if (currentTime > steps[steps.length - 1].timeMarker) {
         if (currentTime >= this.data.targetTotalTime) {
           // 达到目标总时间，完成冲泡
-          this.completeBrewProcess();
+          this.onTimerFinish();
           return;
         }
         newStep = steps.length - 1; // 保持在最后一个步骤
@@ -436,7 +437,7 @@ Page({
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   },
 
-  completeBrewProcess() {
+  onTimerFinish() {
     this.setData({
       isRunning: false
     });
@@ -444,13 +445,6 @@ Page({
     if (this.timer) {
       clearTimeout(this.timer);
     }
-    
-    // 显示完成提示
-    wx.showToast({
-      title: '冲泡完成!',
-      icon: 'success',
-      duration: 2000
-    });
     
     // 冲泡完成强制震动提醒
     console.log('冲泡完成触发震动');
@@ -473,10 +467,60 @@ Page({
       });
     }, 1000);
     
-    // 可以跳转到完成页面
+    // 显示保存数据的模态窗口，而不是直接返回
+    this.setData({
+      showSaveModal: true
+    });
+  },
+  
+  // 保存冲泡数据
+  saveBrewData: function() {
+    // 获取当前冲泡数据
+    const brewData = {
+      date: new Date().toISOString(),
+      methodName: this.data.brewParams.methodName,
+      methodDesc: this.data.brewParams.methodDesc,
+      coffeeAmount: this.data.brewParams.coffeeAmount,
+      waterAmount: this.data.brewParams.waterAmount,
+      waterTemp: this.data.brewParams.waterTemp,
+      grindSize: this.data.brewParams.grindSize,
+      waterRatio: this.data.brewParams.waterRatio,
+      totalTime: this.data.totalTime,
+      // 可以添加其他需要保存的数据
+    };
+    
+    // 获取已保存的数据
+    let savedBrews = wx.getStorageSync('savedBrews') || [];
+    
+    // 添加新数据
+    savedBrews.unshift(brewData);
+    
+    // 保存回本地存储
+    wx.setStorageSync('savedBrews', savedBrews);
+    
+    // 显示保存成功提示
+    wx.showToast({
+      title: '冲泡数据已保存!',
+      icon: 'success',
+      duration: 1500
+    });
+    
+    // 关闭模态窗口并返回上一页
+    this.setData({
+      showSaveModal: false
+    });
+    
     setTimeout(() => {
       wx.navigateBack();
-    }, 2000);
+    }, 1500);
+  },
+  
+  // 不保存数据，直接返回
+  cancelSave: function() {
+    this.setData({
+      showSaveModal: false
+    });
+    wx.navigateBack();
   },
 
   goBack() {

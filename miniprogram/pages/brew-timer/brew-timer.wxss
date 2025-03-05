@@ -285,4 +285,92 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 50rpx 50rpx;
+}
+
+/* 保存数据模态窗口 */
+.save-modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.save-modal-container {
+  width: 80%;
+  background: #2c2018;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.3);
+  border: 1px solid #d4a26a;
+}
+
+.save-modal-title {
+  background: #d4a26a;
+  color: #281815;
+  padding: 30rpx;
+  text-align: center;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.save-modal-content {
+  padding: 40rpx 30rpx;
+}
+
+.save-modal-text {
+  text-align: center;
+  font-size: 32rpx;
+  margin-bottom: 30rpx;
+  color: #fff;
+}
+
+.save-modal-brew-info {
+  background: rgba(212, 162, 106, 0.1);
+  border-radius: 8rpx;
+  padding: 20rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+}
+
+.save-modal-brew-info text {
+  font-size: 28rpx;
+  color: #e1e1e1;
+}
+
+.save-modal-buttons {
+  display: flex;
+  border-top: 1px solid rgba(212, 162, 106, 0.3);
+}
+
+.save-modal-button {
+  flex: 1;
+  padding: 24rpx;
+  text-align: center;
+  font-size: 30rpx;
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  color: #fff;
+  line-height: 1.5;
+}
+
+.save-modal-button.cancel {
+  border-right: 1px solid rgba(212, 162, 106, 0.3);
+  color: #aaa;
+}
+
+.save-modal-button.save {
+  color: #d4a26a;
+  font-weight: 500;
+}
+
+.save-modal-button::after {
+  border: none;
 } 

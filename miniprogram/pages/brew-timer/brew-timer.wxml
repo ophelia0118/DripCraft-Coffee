@@ -60,4 +60,24 @@
       </view>
     </view>
   </view>
+</view>
+
+<!-- 保存数据模态窗口 -->
+<view class="save-modal-mask" wx:if="{{showSaveModal}}">
+  <view class="save-modal-container">
+    <view class="save-modal-title">冲泡完成!</view>
+    <view class="save-modal-content">
+      <view class="save-modal-text">是否保存此次冲泡数据?</view>
+      <view class="save-modal-brew-info">
+        <text>{{brewParams.methodName}} {{brewParams.methodDesc}}</text>
+        <text>咖啡粉量: {{brewParams.coffeeAmount}}g</text>
+        <text>水量: {{brewParams.waterAmount}}ml</text>
+        <text>冲泡时间: {{totalTime}}</text>
+      </view>
+    </view>
+    <view class="save-modal-buttons">
+      <button class="save-modal-button cancel" bindtap="cancelSave">不保存</button>
+      <button class="save-modal-button save" bindtap="saveBrewData">保存数据</button>
+    </view>
+  </view>
 </view> 
