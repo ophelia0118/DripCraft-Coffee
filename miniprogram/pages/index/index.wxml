@@ -7,12 +7,16 @@
     <view class="timer-content">
       <view class="app-title">DripCraft Coffee</view>
       
+      <view class="add-button" bindtap="goToSelectBrewMethod">
+        <view class="plus-icon"></view>
+      </view>
+      
       <view class="start-text" bindtap="goToSelectBrewMethod">开启新冲泡</view>
     </view>
     
     <view class="card-footer">
       <view class="footer-text">
-        <text>用手冲唤醒味蕾，</text>
+        <text>用手冲唤醒味蕾，☕</text>
         <text>DripCraft Coffee 为您计时</text>
       </view>
     </view>
