@@ -4,6 +4,7 @@
   <view class="brew-method-header">
     <view class="method-name">{{methodName}} {{methodDesc}}</view>
     <image class="method-image" src="{{methodImage}}" mode="aspectFit"></image>
+    <view class="guide-link" bindtap="showBrewingGuide">{{methodNameShort}}冲泡指南</view>
   </view>
   
   <!-- 科学参数提示框 -->

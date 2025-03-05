@@ -4,6 +4,7 @@ Page({
     methodName: 'Kalita Wave',
     methodDesc: '(平底滤杯)',
     methodImage: '/assets/images/kalita.jpg',
+    methodNameShort: 'Kalita',
     coffeeAmount: 15,
     waterTemp: 92,
     grindSizeValue: 3,
@@ -34,31 +35,37 @@ Page({
         methodName: 'Hario V60',
         methodDesc: '(锥形滤杯)',
         methodImage: '/assets/images/v60.jpg',
+        methodNameShort: 'V60',
       },
       'kalita-wave': {
         methodName: 'Kalita Wave',
         methodDesc: '(平底滤杯)',
         methodImage: '/assets/images/kalita.jpg',
+        methodNameShort: 'Kalita',
       },
       'chemex': {
         methodName: 'Chemex',
         methodDesc: '',
         methodImage: '/assets/images/chemex.jpg',
+        methodNameShort: 'Chemex',
       },
       'melitta': {
         methodName: 'Melitta',
         methodDesc: '',
         methodImage: '/assets/images/melitta.jpg',
+        methodNameShort: 'Melitta',
       },
       'bee-house': {
         methodName: 'Bee House',
         methodDesc: '',
         methodImage: '/assets/images/beehouse.jpg',
+        methodNameShort: 'Bee House',
       },
       'kono': {
         methodName: 'Kono',
         methodDesc: '',
         methodImage: '/assets/images/kono.jpg',
+        methodNameShort: 'Kono',
       }
     };
 
@@ -274,5 +281,31 @@ Page({
   // 将研磨度转换为描述性文字 - 不再使用比喻
   convertGrindSizeToDesc(grindSize) {
     return '';  // 返回空字符串，不再使用比喻性描述
+  },
+  
+  // 显示冲泡指南
+  showBrewingGuide() {
+    const guideMap = {
+      'V60': '/assets/guides/v60_guide.png',
+      'Kalita': '/assets/guides/kalita_guide.png',
+      'Chemex': '/assets/guides/chemex_guide.png',
+      'Melitta': '/assets/guides/melitta_guide.png',
+      'Bee House': '/assets/guides/beehouse_guide.png',
+      'Kono': '/assets/guides/kono_guide.png'
+    };
+    
+    const guidePath = guideMap[this.data.methodNameShort];
+    
+    if (guidePath) {
+      wx.previewImage({
+        current: guidePath,
+        urls: [guidePath]
+      });
+    } else {
+      wx.showToast({
+        title: '指南暂不可用',
+        icon: 'none'
+      });
+    }
   }
 }); 

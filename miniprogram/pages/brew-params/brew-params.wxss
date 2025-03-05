@@ -28,6 +28,15 @@
   height: 200rpx;
 }
 
+.guide-link {
+  margin-top: 16rpx;
+  color: #6F4E37;
+  font-size: 28rpx;
+  text-align: center;
+  text-decoration: underline;
+  padding: 6rpx 12rpx;
+}
+
 .params-form {
   padding: 0 20rpx;
 }
