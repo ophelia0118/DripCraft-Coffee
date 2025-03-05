@@ -25,7 +25,6 @@
   </view>
   
   <view class="empty-state" wx:else>
-    <image class="empty-image" src="/assets/images/empty.png" mode="aspectFit"></image>
     <view class="empty-text">暂无冲泡记录</view>
     <view class="empty-subtext">开始记录你的咖啡冲泡过程吧</view>
     <button class="start-btn" bindtap="goToTimer">开始冲泡</button>

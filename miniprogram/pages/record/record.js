@@ -119,8 +119,8 @@ Page({
   },
 
   goToTimer() {
-    wx.switchTab({
-      url: '../timer/timer'
+    wx.navigateTo({
+      url: '../brew-methods/brew-methods'
     });
   }
 }); 
