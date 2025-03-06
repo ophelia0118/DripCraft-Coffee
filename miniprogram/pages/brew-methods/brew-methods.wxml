@@ -6,10 +6,12 @@
   <view class="header">
     <view class="welcome-area">
       <text class="welcome-text">Welcome!</text>
-      <text class="user-name">吴同学</text>
+      <view class="user-name">
+        <open-data type="userNickName"></open-data>
+      </view>
     </view>
     <view class="user-icon">
-      <image src="/assets/images/user.png" mode="aspectFit"></image>
+      <open-data type="userAvatarUrl"></open-data>
     </view>
   </view>
 

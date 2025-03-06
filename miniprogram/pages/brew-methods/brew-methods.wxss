@@ -34,19 +34,18 @@
 }
 
 .user-icon {
-  width: 60rpx;
-  height: 60rpx;
+  width: 80rpx;
+  height: 80rpx;
   border-radius: 50%;
   overflow: hidden;
-  background-color: #f0f0f0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative;
 }
 
-.user-icon image {
-  width: 40rpx;
-  height: 40rpx;
+.user-icon open-data {
+  width: 100%;
+  height: 100%;
+  display: block;
+  border-radius: 50%;
 }
 
 /* 主内容区域 */
