@@ -7,6 +7,246 @@
   min-height: 100vh;
 }
 
+/* 冲泡指南相关样式 */
+.guide-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20rpx;
+  background-color: #fff;
+}
+
+.guide-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  margin: 20rpx 0 30rpx;
+  color: #333;
+  text-align: center;
+}
+
+.guide-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.guide-image {
+  width: 100%;
+  border-radius: 10rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.guide-tip {
+  margin-top: 20rpx;
+  color: #666;
+  font-size: 28rpx;
+}
+
+/* 错误状态样式 */
+.guide-error {
+  margin-top: 60rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40rpx;
+  background: #f8f8f8;
+  border-radius: 10rpx;
+  width: 80%;
+}
+
+.error-icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: #ff6b6b;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+}
+
+.error-message {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.error-tip {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+  text-align: center;
+}
+
+.guide-tips {
+  margin-top: 20rpx;
+  color: #999;
+  font-size: 24rpx;
+  text-align: center;
+}
+
+/* 占位图样式 */
+.guide-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 40rpx;
+  padding: 40rpx;
+  width: 90%;
+  background-color: #f9f9f9;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.placeholder-icon {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.coffee-icon {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  background: linear-gradient(to bottom, #6F4E37 0%, #4E3629 100%);
+  position: relative;
+}
+
+.coffee-icon:before {
+  content: "";
+  position: absolute;
+  width: 40rpx;
+  height: 10rpx;
+  background-color: #f0f0f0;
+  border-radius: 5rpx;
+  top: 25rpx;
+  left: 10rpx;
+}
+
+.placeholder-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #6F4E37;
+  margin-bottom: 15rpx;
+}
+
+.placeholder-text {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.placeholder-desc {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.guide-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 30rpx;
+}
+
+.guide-method {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #6F4E37;
+  margin-bottom: 10rpx;
+}
+
+.guide-desc {
+  font-size: 26rpx;
+  color: #666;
+}
+
+/* 即将上线页面样式 */
+.coming-soon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60rpx 40rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.coming-soon-icon {
+  position: relative;
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 40rpx;
+}
+
+.circle {
+  position: absolute;
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 50%;
+  background-color: #f5f5f5;
+  border: 8rpx solid #e0e0e0;
+  top: 0;
+  left: 0;
+}
+
+.coffee-cup {
+  position: absolute;
+  width: 120rpx;
+  height: 100rpx;
+  border-radius: 10rpx 10rpx 60rpx 60rpx;
+  background-color: #6F4E37;
+  top: 50rpx;
+  left: 40rpx;
+}
+
+.coffee-cup:before {
+  content: "";
+  position: absolute;
+  width: 40rpx;
+  height: 60rpx;
+  border: 8rpx solid #6F4E37;
+  border-radius: 0 20rpx 20rpx 0;
+  right: -40rpx;
+  top: 20rpx;
+}
+
+.coming-soon-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.coming-soon-text text {
+  font-size: 32rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+  text-align: center;
+}
+
+.coming-soon-text text:last-child {
+  color: #999;
+  font-size: 28rpx;
+}
+
+.method-name {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #6F4E37;
+  margin-top: 20rpx;
+  letter-spacing: 2rpx;
+}
+
 .help-content {
   flex: 1;
 }
@@ -47,5 +287,200 @@
 
 .help-desc {
   color: #666;
+  line-height: 1.6;
+}
+
+.guide-debug {
+  margin-top: 10rpx;
+  color: #999;
+  font-size: 24rpx;
+  word-break: break-all;
+  padding: 0 20rpx;
+  text-align: center;
+}
+
+/* 调试信息样式 */
+.debug-info {
+  margin-top: 30rpx;
+  padding: 20rpx;
+  background-color: #f0f0f0;
+  border-radius: 8rpx;
+  width: 90%;
+  font-size: 24rpx;
+}
+
+.debug-title {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.debug-item {
+  color: #666;
+  margin-bottom: 5rpx;
+}
+
+.debug-path {
+  color: #0066cc;
+  margin-left: 20rpx;
+  margin-bottom: 5rpx;
+  word-break: break-all;
+}
+
+/* 简易步骤样式 */
+.simple-steps {
+  margin-top: 30rpx;
+  padding: 30rpx;
+  background-color: #fff;
+  border-radius: 10rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  width: 90%;
+}
+
+.step-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #6F4E37;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.step-item {
+  font-size: 26rpx;
+  color: #333;
+  padding: 10rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  line-height: 1.6;
+}
+
+.step-item:last-child {
+  border-bottom: none;
+}
+
+/* 冲泡指南样式 */
+.brewing-guide {
+  width: 95%;
+  padding: 20rpx 0;
+}
+
+.method-guide {
+  background-color: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+}
+
+.materials {
+  background-color: #FFF8E1;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.materials-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #6F4E37;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.material-item {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+  line-height: 1.6;
+}
+
+.ratio {
+  background-color: #EDE7F6;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 30rpx;
+  text-align: center;
+}
+
+.ratio-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #6F4E37;
+  margin-bottom: 10rpx;
+}
+
+.ratio-text {
+  font-size: 36rpx;
+  color: #4E342E;
+  font-weight: bold;
+}
+
+.steps {
+  margin-top: 20rpx;
+}
+
+.step {
+  margin-bottom: 30rpx;
+  border-bottom: 1rpx solid #EEEEEE;
+  padding-bottom: 20rpx;
+}
+
+.step:last-child {
+  border-bottom: none;
+}
+
+.step-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #6F4E37;
+  margin-bottom: 15rpx;
+}
+
+.step-desc {
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* 普通帮助模式样式 */
+.help-container {
+  padding: 40rpx 20rpx;
+}
+
+.help-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #6F4E37;
+  margin-bottom: 30rpx;
+  text-align: center;
+}
+
+.help-content {
+  background-color: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.1);
+  padding: 30rpx;
+}
+
+.help-section {
+  margin-bottom: 40rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #6F4E37;
+  margin-bottom: 20rpx;
+  border-bottom: 1rpx solid #EEEEEE;
+  padding-bottom: 10rpx;
+}
+
+.section-content {
+  padding: 10rpx;
+}
+
+.help-item {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 15rpx;
   line-height: 1.6;
 } 

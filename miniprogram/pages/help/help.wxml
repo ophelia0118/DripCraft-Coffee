@@ -1,68 +1,391 @@
 <!--help.wxml-->
 <navigation-bar title="使用帮助" back="{{true}}" color="white" background="#6F4E37"></navigation-bar>
 <view class="container">
-  <view class="help-content">
-    <view class="section">
-      <view class="section-title">基本操作</view>
-      <view class="section-content">
-        <view class="help-item">
-          <view class="help-title">如何开始计时？</view>
-          <view class="help-desc">在计时页面点击"开始"按钮即可开始计时。计时过程中，系统会根据预设的冲泡步骤提醒您进行相应操作。</view>
+  <!-- 冲泡指南模式 -->
+  <view class="container guide-container" wx:if="{{source == 'guide'}}">
+    <view class="guide-title">{{methodName}}冲泡指南</view>
+    
+    <!-- 图片加载成功时显示 -->
+    <view class="guide-content" wx:if="{{guideImageUrl && !imageLoadFailed}}">
+      <image 
+        class="guide-image" 
+        src="{{guideImageUrl}}" 
+        mode="widthFix" 
+        binderror="handleImageError"
+        bindtap="previewGuideImage"
+        show-menu-by-longpress="true"></image>
+      <view class="guide-tip">点击图片可放大查看</view>
+    </view>
+    
+    <!-- 显示冲泡步骤指南 -->
+    <view class="brewing-guide" wx:else>
+      <!-- V60冲泡指南 -->
+      <view class="method-guide" wx:if="{{methodName == 'V60'}}">
+        <view class="materials">
+          <view class="materials-title">所需材料</view>
+          <view class="material-item">• Hario V60 滤杯</view>
+          <view class="material-item">• 1 张滤纸</view>
+          <view class="material-item">• 25克咖啡（中细研磨）</view>
+          <view class="material-item">• 375毫升（1.5杯）热水，水温约93°C</view>
+          <view class="material-item">• 电子秤</view>
         </view>
         
-        <view class="help-item">
-          <view class="help-title">如何暂停/继续计时？</view>
-          <view class="help-desc">计时过程中，点击"暂停"按钮可以暂停计时，点击"继续"按钮可以继续计时。</view>
+        <view class="ratio">
+          <view class="ratio-title">咖啡与水的比例</view>
+          <view class="ratio-text">1:15（即25克咖啡配375毫升水）</view>
         </view>
         
-        <view class="help-item">
-          <view class="help-title">如何重置计时？</view>
-          <view class="help-desc">计时过程中或暂停状态下，点击"重置"按钮可以重置计时器。</view>
+        <view class="steps">
+          <view class="step">
+            <view class="step-title">步骤1: 冲洗滤纸</view>
+            <view class="step-desc">将滤纸放入滤杯，用热水冲洗以去除滤纸残留物并预热滤杯和容器。倒掉冲洗用水。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤2: 加入咖啡</view>
+            <view class="step-desc">加入25克中等研磨度的咖啡。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤3: 第一次注水</view>
+            <view class="step-desc">用75克水浸没咖啡，然后暂停30秒，让咖啡充分膨胀（预浸）。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤4: 继续注水</view>
+            <view class="step-desc">以圆形方式逐渐倒入剩余的水，直到总共加入375克水。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤5: 移除滤杯</view>
+            <view class="step-desc">待咖啡冲泡完成——理想时间为2分30秒到3分钟——将咖啡渣丢弃。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤6: 享用</view>
+            <view class="step-desc">享用一杯美味的咖啡。</view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- Chemex冲泡指南 -->
+      <view class="method-guide" wx:elif="{{methodName == 'Chemex'}}">
+        <view class="materials">
+          <view class="materials-title">所需材料</view>
+          <view class="material-item">• 8杯容量 Chemex 滤杯</view>
+          <view class="material-item">• Chemex 专用滤纸</view>
+          <view class="material-item">• 42克咖啡（中粗研磨，类似粗盐颗粒大小）</view>
+          <view class="material-item">• 700毫升热水，水温约96°C</view>
+          <view class="material-item">• 电子秤</view>
+          <view class="material-item">• 筷子或搅拌棒</view>
         </view>
         
-        <view class="help-item">
-          <view class="help-title">如何保存记录？</view>
-          <view class="help-desc">计时过程中或暂停状态下，点击"保存记录"按钮可以保存当前的冲泡记录。</view>
+        <view class="ratio">
+          <view class="ratio-title">咖啡与水的比例</view>
+          <view class="ratio-text">1:17（即42克咖啡配700毫升水）</view>
+        </view>
+        
+        <view class="steps">
+          <view class="step">
+            <view class="step-title">步骤1: 准备与预热</view>
+            <view class="step-desc">将Chemex滤纸放入滤杯，单折边远离出水口，多折边对齐出水口。用热水冲洗滤纸，确保滤纸四周均匀贴合滤杯。这一步可以预热滤杯，同时去除滤纸的纸味。倒掉冲洗水，然后将滤纸向出水口方向折叠以加固该区域。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤2: 称重与研磨咖啡</view>
+            <view class="step-desc">加入42克（约6汤匙）咖啡，研磨至类似粗盐的颗粒大小。将咖啡置于滤杯中央，然后将秤归零。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤3: 浸湿咖啡粉</view>
+            <view class="step-desc">开始注水时启动计时器。第一次注水直到所有咖啡粉都被浸湿，或者达到约150克水。用筷子或勺子搅拌，确保没有干的咖啡团块。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤4: 继续注水</view>
+            <view class="step-desc">在45秒时，开始第二次注水，确保将咖啡与水重新混合。以轻微摇晃的方式注水，然后以温和的螺旋状注水，直到水量达到滤杯顶部下方约一个指尖的距离，或450克水。优先浇在颜色较深的地方，避免浇在颜色较浅的区域。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤5: 加满水</view>
+            <view class="step-desc">在1分45秒时，将滤杯加满水至顶部，或约700克水。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤6: 等待冲泡完成</view>
+            <view class="step-desc">在4分钟时，水量应该接近目标。观察玻璃滤杯上的气泡或"肚脐"标记，这表示20盎司（约591毫升）。提起滤纸，可以稍微悬空几秒以确保水量足够，然后完全取出滤纸，让剩余液体流入水槽。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤7: 享用咖啡</view>
+            <view class="step-desc">轻轻摇晃Chemex滤杯以混合咖啡液，即可倒出两杯冲泡好的咖啡享用。</view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- Kalita Wave冲泡指南 -->
+      <view class="method-guide" wx:elif="{{methodName == 'Kalita'}}">
+        <view class="materials">
+          <view class="materials-title">所需材料</view>
+          <view class="material-item">• Kalita Wave 滤杯</view>
+          <view class="material-item">• Kalita Wave 专用滤纸</view>
+          <view class="material-item">• 25克咖啡粉</view>
+          <view class="material-item">• 400毫升热水，水温约92-96°C</view>
+          <view class="material-item">• 电子秤</view>
+        </view>
+        
+        <view class="ratio">
+          <view class="ratio-title">咖啡与水的比例</view>
+          <view class="ratio-text">1:16（即25克咖啡配400毫升水）</view>
+        </view>
+        
+        <view class="steps">
+          <view class="step">
+            <view class="step-title">步骤1: 准备材料</view>
+            <view class="step-desc">将滤纸放入Kalita滤杯中，轻轻倒入热水冲洗滤纸，同时预热滤杯和咖啡壶。注意不要压扁滤纸上的任何褶皱，因为这会影响萃取效果。称量约25克咖啡豆，准备研磨成适合加热水。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤2: 研磨与称量</view>
+            <view class="step-desc">将咖啡研磨至中细粒度大小。称量25克研磨好的咖啡放入Kalita滤杯中，然后将杯子轻轻晃动，轻轻拍平咖啡粉表面。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤3: 预浸</view>
+            <view class="step-desc">水刚煮沸后，取下水壶，让水稍微冷却。第一次注水倒入约50毫升水浸泡咖啡粉底，等待30秒让咖啡膨胀（闷蒸）。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤4: 注水技巧</view>
+            <view class="step-desc">让水位保持恒定（与咖啡粉表面平行）可以确保萃取均匀。从咖啡中心向外以同心圆方式注水，加入足够的水使咖啡液面上升至滤纸边缘的一处。继续保持水位恒定，每次注水时将咖啡液面略微提升，确保咖啡粉始终浸泡在水中。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤5: 完成注水</view>
+            <view class="step-desc">总共注入400毫升水后，轻轻搅拌一下，让水自然流完。整个冲泡过程控制在3分30秒到3分50秒之间。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤6: 享用咖啡</view>
+            <view class="step-desc">取下滤杯，轻轻摇晃或搅拌滤好的咖啡，倒出一杯香醇的咖啡即可享用！</view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- Melitta冲泡指南 -->
+      <view class="method-guide" wx:elif="{{methodName == 'Melitta'}}">
+        <view class="materials">
+          <view class="materials-title">所需材料</view>
+          <view class="material-item">• Melitta 滤杯</view>
+          <view class="material-item">• 1号滤纸</view>
+          <view class="material-item">• 23.5克中等研磨咖啡粉</view>
+          <view class="material-item">• 400毫升热水，水温约90-96°C</view>
+          <view class="material-item">• 电子秤</view>
+        </view>
+        
+        <view class="ratio">
+          <view class="ratio-title">咖啡与水的比例</view>
+          <view class="ratio-text">1:17（即23.5克咖啡配400毫升水）</view>
+        </view>
+        
+        <view class="steps">
+          <view class="step">
+            <view class="step-title">基本知识</view>
+            <view class="step-desc">Melitta滤杯是一种锥形冲泡器，与Hario V60不同，它的出水口较小，出水速度较慢，可以使用更粗的研磨度，这样更容易控制萃取。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤1: 准备</view>
+            <view class="step-desc">将滤纸放入Melitta滤杯中，用热水冲洗滤纸，这样可以去除纸味并预热滤杯。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤2: 加入咖啡</view>
+            <view class="step-desc">倒掉预热用的水，将23.5克研磨好的咖啡粉倒入滤纸中，轻轻拍平。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤3: 闷蒸</view>
+            <view class="step-desc">慢慢地从中心倒出约50克（或50毫升）水倒在咖啡粉上，目的是湿润咖啡粉，而不是让水全部流过。等待40秒。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤4: 第一次注水</view>
+            <view class="step-desc">缓慢且均匀地从中心向外螺旋状注入约50克水，让水自然流过。等待25秒。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤5: 第二次注水</view>
+            <view class="step-desc">重复上述步骤，再注入约100克水，让水自然流过。等待30秒。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤6: 第三次注水</view>
+            <view class="step-desc">重复上述步骤，再注入约100克水，让水自然流过。等待30秒。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤7: 最后注水</view>
+            <view class="step-desc">重复上述步骤，再注入剩余的水，让水全部流完。整个过程应该在3分钟左右完成。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤8: 享用</view>
+            <view class="step-desc">完成冲泡，享用您的咖啡！</view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- Bee House冲泡指南 -->
+      <view class="method-guide" wx:elif="{{methodName == 'Bee House'}}">
+        <view class="materials">
+          <view class="materials-title">所需材料</view>
+          <view class="material-item">• Bee House 陶瓷滤杯</view>
+          <view class="material-item">• Melitta #4滤纸</view>
+          <view class="material-item">• 21克咖啡粉</view>
+          <view class="material-item">• 热水，水温约96°C</view>
+          <view class="material-item">• 电子秤</view>
+          <view class="material-item">• 搅拌棒</view>
+        </view>
+        
+        <view class="ratio">
+          <view class="ratio-title">咖啡与水的比例</view>
+          <view class="ratio-text">1:18（即21克咖啡配380毫升水）</view>
+        </view>
+        
+        <view class="steps">
+          <view class="step">
+            <view class="step-title">步骤1: 称量与研磨咖啡</view>
+            <view class="step-desc">称量21克咖啡豆，将咖啡豆研磨至中细粒度，约与食盐颗粒大小相似。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤2: 准备滤杯与滤纸</view>
+            <view class="step-desc">将Melitta #4滤纸放入形成褶皱，放入Bee House滤杯中，然后将滤杯置于咖啡杯或壶上。用热水预冲洗滤纸，以去除滤纸的味道，同时预热滤杯和咖啡杯，冲洗后倒掉多余的冲洗水，然后将研磨好的咖啡粉加入滤纸中，摇晃均匀。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤3: 注湿咖啡粉</view>
+            <view class="step-desc">开始注水时启动计时器，第一次注水浸湿咖啡粉，然后轻轻搅拌以打破咖啡粉团块。刚研磨的咖啡在这一阶段会释放气体——咖啡粉会上升并产生少许气泡。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤4: 加满滤杯</view>
+            <view class="step-desc">以螺旋状均匀地分布水在咖啡粉上方，覆盖整个咖啡粉表面，优先选在颜色较浅的区域，在1分钟内将水量增加至约380克。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤5: 享用咖啡</view>
+            <view class="step-desc">冲煮时间约为2分钟，随时调整您的咖啡杯位置使滤杯距离咖啡杯（或接收的容器）约10毫米/296毫升的冲煮咖啡。如果此时滤杯中有水残留，直接将滤杯从咖啡杯上取下，放置在水槽中即可。</view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- Kono冲泡指南 -->
+      <view class="method-guide" wx:elif="{{methodName == 'Kono'}}">
+        <view class="materials">
+          <view class="materials-title">所需材料</view>
+          <view class="material-item">• Kono咖啡滤杯</view>
+          <view class="material-item">• 咖啡重量（克）：12克</view>
+          <view class="material-item">• 总水量（毫升）：190毫升</view>
+          <view class="material-item">• 水粉比：1:15.8</view>
+          <view class="material-item">• 滤杯尺寸：01号</view>
+          <view class="material-item">• 研磨度：中等至中细</view>
+          <view class="material-item">• 水温：93°C / 195°F</view>
+        </view>
+        
+        <view class="ratio">
+          <view class="ratio-title">咖啡与水的比例</view>
+          <view class="ratio-text">1:15.8（即12克咖啡配190毫升水）</view>
+        </view>
+        
+        <view class="steps">
+          <view class="step">
+            <view class="step-title">滤纸准备技巧</view>
+            <view class="step-desc">对于Kono滤杯，滤纸的贴合非常重要，像平常使用V60滤杯那样预折滤纸可能会产生气泡。最佳方法是：将滤纸放扁摊开，放入Kono滤杯，然后再使用自来水将滤杯冲洗干净，水的重量会推动滤纸贴合滤杯。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">研磨度设置</view>
+            <view class="step-desc">参考常见研磨机的设置：
+• 1Zpresso JX：60-63档
+• Comandante C40：20-21档
+• Baratza Encore：13-14档
+• Wilfa Uniform：20-21档
+如果您平时使用V60的研磨设置，建议比V60多调整1-2档（更粗一些）。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤1: 预浸</view>
+            <view class="step-desc">将咖啡粉倒入滤杯，在中心挖一个小坑，用30毫升水进行预浸30秒。此阶段可以选择轻轻摇晃滤杯，但不摇晃也能很好地完成预浸，可以省略这一步。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤2: 第一次注水</view>
+            <view class="step-desc">预浸后，以螺旋状方式从中心开始注水，加入50毫升水（此时秤上总水量为80毫升）。注水高度应保持在滤杯边缘1-2英寸之间，以控制咖啡粉床的扰动。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤3: 第二次注水</view>
+            <view class="step-desc">在25至30秒后进行第二次注水。确保水未完全滴干，保留一些水和温度，这有助于提升萃取效果。按照相同的注水方式，加入55毫升水（此时总水量为135毫升）。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">步骤4: 最后注水</view>
+            <view class="step-desc">重复一次55毫升的注水。冲泡时间在2分30秒至3分钟之间完成是安全的。</view>
+          </view>
+          
+          <view class="step">
+            <view class="step-title">风味调整技巧</view>
+            <view class="step-desc">• 红糖、焦糖、糖蜜和/或巧克力风味：冲泡时间可延长至3分至3分30秒，浅烘焙咖啡甚至可延长至4分钟
+• 明亮风味：冲泡时间控制在2分至2分30秒，研磨度可比推荐设置再粗1-2档
+• 不想频繁调整研磨度：可尝试减少扰动的注水技巧，如将水壶尽量靠近咖啡粉床，避免过多倾斜</view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 其他冲泡方法的通用指南 -->
+      <view class="method-guide" wx:else>
+        <view class="simple-steps">
+          <view class="step-title">{{methodName}}基本步骤</view>
+          <view class="step-item">1. 将滤纸放入滤杯并预热</view>
+          <view class="step-item">2. 将研磨好的咖啡粉倒入滤杯</view>
+          <view class="step-item">3. 倒入少量热水预湿咖啡粉</view>
+          <view class="step-item">4. 等待咖啡粉膨胀（约30秒）</view>
+          <view class="step-item">5. 分多次注水至目标水量</view>
+          <view class="step-item">6. 等待所有水流完成</view>
         </view>
       </view>
     </view>
-    
-    <view class="section">
-      <view class="section-title">咖啡设置</view>
-      <view class="section-content">
-        <view class="help-item">
-          <view class="help-title">如何设置咖啡参数？</view>
-          <view class="help-desc">在计时页面点击"设置"按钮，可以设置咖啡种类、咖啡粉重量、水重量和比例等参数。</view>
-        </view>
-        
-        <view class="help-item">
-          <view class="help-title">如何自定义冲泡步骤？</view>
-          <view class="help-desc">在设置页面的"冲泡步骤"部分，可以添加、编辑和删除冲泡步骤，每个步骤包括时间点和操作描述。</view>
-        </view>
-        
-        <view class="help-item">
-          <view class="help-title">如何锁定水重量？</view>
-          <view class="help-desc">在设置页面，水重量输入框旁边有一个开关，打开开关后，水重量会根据咖啡粉重量和比例自动计算；关闭开关后，可以手动输入水重量，比例会自动计算。</view>
+  </view>
+  
+  <!-- 普通帮助模式 -->
+  <view class="container help-container" wx:else>
+    <view class="help-title">使用帮助</view>
+    <view class="help-content">
+      <view class="help-section">
+        <view class="section-title">关于DripCraft</view>
+        <view class="section-content">DripCraft Coffee是一款帮助咖啡爱好者计算手冲咖啡参数的小程序。通过输入咖啡粉重量，自动计算所需水量和冲泡时间。</view>
+      </view>
+      
+      <view class="help-section">
+        <view class="section-title">如何使用</view>
+        <view class="section-content">
+          <view class="help-item">1. 在首页选择您喜欢的冲泡方法</view>
+          <view class="help-item">2. 输入您想要使用的咖啡粉重量</view>
+          <view class="help-item">3. 系统会自动计算最佳水量和冲泡参数</view>
+          <view class="help-item">4. 点击"冲泡指南"可查看详细步骤</view>
         </view>
       </view>
-    </view>
-    
-    <view class="section">
-      <view class="section-title">记录管理</view>
-      <view class="section-content">
-        <view class="help-item">
-          <view class="help-title">如何查看冲泡记录？</view>
-          <view class="help-desc">点击底部导航栏的"记录"选项，可以查看所有保存的冲泡记录。</view>
-        </view>
-        
-        <view class="help-item">
-          <view class="help-title">如何删除记录？</view>
-          <view class="help-desc">在记录列表中，点击记录右侧的"删除"按钮可以删除该记录。</view>
-        </view>
-        
-        <view class="help-item">
-          <view class="help-title">如何分享记录？</view>
-          <view class="help-desc">在记录列表中，点击记录右侧的"分享"按钮可以分享该记录，系统会将记录内容复制到剪贴板。</view>
+      
+      <view class="help-section">
+        <view class="section-title">常见问题</view>
+        <view class="section-content">
+          <view class="help-item">Q: 如何选择合适的研磨度？</view>
+          <view class="help-item">A: 不同的冲泡方法需要不同的研磨度。V60通常使用中细研磨，Chemex使用中粗研磨。</view>
+          
+          <view class="help-item">Q: 水温应该是多少？</view>
+          <view class="help-item">A: 一般建议使用90-96°C的热水。过高的温度可能导致苦味，过低则可能提取不足。</view>
         </view>
       </view>
     </view>
