@@ -28,38 +28,52 @@ Page({
 
   onLoad() {
     console.log('咖啡配方页面加载');
+    // 在页面加载时获取并排序配方
     this.loadRecipes();
+    
+    // 监听页面显示状态
+    wx.onAppShow(() => {
+      console.log('应用程序前台显示，刷新配方');
+      this.loadRecipes();
+    });
   },
 
   onShow() {
     console.log('咖啡配方页面显示');
+    // 每次页面显示时获取并排序配方
     this.loadRecipes();
+    
+    // 延迟执行一次排序，以防初始渲染有问题
+    setTimeout(() => {
+      this.loadRecipes();
+    }, 300);
   },
 
   // 加载保存的配方
   loadRecipes() {
     try {
-      const recipes = wx.getStorageSync('coffeeRecipes') || [];
-      console.log('加载配方数据:', recipes);
+      // 从本地存储获取配方数据
+      const recipesData = wx.getStorageSync('coffeeRecipes') || [];
+      
+      // 排序：最新添加的配方显示在顶部
+      const sortedRecipes = recipesData.sort((a, b) => {
+        return new Date(b.createTime) - new Date(a.createTime);
+      });
+      
       this.setData({
-        recipes: recipes
+        recipes: sortedRecipes
       });
+      
+      console.log('加载配方成功', this.data.recipes);
     } catch (e) {
-      console.error('加载配方数据失败:', e);
-      wx.showToast({
-        title: '加载配方失败',
-        icon: 'none'
-      });
+      console.error('加载配方失败', e);
     }
   },
 
   // 显示添加表单
-  showAddForm() {
+  showAddForm: function() {
     this.setData({
       showAddForm: true,
-      brewMethodIndex: 0,
-      showBrewMethodOptions: false, // 确保选项列表隐藏
-      showCustomInput: false, // 确保自定义输入框隐藏
       newRecipe: {
         name: '',
         coffeeBean: '',
@@ -81,48 +95,84 @@ Page({
     });
   },
 
-  // 切换冲泡方法选项列表显示
+  // 切换冲泡方法选项显示
   toggleBrewMethodOptions() {
-    console.log('切换冲泡方法选项列表');
+    // 转换显示状态
     this.setData({
       showBrewMethodOptions: !this.data.showBrewMethodOptions
     });
+    
+    // 如果显示选项，滚动确保选项可见
+    if (this.data.showBrewMethodOptions) {
+      // 使用选择器获取当前表单项节点
+      const query = wx.createSelectorQuery();
+      query.select('.form-selector').boundingClientRect();
+      query.selectViewport().scrollOffset();
+      query.exec((res) => {
+        if (res && res[0] && res[1]) {
+          const elementTop = res[0].top;
+          const scrollTop = res[1].scrollTop;
+          const windowHeight = wx.getSystemInfoSync().windowHeight;
+          
+          // 如果选择器在视图底部以下，滚动到可见位置
+          if (elementTop + 300 > windowHeight) {
+            wx.pageScrollTo({
+              scrollTop: scrollTop + (elementTop + 300 - windowHeight),
+              duration: 200
+            });
+          }
+        }
+      });
+    }
   },
 
   // 选择冲泡方法
   selectBrewMethod(e) {
-    console.log('选择冲泡方法', e);
-    const { id, name, index } = e.currentTarget.dataset;
-    
+    const { name } = e.currentTarget.dataset;
     this.setData({
       'newRecipe.brewMethod': name,
-      brewMethodIndex: index,
-      showBrewMethodOptions: false, // 选择后隐藏选项列表
-      showCustomInput: false // 确保自定义输入框隐藏
+      showBrewMethodOptions: false
     });
   },
 
   // 切换自定义输入框
   toggleCustomInput() {
-    console.log('切换自定义输入框');
     this.setData({
-      showCustomInput: true,
-      showBrewMethodOptions: false, // 隐藏选项列表
-      'newRecipe.brewMethod': '' // 清空已选择的冲泡方法
+      showCustomInput: !this.data.showCustomInput,
+      showBrewMethodOptions: false,
+      'newRecipe.brewMethod': ''
     });
+    
+    // 确保自定义输入框可见
+    if (this.data.showCustomInput) {
+      wx.nextTick(() => {
+        // 滚动到合适位置
+        const query = wx.createSelectorQuery();
+        query.select('.custom-input').boundingClientRect();
+        query.selectViewport().scrollOffset();
+        query.exec((res) => {
+          if (res && res[0] && res[1]) {
+            const elementTop = res[0].top;
+            const scrollTop = res[1].scrollTop;
+            const windowHeight = wx.getSystemInfoSync().windowHeight;
+            
+            if (elementTop + 200 > windowHeight) {
+              wx.pageScrollTo({
+                scrollTop: scrollTop + (elementTop + 200 - windowHeight),
+                duration: 200
+              });
+            }
+          }
+        });
+      });
+    }
   },
 
-  // 停止事件冒泡
-  stopPropagation(e) {
-    // 阻止事件向上冒泡
-    return;
-  },
-  
-  // 点击表单时隐藏选项列表
-  hideOptionsOnFormClick(e) {
-    // 检查是否应该隐藏选项列表
-    if (this.data.showBrewMethodOptions) {
-      console.log('点击表单区域，隐藏选项列表');
+  // 处理表单点击事件
+  hideOptionsOnFormClick: function(e) {
+    // 只有当点击的是表单背景时才隐藏选项列表
+    // 通过事件的 target 和 currentTarget 比较判断
+    if (e.target.id === 'form-background' || e.target === e.currentTarget) {
       this.setData({
         showBrewMethodOptions: false
       });
@@ -161,11 +211,12 @@ Page({
     });
   },
 
-  // 保存配方（添加点击外部隐藏选项列表的逻辑）
+  // 保存配方
   saveRecipe() {
-    // 隐藏选项列表和自定义输入框
+    // 隐藏选项列表
     this.setData({
-      showBrewMethodOptions: false
+      showBrewMethodOptions: false,
+      showCustomInput: false
     });
     
     const newRecipe = this.data.newRecipe;
@@ -196,13 +247,14 @@ Page({
     }
     
     try {
-      // 获取现有配方
-      const recipes = wx.getStorageSync('coffeeRecipes') || [];
+      // 直接从存储获取现有配方
+      let recipes = wx.getStorageSync('coffeeRecipes') || [];
       
-      // 创建新配方对象，添加ID和创建时间
+      // 创建新配方对象，使用当前时间戳作为ID
+      const timestamp = Date.now();
       const recipe = {
         ...newRecipe,
-        id: Date.now().toString(), // 使用时间戳作为ID
+        id: timestamp.toString(),
         createTime: new Date().toLocaleString('zh-CN', {
           year: 'numeric',
           month: '2-digit',
@@ -212,21 +264,37 @@ Page({
         })
       };
       
-      // 添加到配方列表
+      console.log('保存新配方:', recipe);
+      
+      // 添加到配方列表开头
       recipes.unshift(recipe);
       
-      // 保存回本地存储
+      // 确保最新的配方在前面
+      recipes.sort((a, b) => {
+        return new Date(b.createTime) - new Date(a.createTime);
+      });
+      
+      // 保存到本地存储
       wx.setStorageSync('coffeeRecipes', recipes);
       
-      // 更新页面数据
+      // 更新页面状态
       this.setData({
         recipes: recipes,
         showAddForm: false
       });
       
-      wx.showToast({
-        title: '配方保存成功',
-        icon: 'success'
+      // 保存成功后滚动到顶部以查看新配方
+      wx.nextTick(() => {
+        wx.pageScrollTo({
+          scrollTop: 0,
+          duration: 300
+        });
+        
+        // 显示保存成功提示
+        wx.showToast({
+          title: '配方保存成功',
+          icon: 'success'
+        });
       });
     } catch (e) {
       console.error('保存配方失败:', e);
@@ -247,13 +315,13 @@ Page({
       success: (res) => {
         if (res.confirm) {
           try {
-            // 获取现有配方
-            const recipes = wx.getStorageSync('coffeeRecipes') || [];
+            // 直接从本地存储获取配方数据
+            let recipes = wx.getStorageSync('coffeeRecipes') || [];
             
             // 过滤掉要删除的配方
             const updatedRecipes = recipes.filter(recipe => recipe.id !== recipeId);
             
-            // 保存回本地存储
+            // 保存到本地存储
             wx.setStorageSync('coffeeRecipes', updatedRecipes);
             
             // 更新页面数据
@@ -261,6 +329,7 @@ Page({
               recipes: updatedRecipes
             });
             
+            // 显示成功提示
             wx.showToast({
               title: '删除成功',
               icon: 'success'
