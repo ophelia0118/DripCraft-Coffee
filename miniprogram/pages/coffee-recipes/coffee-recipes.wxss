@@ -1,37 +1,55 @@
 /* coffee-recipes.wxss */
-.container {
-  padding: 30rpx;
-  padding-top: 150rpx;
-  box-sizing: border-box;
-  background-color: #faf5ec;
-  min-height: 100vh;
-  position: relative;
-  overflow: hidden;
+page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* 添加页面级滚动 */
 }
 
-/* 背景装饰元素 */
+.container {
+  padding: 30rpx;
+  padding-top: 200rpx; /* 增加顶部间距 */
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  box-sizing: border-box;
+  background-color: #faf5ec;
+  position: relative;
+  overflow-y: auto; /* 修改为auto允许垂直滚动 */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex: 1;
+  height: auto; /* 内容自动撑开高度 */
+  min-height: 100vh; /* 保证至少占满屏幕 */
+}
+
+/* 背景装饰元素 - 调整位置避免推动内容 */
 .container::before {
   content: "";
   position: absolute;
-  top: 120rpx;
-  right: -100rpx;
+  top: 100rpx; /* 上移装饰元素 */
+  right: -120rpx;
   width: 300rpx;
   height: 300rpx;
   border-radius: 50%;
   background: rgba(111, 78, 55, 0.05);
   z-index: 0;
+  opacity: 0.7; /* 降低不透明度，减少视觉重量 */
 }
 
 .container::after {
   content: "";
   position: absolute;
-  bottom: -100rpx;
-  left: -100rpx;
+  bottom: -120rpx;
+  left: -120rpx;
   width: 400rpx;
   height: 400rpx;
   border-radius: 50%;
   background: rgba(111, 78, 55, 0.07);
   z-index: 0;
+  opacity: 0.7; /* 降低不透明度 */
 }
 
 /* 页面标题 */
@@ -39,32 +57,49 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40rpx;
+  margin-bottom: 40rpx; /* 增加与内容的间距 */
   position: relative;
-  z-index: 1;
-  padding: 0 10rpx;
+  z-index: 2; /* 提高层级 */
+  padding: 20rpx 0; /* 增加上下内边距 */
+  width: 100%;
+  flex-shrink: 0; /* 防止被挤压 */
+  border-bottom: 2rpx solid rgba(111, 78, 55, 0.1); /* 添加淡色分隔线 */
 }
 
-.title-wrapper {
-  flex: 1;
-  padding-right: 20rpx;
+.title-container {
+  flex: 1; 
+  max-width: 60%; /* 限制标题容器宽度 */
+  text-align: left;
+  padding-right: 20rpx; /* 确保与右侧按钮有足够间距 */
+  padding-top: 10rpx; /* 增加上边距 */
+  padding-bottom: 10rpx; /* 增加下边距 */
+}
+
+.action-container {
+  display: flex;
+  justify-content: flex-end; /* 确保按钮右对齐 */
+  min-width: 200rpx; /* 确保按钮有足够空间 */
 }
 
 .page-title {
-  font-size: 38rpx;
+  font-size: 36rpx; /* 稍微减小字体，避免拥挤 */
   font-weight: bold;
   color: #6F4E37;
   text-shadow: 0 2rpx 4rpx rgba(0,0,0,0.1);
   position: relative;
   display: inline-block;
+  text-align: left;
+  white-space: nowrap; /* 防止文字换行 */
+  overflow: hidden; /* 防止溢出 */
+  text-overflow: ellipsis; /* 超出部分显示省略号 */
 }
 
 .page-title::after {
   content: "";
   position: absolute;
-  bottom: -12rpx;
+  bottom: -10rpx;
   left: 0;
-  width: 60%;
+  width: 80%; /* 增加下划线宽度，更加匹配标题 */
   height: 6rpx;
   background: linear-gradient(to right, #BA8C63, rgba(186, 140, 99, 0.3));
   border-radius: 3rpx;
@@ -74,11 +109,12 @@
   display: flex;
   align-items: center;
   background: linear-gradient(135deg, #6F4E37 0%, #BA8C63 100%);
-  padding: 10rpx 20rpx;
+  padding: 16rpx 30rpx; /* 增加内边距，扩大触控区域 */
   border-radius: 30rpx;
-  box-shadow: 0 4rpx 8rpx rgba(111, 78, 55, 0.3);
+  box-shadow: 0 4rpx 12rpx rgba(111, 78, 55, 0.3); /* 增强阴影 */
   transition: all 0.3s ease;
-  margin-left: 30rpx;
+  margin-top: 10rpx; /* 增加上边距 */
+  margin-bottom: 10rpx; /* 增加下边距 */
 }
 
 .add-button:active {
@@ -88,8 +124,8 @@
 
 .add-icon {
   color: white;
-  font-size: 32rpx;
-  margin-right: 10rpx;
+  font-size: 28rpx;
+  margin-right: 8rpx; /* 减小图标和文字间距 */
   font-weight: bold;
 }
 
@@ -97,25 +133,35 @@
   color: white;
   font-size: 28rpx;
   font-weight: 500;
+  letter-spacing: 1rpx; /* 增加字间距，提高可读性 */
 }
 
 /* 配方列表样式 */
 .recipe-list {
-  padding-bottom: 50rpx;
+  padding-bottom: 30rpx;
+  padding-top: 0;
+  margin-top: 0;
   position: relative;
   z-index: 1;
+  display: flex; /* 添加flex布局 */
+  flex-direction: column; /* 从上往下排列 */
+  flex-grow: 1; /* 占用剩余空间 */
+  width: 100%; /* 确保宽度100% */
+  justify-content: flex-start; /* 从顶部开始排列 */
 }
 
 .recipe-card {
   background-color: white;
   border-radius: 18rpx;
-  padding: 34rpx;
-  margin-bottom: 30rpx;
+  padding: 30rpx;
+  margin-bottom: 36rpx; /* 增加卡片之间的间距 */
   box-shadow: 0 6rpx 16rpx rgba(0, 0, 0, 0.06);
   transform: translateY(0);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  flex-shrink: 0; /* 防止卡片被压缩 */
+  align-self: stretch; /* 水平拉伸填充 */
 }
 
 .recipe-card:active {
@@ -137,9 +183,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 25rpx;
+  margin-bottom: 20rpx; /* 减少头部与内容区的间距 */
   border-bottom: 1rpx solid #EEEEEE;
-  padding-bottom: 20rpx;
+  padding-bottom: 16rpx; /* 减少底部内边距 */
 }
 
 .recipe-name {
@@ -149,12 +195,11 @@
 }
 
 .delete-button {
-  font-size: 24rpx;
   color: #E64340;
-  padding: 10rpx 16rpx;
-  background-color: rgba(230, 67, 64, 0.1);
-  border-radius: 20rpx;
-  transition: all 0.2s ease;
+  font-size: 26rpx;
+  padding: 12rpx 16rpx; /* 增加内边距扩大触控区域 */
+  border-radius: 8rpx;
+  background-color: rgba(230, 67, 64, 0.05); /* 添加轻微背景色 */
 }
 
 .delete-button:active {
@@ -166,7 +211,7 @@
 }
 
 .info-item {
-  margin-bottom: 18rpx;
+  margin-bottom: 14rpx; /* 减少项目间距 */
   display: flex;
 }
 
@@ -184,25 +229,40 @@
 
 .create-time {
   font-size: 24rpx;
-  color: #999;
-  text-align: right;
-  margin-top: 20rpx;
-  font-style: italic;
+  margin-top: 10rpx; /* 减少上方间距，使其更加紧凑 */
+  margin-bottom: 0; /* 确保底部无边距 */
+  display: flex;
+  align-items: center;
+}
+
+.create-time .info-label {
+  color: #999; /* 使用略淡的颜色 */
+  width: 160rpx;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.create-time .info-value {
+  color: #999; /* 同样使用淡色，表示次要信息 */
+  flex: 1;
 }
 
 /* 无配方提示 */
 .empty-state {
   text-align: center;
-  padding: 120rpx 50rpx;
+  padding: 60rpx 50rpx;
   position: relative;
   z-index: 1;
+  margin-top: 20rpx;
+  flex-shrink: 0; /* 防止被压缩 */
+  align-self: stretch; /* 水平方向填充 */
 }
 
 .empty-state::before {
   content: "☕";
-  font-size: 120rpx;
+  font-size: 100rpx; /* 缩小图标 */
   display: block;
-  margin-bottom: 30rpx;
+  margin-bottom: 20rpx; /* 减少下方间距 */
   color: rgba(111, 78, 55, 0.2);
 }
 
@@ -221,15 +281,27 @@
   line-height: 1.6;
 }
 
+/* 内容区包装器 */
+.content-wrapper {
+  flex: 1;
+  width: 100%;
+  height: calc(100vh - 280rpx); /* 调整高度，考虑增加的顶部间距 */
+  position: relative;
+  box-sizing: border-box;
+}
+
 /* 添加表单样式 */
 .add-form {
   background-color: white;
-  border-radius: 20rpx;
-  padding: 40rpx 30rpx;
-  box-shadow: 0 8rpx 24rpx rgba(0, 0, 0, 0.1);
+  border-radius: 16rpx;
+  padding: 40rpx 30rpx 50rpx; /* 减小内边距，避免宽度溢出 */
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.08);
   position: relative;
   z-index: 1;
-  animation: slideIn 0.4s ease-out;
+  animation: slideIn 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  margin: 0 0 60rpx 0; 
+  width: 100%;
+  box-sizing: border-box; /* 确保宽度计算包含内边距 */
 }
 
 @keyframes slideIn {
@@ -244,12 +316,13 @@
 }
 
 .form-title {
-  font-size: 36rpx;
-  font-weight: bold;
+  font-size: 38rpx;
+  font-weight: 600;
   text-align: center;
-  margin-bottom: 50rpx;
-  color: #6F4E37;
+  margin-bottom: 40rpx; /* 减少标题底部间距 */
+  color: #1C1C1E;
   position: relative;
+  letter-spacing: 0.5rpx;
 }
 
 .form-title::after {
@@ -258,170 +331,180 @@
   bottom: -16rpx;
   left: 50%;
   transform: translateX(-50%);
-  width: 100rpx;
-  height: 4rpx;
-  background: linear-gradient(to right, #6F4E37, #BA8C63);
-  border-radius: 2rpx;
+  width: 80rpx; /* 减小宽度，使其更加精致 */
+  height: 3rpx; /* 减小高度 */
+  background: #8E8E93; /* 使用iOS系统色 */
+  border-radius: 1.5rpx;
+  opacity: 0.4; /* 降低不透明度，使其更微妙 */
 }
 
+/* 表单项样式 */
 .form-item {
   margin-bottom: 30rpx;
+  position: relative;
 }
 
 .form-label {
   display: block;
   font-size: 28rpx;
-  color: #6F4E37;
-  margin-bottom: 15rpx;
+  color: #333;
+  margin-bottom: 12rpx;
   font-weight: 500;
 }
 
-.required:after {
-  content: ' *';
+.required::after {
+  content: " *";
   color: #E64340;
 }
 
-.form-input {
+.form-input, .form-textarea, .form-selector {
   width: 100%;
-  height: 80rpx;
-  border: 1rpx solid #E8E0D8;
-  border-radius: 8rpx;
-  padding: 0 20rpx;
-  box-sizing: border-box;
+  box-sizing: border-box; /* 确保宽度计算包含内边距和边框 */
+  padding: 20rpx;
+  background-color: #F9F6F2;
+  border-radius: 12rpx;
   font-size: 28rpx;
-  background-color: #FFFFFF;
+  color: #333;
+  border: 1rpx solid transparent;
   transition: all 0.3s ease;
 }
 
-.form-input:focus {
+.form-input:focus, .form-textarea:focus, .form-selector:focus {
+  background-color: #FFF;
   border-color: #BA8C63;
   box-shadow: 0 0 0 3rpx rgba(186, 140, 99, 0.1);
+}
+
+.form-input {
+  height: 88rpx;
 }
 
 .form-textarea {
-  width: 100%;
-  height: 160rpx;
-  border: 1rpx solid #E8E0D8;
-  border-radius: 8rpx;
-  padding: 20rpx;
-  box-sizing: border-box;
-  font-size: 28rpx;
-  background-color: #FFFFFF;
-  transition: all 0.3s ease;
+  height: 180rpx;
+  line-height: 1.5;
 }
 
-.form-textarea:focus {
-  border-color: #BA8C63;
-  box-shadow: 0 0 0 3rpx rgba(186, 140, 99, 0.1);
-}
-
-/* 自定义选择器样式 */
+/* 选择器样式 */
 .form-selector {
-  width: 100%;
-  height: 80rpx;
-  border: 1rpx solid #E8E0D8;
-  border-radius: 8rpx;
-  padding: 0 20rpx;
-  box-sizing: border-box;
-  font-size: 28rpx;
-  background-color: #FFFFFF;
-  position: relative;
+  height: 88rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  background-image: linear-gradient(to bottom, #FFFFFF, #F9F6F2);
-}
-
-.form-selector:active {
   background-color: #F9F6F2;
-  background-image: linear-gradient(to bottom, #F9F6F2, #F5EFE9);
-  border-color: #BA8C63;
-  opacity: 0.9;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  border: 1rpx solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
 .selector-content {
   flex: 1;
-  height: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.selector-arrow {
-  color: #BA8C63;
-  font-size: 24rpx;
-  margin-left: 10rpx;
-}
-
-.custom-input {
-  margin-top: 15rpx;
-  border: 1rpx dashed #BA8C63 !important;
-  background-color: #FFFBF6 !important;
+  font-size: 28rpx;
+  color: #333;
 }
 
 .placeholder {
-  color: #BBA193;
-  opacity: 0.7;
+  color: #999;
 }
 
+.selector-arrow {
+  font-size: 24rpx;
+  color: #BA8C63;
+  transition: transform 0.3s ease;
+}
+
+.brew-methods-options {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 400rpx;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+/* 表单按钮区域 */
 .form-buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 60rpx;
+  margin-top: 40rpx;
+  position: relative;
+  z-index: 3; /* 提高按钮的z-index */
 }
 
-.cancel-button, .save-button {
-  width: 45%;
-  height: 88rpx;
-  line-height: 88rpx;
+.form-buttons > view {
+  flex: 1;
+  margin: 0 10rpx;
   text-align: center;
-  border-radius: 44rpx;
-  font-size: 30rpx;
-  font-weight: 500;
-  transition: all 0.3s ease;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+  transition: all 0.2s ease;
 }
 
 .cancel-button {
-  background-color: #F5F5F5;
-  color: #666;
+  background-color: #F2F2F7;
+  color: #8A8A8E;
+  border: 0.5rpx solid rgba(0, 0, 0, 0.05);
+  height: 94rpx;
+  line-height: 94rpx;
+  box-shadow: none;
+  position: relative;
+  z-index: 1; /* 确保z轴排序合理 */
 }
 
 .cancel-button:active {
-  background-color: #EBEBEB;
+  background-color: #E5E5EA;
+  transform: scale(0.98);
 }
 
 .save-button {
-  background: linear-gradient(135deg, #6F4E37 0%, #BA8C63 100%);
+  background: #86624E;
   color: white;
-  box-shadow: 0 4rpx 8rpx rgba(111, 78, 55, 0.3);
+  font-weight: 600;
+  box-shadow: 0 2rpx 8rpx rgba(111, 78, 55, 0.15);
+  transform: translateY(-1rpx); 
+  position: relative;
+  z-index: 2; /* 主按钮的z-index更高 */
+  height: 94rpx;
+  line-height: 94rpx;
+  /* 添加微妙内阴影，增强立体感 */
+  text-shadow: 0 -1rpx 0 rgba(0, 0, 0, 0.12);
 }
 
 .save-button:active {
-  transform: translateY(2rpx);
-  box-shadow: 0 2rpx 4rpx rgba(111, 78, 55, 0.3);
+  background: #755443;
+  transform: scale(0.98);
+  box-shadow: 0 1rpx 3rpx rgba(111, 78, 55, 0.1);
 }
 
 /* 返回按钮 */
 .back-button {
   position: fixed;
-  top: 80rpx;
+  top: 100rpx; /* 增加顶部距离 */
   left: 30rpx;
   display: flex;
   align-items: center;
   z-index: 10;
-  padding: 10rpx 20rpx;
+  padding: 16rpx 24rpx; /* 增加内边距扩大触控区域 */
+  background-color: rgba(250, 245, 236, 0.9); /* 增加背景不透明度 */
+  border-radius: 12rpx; /* 增加圆角 */
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08); /* 添加轻微阴影增加区分度 */
 }
 
 .back-icon {
-  font-size: 40rpx;
+  font-size: 36rpx; /* 增加图标大小 */
   color: #6F4E37;
+  font-weight: bold;
   margin-right: 6rpx;
 }
 
 .back-text {
   font-size: 28rpx;
   color: #6F4E37;
+  font-weight: 500;
 }
 
 /* 冲泡方法选项列表 */
@@ -445,6 +528,43 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.brew-method-option {
+  padding: 24rpx 30rpx;
+  font-size: 28rpx;
+  color: #333;
+  border-bottom: 1rpx solid #F0E8E0;
+  transition: all 0.2s ease;
+}
+
+.brew-method-option:active {
+  background-color: #F9F6F2;
+}
+
+.brew-method-option:last-child {
+  border-bottom: none;
+}
+
+.custom-option {
+  color: #BA8C63;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+  background-color: #FFFBF6;
+}
+
+.custom-icon {
+  font-size: 32rpx;
+  margin-right: 10rpx;
+}
+
+/* 自定义选项样式 */
+.custom-input {
+  margin-top: 15rpx;
+  border: 1rpx dashed #BA8C63 !important;
+  background-color: #FFFBF6 !important;
 }
 
 .brew-method-option {
