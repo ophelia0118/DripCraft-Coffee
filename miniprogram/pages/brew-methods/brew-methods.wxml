@@ -85,7 +85,7 @@
     </view>
     
     <!-- 底部添加按钮 -->
-    <view class="bottom-button">
+    <view class="bottom-button" bindtap="navigateToCoffeeRecipes">
       <view class="add-button-container">
         <view class="add-button">
           <text class="add-icon">+</text>

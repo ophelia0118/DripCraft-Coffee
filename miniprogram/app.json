@@ -10,7 +10,8 @@
     "pages/settings/settings",
     "pages/about/about",
     "pages/help/help",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/coffee-recipes/coffee-recipes"
   ],
   "window": {
     "navigationBarTextStyle": "black",
