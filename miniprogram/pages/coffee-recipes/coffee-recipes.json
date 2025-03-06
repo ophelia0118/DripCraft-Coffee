@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "我的咖啡配方",
+  "navigationBarBackgroundColor": "#6F4E37",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#faf5ec",
+  "backgroundTextStyle": "light",
+  "usingComponents": {},
+  "navigationStyle": "custom"
+} 
