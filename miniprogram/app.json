@@ -46,5 +46,10 @@
   "useExtendedLib": {
     "weui": true
   },
-  "debug": false
+  "debug": false,
+  "permission": {
+    "scope.userInfo": {
+      "desc": "您的头像和昵称将用于个性化显示"
+    }
+  }
 }
