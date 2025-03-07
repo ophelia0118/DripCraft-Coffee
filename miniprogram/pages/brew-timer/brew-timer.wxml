@@ -8,6 +8,18 @@
       <text>研磨度：{{brewParams.grindSize}}</text>
       <text>水温：{{brewParams.waterTemp}}°C</text>
     </view>
+    <!-- 新增咖啡粉量控制区域 -->
+    <view class="coffee-amount-control">
+      <text>咖啡粉量：</text>
+      <view class="amount-adjust">
+        <view class="btn-decrease" bindtap="decreaseCoffeeAmount">-</view>
+        <view class="amount-value" bindtap="showCoffeeInputDialog">{{brewParams.coffeeAmount}}g</view>
+        <view class="btn-increase" bindtap="increaseCoffeeAmount">+</view>
+      </view>
+    </view>
+    <view class="water-amount-display">
+      <text>总水量：{{brewParams.waterAmount}}ml</text>
+    </view>
   </view>
   
   <view class="timer-container">
@@ -81,6 +93,22 @@
     <view class="save-modal-buttons">
       <button class="save-modal-button cancel" bindtap="cancelSave">不保存</button>
       <button class="save-modal-button save" bindtap="saveBrewData">保存数据</button>
+    </view>
+  </view>
+</view>
+
+<!-- 输入对话框 -->
+<view class="input-dialog {{showInputDialog ? 'show' : ''}}" catchtouchmove="preventTouchMove">
+  <view class="dialog-mask" bindtap="closeInputDialog"></view>
+  <view class="dialog-content">
+    <view class="dialog-title">输入咖啡粉量</view>
+    <view class="dialog-input-container">
+      <input class="dialog-input" type="digit" value="{{dialogInputValue}}" focus="{{showInputDialog}}" bindinput="onDialogInput" />
+      <text class="dialog-unit">g</text>
+    </view>
+    <view class="dialog-buttons">
+      <button class="dialog-btn cancel" bindtap="closeInputDialog">取消</button>
+      <button class="dialog-btn confirm" bindtap="confirmInputValue">确定</button>
     </view>
   </view>
 </view> 
