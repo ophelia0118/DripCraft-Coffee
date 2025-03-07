@@ -24,6 +24,20 @@ Page({
       try {
         const brewParams = JSON.parse(decodeURIComponent(options.params));
         console.log('解析的冲泡参数', brewParams);
+        
+        // 确保水粉比有正确的值
+        if (!brewParams.waterRatio || brewParams.waterRatio === 'undefined') {
+          // 使用默认值或根据咖啡量和水量计算
+          const waterAmount = parseInt(brewParams.waterAmount);
+          const coffeeAmount = parseFloat(brewParams.coffeeAmount);
+          if (waterAmount && coffeeAmount && coffeeAmount > 0) {
+            const ratio = Math.round(waterAmount / coffeeAmount);
+            brewParams.waterRatio = `1:${ratio}`;
+          } else {
+            brewParams.waterRatio = '1:16'; // 默认值
+          }
+        }
+        
         this.setData({ 
           brewParams,
           // 根据不同冲泡方法和咖啡粉量设置目标总时间
@@ -481,15 +495,29 @@ Page({
   // 保存冲泡数据
   saveBrewData: function() {
     // 获取当前冲泡数据
+    const brewParams = this.data.brewParams;
+    
+    // 解析水量和咖啡粉量
+    const waterAmount = parseInt(brewParams.waterAmount);
+    const coffeeAmount = parseFloat(brewParams.coffeeAmount);
+    
+    // 直接计算水粉比的数值部分（不含"1:"前缀）
+    let ratio;
+    if (waterAmount && coffeeAmount && coffeeAmount > 0) {
+      ratio = Math.round(waterAmount / coffeeAmount);
+    } else {
+      ratio = 15; // 默认值
+    }
+    
     const brewData = {
       date: new Date().toISOString(),
-      coffeeType: this.data.brewParams.methodName + ' ' + this.data.brewParams.methodDesc,
-      coffeeWeight: this.data.brewParams.coffeeAmount,
-      waterWeight: this.data.brewParams.waterAmount,
-      ratio: Math.round(this.data.brewParams.waterRatio),
+      coffeeType: brewParams.methodName + ' ' + brewParams.methodDesc,
+      coffeeWeight: brewParams.coffeeAmount,
+      waterWeight: brewParams.waterAmount,
+      ratio: ratio, // 只保存比例数字部分
       time: this.data.totalTime,
-      waterTemp: this.data.brewParams.waterTemp,
-      grindSize: this.data.brewParams.grindSize
+      waterTemp: brewParams.waterTemp,
+      grindSize: brewParams.grindSize
     };
     
     // 获取已保存的数据
@@ -608,7 +636,19 @@ Page({
   updateCoffeeAmount(newAmount) {
     // 获取当前水粉比
     const ratioStr = this.data.brewParams.waterRatio;
-    const ratio = parseInt(ratioStr.split(':')[1]);
+    let ratio;
+    
+    // 处理不同格式的水粉比
+    if (typeof ratioStr === 'string' && ratioStr.includes(':')) {
+      // 如果是"1:15"格式
+      ratio = parseInt(ratioStr.split(':')[1]);
+    } else if (typeof ratioStr === 'number') {
+      // 如果已经是数字
+      ratio = ratioStr;
+    } else {
+      // 默认值
+      ratio = 15;
+    }
     
     // 计算新的水量
     const newWaterAmount = Math.round(newAmount * ratio);
@@ -617,6 +657,8 @@ Page({
     const brewParams = this.data.brewParams;
     brewParams.coffeeAmount = newAmount;
     brewParams.waterAmount = newWaterAmount + 'ml';
+    // 确保水粉比显示正确
+    brewParams.waterRatio = `1:${ratio}`;
     
     this.setData({
       brewParams: brewParams,
