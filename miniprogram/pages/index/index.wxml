@@ -1,5 +1,5 @@
 <!--index.wxml-->
-<navigation-bar title="DripCraft Coffee" back="{{false}}" color="white" background="#6F4E37"></navigation-bar>
+<navigation-bar title="DripCraft Coffee" back="{{false}}" color="white" background="#8C5E3B"></navigation-bar>
 <view class="container">
   <view class="timer-card">
     <view class="card-title">手冲咖啡计时器⏱</view>
@@ -7,11 +7,11 @@
     <view class="timer-content">
       <view class="app-title">DripCraft Coffee</view>
       
-      <view class="add-button" bindtap="goToSelectBrewMethod">
+      <view class="add-button" bindtap="startBrewing">
         <view class="plus-icon"></view>
       </view>
       
-      <view class="start-text" bindtap="goToSelectBrewMethod">开启新冲泡</view>
+      <view class="start-text" bindtap="startBrewing">开启新冲泡</view>
     </view>
     
     <view class="card-footer">

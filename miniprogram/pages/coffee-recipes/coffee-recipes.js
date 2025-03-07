@@ -16,19 +16,20 @@ Page({
       notes: ''
     },
     brewMethods: [
-      { id: 'hario-v60', name: 'Hario V60' },
-      { id: 'kalita-wave', name: 'Kalita Wave' },
-      { id: 'chemex', name: 'Chemex' },
-      { id: 'melitta', name: 'Melitta' },
-      { id: 'bee-house', name: 'Bee House' },
-      { id: 'kono', name: 'Kono' },
-      { id: 'custom', name: '自定义滤杯...' }
+      { id: 1, name: 'Hario V60' },
+      { id: 2, name: 'Kalita Wave' },
+      { id: 3, name: 'Chemex' },
+      { id: 4, name: 'Melitta' },
+      { id: 5, name: 'French Press' },
+      { id: 6, name: 'AeroPress' },
+      { id: 7, name: 'Moka Pot' },
+      { id: 8, name: 'Siphon' }
     ]
   },
 
   onLoad() {
-    console.log('咖啡配方页面加载');
-    // 在页面加载时获取并排序配方
+    console.log('页面加载');
+    console.log('brewMethods:', this.data.brewMethods);
     this.loadRecipes();
     
     // 监听页面显示状态
@@ -97,33 +98,16 @@ Page({
 
   // 切换冲泡方法选项显示
   toggleBrewMethodOptions() {
-    // 转换显示状态
+    console.log('toggleBrewMethodOptions 被调用');
+    console.log('当前状态:', this.data.showBrewMethodOptions);
+    console.log('可用的冲泡方法:', this.data.brewMethods);
+    
+    // 简单切换显示状态
     this.setData({
       showBrewMethodOptions: !this.data.showBrewMethodOptions
+    }, () => {
+      console.log('切换后状态:', this.data.showBrewMethodOptions);
     });
-    
-    // 如果显示选项，滚动确保选项可见
-    if (this.data.showBrewMethodOptions) {
-      // 使用选择器获取当前表单项节点
-      const query = wx.createSelectorQuery();
-      query.select('.form-selector').boundingClientRect();
-      query.selectViewport().scrollOffset();
-      query.exec((res) => {
-        if (res && res[0] && res[1]) {
-          const elementTop = res[0].top;
-          const scrollTop = res[1].scrollTop;
-          const windowHeight = wx.getSystemInfoSync().windowHeight;
-          
-          // 如果选择器在视图底部以下，滚动到可见位置
-          if (elementTop + 300 > windowHeight) {
-            wx.pageScrollTo({
-              scrollTop: scrollTop + (elementTop + 300 - windowHeight),
-              duration: 200
-            });
-          }
-        }
-      });
-    }
   },
 
   // 选择冲泡方法
@@ -170,12 +154,17 @@ Page({
 
   // 处理表单点击事件
   hideOptionsOnFormClick: function(e) {
-    // 只有当点击的是表单背景时才隐藏选项列表
-    // 通过事件的 target 和 currentTarget 比较判断
-    if (e.target.id === 'form-background' || e.target === e.currentTarget) {
-      this.setData({
-        showBrewMethodOptions: false
-      });
+    // 检查是否点击在下拉菜单外部
+    if (this.data.showBrewMethodOptions) {
+      // 获取点击事件的路径
+      const path = e.target.dataset.role;
+      
+      // 如果点击的不是选择器相关元素，则隐藏选项列表
+      if (path !== 'selector' && path !== 'option') {
+        this.setData({
+          showBrewMethodOptions: false
+        });
+      }
     }
   },
 
@@ -349,5 +338,11 @@ Page({
   // 返回上一页
   goBack() {
     wx.navigateBack();
+  },
+
+  // 阻止事件冒泡
+  stopPropagation(e) {
+    // 简单阻止事件冒泡
+    return;
   }
 }); 

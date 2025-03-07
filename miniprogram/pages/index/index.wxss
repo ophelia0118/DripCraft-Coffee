@@ -1,25 +1,43 @@
 /**index.wxss**/
+/* 添加页面级背景色 */
+page {
+  background-color: #FEF6E9;
+}
+
 .container {
   display: flex;
   flex-direction: column;
   padding: 0;
-  background-color: #f5f5f5;
+  background-color: #FEF6E9; /* 与page背景色一致 */
   min-height: 100vh;
-  justify-content: center;
+  justify-content: center; /* 恢复原始居中布局 */
   align-items: center;
 }
 
 .timer-card {
   width: 92%;
-  height: 85vh;
+  height: 85vh; /* 恢复原始高度 */
   background-color: #FEF6E9;
-  border-radius: 30rpx;
+  border-radius: 30rpx; /* 恢复原始圆角 */
   overflow: hidden;
-  margin: 40rpx 0;
-  padding: 40rpx 30rpx;
-  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1);
+  margin: 40rpx 0; /* 恢复原始外边距 */
+  padding: 40rpx 30rpx; /* 恢复原始内边距 */
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.1); /* 恢复原始阴影 */
   display: flex;
   flex-direction: column;
+}
+
+.timer-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,0L100,100M100,0L0,100" stroke="rgba(111, 78, 55, 0.03)" stroke-width="0.5"/></svg>');
+  background-size: 20px 20px;
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .card-title {
@@ -38,6 +56,8 @@
   align-items: center;
   flex: 1;
   justify-content: center;
+  position: relative;
+  padding-top: 20rpx; /* 添加顶部内边距 */
 }
 
 .app-title-container {
@@ -167,4 +187,61 @@
   font-size: 28rpx;
   font-weight: bold;
   color: #6F4E37;
+}
+
+/* 添加标题图标样式 */
+.title-icon {
+  font-size: 34rpx;
+  vertical-align: middle;
+  margin-left: 4rpx;
+}
+
+/* 品牌名称容器 */
+.brand-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 30rpx;
+  position: relative;
+}
+
+/* 品牌名称下划线 */
+.title-underline {
+  width: 80rpx;
+  height: 4rpx;
+  background: linear-gradient(90deg, rgba(140, 94, 59, 0.2) 0%, rgba(140, 94, 59, 0.8) 50%, rgba(140, 94, 59, 0.2) 100%);
+  margin-top: 8rpx;
+  border-radius: 2rpx;
+}
+
+/* 添加交互提示文本 */
+.action-hint {
+  font-size: 24rpx;
+  color: #8C7363;
+  opacity: 0.8;
+  margin-bottom: 10rpx;
+  font-weight: 400;
+  letter-spacing: 0.5rpx;
+}
+
+/* 咖啡表情符号样式 */
+.coffee-emoji {
+  font-size: 28rpx;
+  margin: 0 4rpx;
+  display: inline-block;
+  transform: translateY(-1rpx);
+}
+
+/* 按钮悬停状态 */
+.button-hover {
+  transform: scale(0.96);
+  box-shadow: 0 3rpx 10rpx rgba(111, 78, 55, 0.15),
+              0 -1rpx 3rpx rgba(255, 255, 255, 0.5) inset,
+              0 2rpx 3rpx rgba(0, 0, 0, 0.08) inset;
+}
+
+/* 文本悬停状态 */
+.text-hover {
+  opacity: 0.8;
+  transform: scale(0.98);
 }
