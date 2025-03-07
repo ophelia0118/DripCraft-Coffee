@@ -3,15 +3,16 @@
   display: flex;
   flex-direction: column;
   padding: 20rpx;
+  margin-top: -120rpx;
   background-color: #281815;
   min-height: 100vh;
   color: white;
 }
 
 .brew-method-info {
-  padding: 20rpx;
+  padding: 10rpx 20rpx;
   text-align: center;
-  margin-bottom: 30rpx;
+  margin-bottom: 20rpx;
 }
 
 .method-name {
@@ -26,6 +27,7 @@
   font-size: 24rpx;
   color: rgba(255, 255, 255, 0.8);
   margin-top: 10rpx;
+  margin-bottom: 0;
 }
 
 .method-params text {
@@ -36,12 +38,13 @@
 }
 
 .timer-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  flex: 1;
-  position: relative;
+  padding: 0 30rpx 20rpx;
+  height: auto;
+  justify-content: flex-start;
 }
 
 .total-time {
@@ -54,26 +57,26 @@
 /* 圆环容器，用于定位步骤标记 */
 .timer-circle-container {
   position: relative;
-  width: 240px;
-  height: 240px;
-  margin: 20px auto;
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: -20rpx;
+  margin-bottom: 60rpx;
+  width: 400rpx;
+  height: 400rpx;
 }
 
 /* 圆环计时器 */
 .timer-circle {
   position: relative;
-  width: 220px;
-  height: 220px;
+  width: 400rpx;
+  height: 400rpx;
   border-radius: 50%;
-  background-color: #40312d;
+  background-color: rgba(255, 255, 255, 0.05);
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.2);
 }
 
 /* 进度环 */
@@ -89,7 +92,7 @@
 
 /* 时间显示 */
 .timer-time {
-  font-size: 44px;
+  font-size: 58px;
   color: #fff;
   z-index: 2;
   font-weight: bold;
@@ -98,13 +101,13 @@
 /* 步骤标记 */
 .step-marker {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
   background-color: rgba(255, 255, 255, 0.4);
   border-radius: 50%;
-  top: 5px;
-  left: 50%;
-  transform-origin: 0 105px;
+  top: 0;
+  left: calc(50% - 6px);
+  transform-origin: center 200rpx;
   z-index: 3;
 }
 
@@ -115,42 +118,65 @@
 }
 
 .step-hint {
-  margin-top: 30rpx;
-  display: flex;
-  justify-content: center;
+  margin-top: -10rpx;
+  width: 100%;
 }
 
 .step-box {
   background-color: rgba(255, 255, 255, 0.08);
-  padding: 20rpx 40rpx;
-  border-radius: 10rpx;
-  text-align: center;
-  width: 80%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid rgba(212, 162, 106, 0.3);
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  padding: 18rpx 30rpx 18rpx 40rpx;
+  border-radius: 12rpx;
+  width: 85%;
+  margin: 0 auto;
+  border: 1px solid rgba(212, 162, 106, 0.15);
+  box-shadow: 0 8rpx 16rpx rgba(0, 0, 0, 0.15);
 }
 
 .step-name {
-  font-size: 30rpx;
-  font-weight: bold;
-  color: white;
-  margin-bottom: 10rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #fff;
+  display: block;
+  text-align: center;
+  margin-bottom: 15rpx;
+  border-bottom: 1px solid rgba(212, 162, 106, 0.3);
+  padding-bottom: 10rpx;
 }
 
 .step-instruction {
-  font-size: 26rpx;
+  font-size: 28rpx;
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 10rpx;
+  line-height: 1.3;
+  text-align: left;
+  position: relative;
+  padding-left: 20rpx;
+  display: block;
+}
+
+.step-instruction::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #d4a26a;
 }
 
 .water-amount {
-  font-size: 28rpx;
+  font-size: 30rpx;
   color: #d4a26a;
   font-weight: 500;
-  margin-bottom: 10rpx;
+  margin: 15rpx 0;
+  text-align: left;
+  padding-left: 20rpx;
+  position: relative;
+  display: block;
+}
+
+.water-amount::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #d4a26a;
 }
 
 .step-tips {
@@ -158,6 +184,18 @@
   color: rgba(255, 220, 180, 0.8);
   margin-top: 15rpx;
   font-style: italic;
+  line-height: 1.3;
+  text-align: left;
+  padding-left: 20rpx;
+  position: relative;
+  display: block;
+}
+
+.step-tips::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #d4a26a;
 }
 
 .alert-text {
@@ -169,21 +207,29 @@
 .timer-controls {
   display: flex;
   justify-content: center;
-  margin-top: 50rpx;
-  margin-bottom: 30rpx;
+  margin-top: -220rpx;
+  margin-bottom: -100rpx;
+  position: relative;
+  z-index: 10;
 }
 
 .control-btn {
-  width: 100rpx;
-  height: 100rpx;
+  width: 90rpx;
+  height: 90rpx;
   border-radius: 50%;
   background-color: #40312d;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 20rpx;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin: 0 40rpx;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.control-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .control-btn icon {
@@ -198,16 +244,19 @@
 
 /* 时间轴样式 */
 .timeline {
-  margin-top: 30rpx;
+  margin-top: -160rpx;
   width: 100%;
-  overflow-x: auto;
-  padding-bottom: 20rpx;
+  overflow-x: visible;
+  padding-bottom: 0rpx;
+  position: relative;
 }
 
 .timeline-container {
   display: flex;
-  min-width: 100%;
-  padding: 0 20rpx;
+  width: 90%;
+  padding: 0;
+  margin: 0 auto;
+  justify-content: center;
 }
 
 .timeline-step {
@@ -216,6 +265,7 @@
   align-items: center;
   position: relative;
   flex: 1;
+  max-width: 150rpx;
 }
 
 .timeline-step:not(:last-child)::after {
@@ -233,31 +283,28 @@
 }
 
 .timeline-point {
-  width: 16rpx;
-  height: 16rpx;
+  width: 18rpx;
+  height: 18rpx;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.2);
-  margin-bottom: 10rpx;
+  background-color: rgba(255, 255, 255, 0.3);
+  margin-bottom: 8rpx;
+  transition: background-color 0.3s;
 }
 
 .timeline-step.active .timeline-point {
   background-color: #F9F1E7;
+  box-shadow: 0 0 6rpx rgba(255, 255, 255, 0.6);
 }
 
 .timeline-time {
-  font-size: 22rpx;
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 4rpx;
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0;
+  font-weight: 500;
 }
 
 .timeline-label {
-  font-size: 20rpx;
-  color: rgba(255, 255, 255, 0.5);
-  text-align: center;
-  max-width: 100rpx;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  display: none;
 }
 
 .timeline-step.active .timeline-time,

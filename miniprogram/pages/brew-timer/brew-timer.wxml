@@ -8,24 +8,9 @@
       <text>研磨度：{{brewParams.grindSize}}</text>
       <text>水温：{{brewParams.waterTemp}}°C</text>
     </view>
-    <!-- 新增咖啡粉量控制区域 -->
-    <view class="coffee-amount-control">
-      <text>咖啡粉量：</text>
-      <view class="amount-adjust">
-        <view class="btn-decrease" bindtap="decreaseCoffeeAmount">-</view>
-        <view class="amount-value" bindtap="showCoffeeInputDialog">{{brewParams.coffeeAmount}}g</view>
-        <view class="btn-increase" bindtap="increaseCoffeeAmount">+</view>
-      </view>
-    </view>
-    <view class="water-amount-display">
-      <text>总水量：{{brewParams.waterAmount}}ml</text>
-    </view>
   </view>
   
   <view class="timer-container">
-    <!-- 总时间显示 -->
-    <view class="total-time">总时间：{{totalTime}} / {{formatTime(targetTotalTime)}}</view>
-    
     <!-- 改造后的圆环计时器 -->
     <view class="timer-circle-container">
       <!-- 圆形进度条 -->

@@ -4,5 +4,8 @@
   "settings": {
     "compileHotReLoad": true
   },
-  "libVersion": "3.6.6"
+  "libVersion": "3.6.6",
+  "setting": {
+    "compileHotReLoad": true
+  }
 }

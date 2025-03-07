@@ -14,8 +14,16 @@ Page({
     console.log('帮助页面接收参数:', options);
     
     if (options.method) {
+      // 处理不同名称格式的映射
+      let methodName = options.method;
+      
+      // 处理可能的名称变体
+      if (methodName === 'Kalita Wave' || methodName === 'Kalita') {
+        methodName = 'Kalita';
+      }
+      
       this.setData({
-        methodName: options.method,
+        methodName: methodName,
         source: options.source || '',
         showPlaceholder: true,
         // 默认显示步骤而不是尝试加载不存在的图片
