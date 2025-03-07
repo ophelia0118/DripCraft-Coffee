@@ -13,19 +13,37 @@ Page({
     waterRatio: '1:15',
     waterAmount: 225,
     autoCalculate: true,
-    showScienceTooltip: false // 科学参数提示显示状态
+    showScienceTooltip: false, // 科学参数提示显示状态
+    method: null,
+    // 输入对话框相关数据
+    showInputDialog: false,
+    dialogTitle: '',
+    dialogInputValue: '',
+    dialogUnit: '',
+    currentInputType: '' // 'coffee' 或 'waterTemp'
   },
 
   onLoad(options) {
     console.log('参数页面加载:', options);
+    
+    // 仅设置基本参数，其他操作延迟执行
     if (options.method) {
-      this.setMethodDetails(options.method);
+      this.setData({
+        method: options.method
+      });
       
-      // 自动应用科学冲泡参数
-      setTimeout(() => {
+      // 延迟执行复杂操作，避免初始化阻塞
+      wx.nextTick(() => {
+        this.setMethodDetails(options.method);
+        
+        // 自动应用推荐参数
         this.applyScienceParams(false);
-      }, 300);
+      });
     }
+  },
+
+  onReady() {
+    // 页面渲染完成后，可以进行其他初始化工作
   },
 
   setMethodDetails(method) {
@@ -74,98 +92,114 @@ Page({
     }
   },
 
+  // 应用推荐参数按钮事件处理函数
+  applyRecommendedParams() {
+    // 弹出确认对话框
+    wx.showModal({
+      title: '应用推荐参数',
+      content: '这将重置所有参数为当前冲泡方法的推荐值，确定继续吗？',
+      confirmText: '应用',
+      confirmColor: '#6F4E37',
+      success: (res) => {
+        if (res.confirm) {
+          // 用户点击确定，应用推荐参数
+          this.applyScienceParams(true);
+          
+          // 显示成功提示
+          wx.showToast({
+            title: '已应用推荐参数',
+            icon: 'success',
+            duration: 1500
+          });
+        }
+      }
+    });
+  },
+
   // 应用科学咖啡冲泡参数
   applyScienceParams(showToast = true) {
-    // 科学化参数配置
+    // 科学化参数配置 - 根据冲泡指南页面的确切数据进行更新
     const scienceParams = {
       'Hario V60': {
-        waterTemp: 96,     // 205°F (96°C)
+        waterTemp: 93,     // 冲泡指南：375毫升热水，水温约93°C
         grindSizeValue: 2, // 中细
         grindSize: '中细',
-        ratioIndex: 2,     // 1:16
-        waterRatio: '1:16',
-        coffeeAmount: 20,  // 标准咖啡粉量20g
+        ratioIndex: 1,     // 1:15 (冲泡指南：1:15，即25克咖啡配375毫升水)
+        waterRatio: '1:15',
+        coffeeAmount: 25,  // 冲泡指南：25克咖啡
         scienceTip: '适合快速萃取，强调风味层次。建议使用鹅颈壶以圆形方式倒水，先进行30秒的预浸（bloom），然后分阶段倒水以控制萃取。'
       },
       'Kalita Wave': {
-        waterTemp: 96,     // 205°F (96°C)
-        grindSizeValue: 3, // 中
-        grindSize: '中',
-        ratioIndex: 2,     // 1:16
+        waterTemp: 94,     // 冲泡指南：水温约92-96°C（取中间值）
+        grindSizeValue: 2, // 中细（指南中说明使用中细研磨）
+        grindSize: '中细',
+        ratioIndex: 2,     // 1:16 (冲泡指南：1:16，即25克咖啡配400毫升水)
         waterRatio: '1:16',
-        coffeeAmount: 20,  // 标准咖啡粉量20g
+        coffeeAmount: 25,  // 冲泡指南：25克咖啡
         scienceTip: '平底设计有助于均匀萃取。使用Kalita Wave专用滤纸，螺旋式倒水保持水位稳定，避免边缘倒水。'
       },
       'Chemex': {
-        waterTemp: 96,     // 205°F (96°C)
-        grindSizeValue: 5, // 粗
-        grindSize: '粗',
-        ratioIndex: 1,     // 1:15
-        waterRatio: '1:15',
-        coffeeAmount: 20,  // 标准咖啡粉量20g
-        scienceTip: '较长冲泡时间适合其较大容量和粗研磨。使用Chemex专用滤纸，分阶段倒水，预浸后等待30秒再继续，适合较大批量的冲泡。'
+        waterTemp: 96,     // 冲泡指南：水温约96°C
+        grindSizeValue: 4, // 中粗
+        grindSize: '中粗',
+        ratioIndex: 3,     // 1:17 (冲泡指南：1:17，即42克咖啡配700毫升水)
+        waterRatio: '1:17',
+        coffeeAmount: 42,  // 冲泡指南：42克咖啡
+        scienceTip: '较长冲泡时间适合其较大容量和中粗研磨。使用Chemex专用滤纸，分阶段倒水，预浸后等待30秒再继续，适合较大批量的冲泡。'
       },
       'Melitta': {
-        waterTemp: 93,     // 200°F (93°C)
-        grindSizeValue: 2, // 中细至中
+        waterTemp: 93,     // 冲泡指南：水温约90-96°C（取中间值）
+        grindSizeValue: 2, // 中细
         grindSize: '中细',
         ratioIndex: 3,     // 1:17
         waterRatio: '1:17',
-        coffeeAmount: 20,  // 标准咖啡粉量20g
+        coffeeAmount: 23.5,  // 精确匹配冲泡指南：23.5克咖啡
         scienceTip: '适合日常简单冲泡。使用标准Melitta锥形滤纸，均匀倒水，预浸30秒后继续，适合小型冲泡。'
       },
       'Bee House': {
-        waterTemp: 93,     // 200-205°F (93-96°C)
+        waterTemp: 96,     // 冲泡指南：水温约96°C
         grindSizeValue: 2, // 中细
         grindSize: '中细',
-        ratioIndex: 2,     // 1:16
-        waterRatio: '1:16',
-        coffeeAmount: 20,  // 标准咖啡粉量20g
+        ratioIndex: 4,     // 1:18 (冲泡指南：1:18，即21克咖啡配380毫升水)
+        waterRatio: '1:18',
+        coffeeAmount: 21,  // 冲泡指南：21克咖啡
         scienceTip: '与Melitta类似，适合日常使用。使用标准Melitta锥形滤纸，均匀倒水，预浸后分阶段倒水。'
       },
       'Kono': {
-        waterTemp: 94,     // 200-205°F (93-96°C)
-        grindSizeValue: 3, // 中
-        grindSize: '中',
-        ratioIndex: 2,     // 1:16
+        waterTemp: 93,     // 冲泡指南：水温约93°C / 195°F
+        grindSizeValue: 2, // 中细（指南中说明使用中等至中细研磨）
+        grindSize: '中细',
+        ratioIndex: 2,     // 1:16 (冲泡指南：1:15.8，近似为1:16)
         waterRatio: '1:16',
-        coffeeAmount: 20,  // 标准咖啡粉量20g
+        coffeeAmount: 12,  // 冲泡指南：12克咖啡
         scienceTip: '类似其他锥形滤杯，强调稳定滴流。使用Kono专用滤纸，控制倒水速度以保持稳定滴流，预浸30秒后分阶段倒水。'
       }
     };
     
-    // 根据当前方法应用科学参数
+    // 根据当前冲泡方法应用相应的科学参数
     const params = scienceParams[this.data.methodName];
     if (params) {
+      // 设置这些参数
+      const newData = {
+        ...params
+      };
+      
+      // 计算水量
+      const ratio = parseInt(newData.waterRatio.split(':')[1]);
+      newData.waterAmount = newData.coffeeAmount * ratio;
+      
+      // 显示科学参数提示并设置数据
       this.setData({
-        waterTemp: params.waterTemp,
-        grindSizeValue: params.grindSizeValue,
-        grindSize: params.grindSize,
-        ratioIndex: params.ratioIndex,
-        waterRatio: params.waterRatio,
-        coffeeAmount: params.coffeeAmount,
-        scienceTip: params.scienceTip,
-        showScienceTooltip: showToast // 只在手动应用时显示提示框
+        ...newData,
+        showScienceTooltip: true
       });
       
-      // 自动计算水量
-      this.calculateWaterAmount();
-      
-      // 显示提示
       if (showToast) {
         wx.showToast({
-          title: '已应用科学参数',
-          icon: 'success',
-          duration: 1500
+          title: '已应用推荐参数',
+          icon: 'success'
         });
       }
-      
-      // 5秒后隐藏科学提示
-      setTimeout(() => {
-        this.setData({
-          showScienceTooltip: false
-        });
-      }, 10000);
     }
   },
   
@@ -180,7 +214,7 @@ Page({
     console.log('减少咖啡量');
     if (this.data.coffeeAmount > 5) {
       this.setData({
-        coffeeAmount: this.data.coffeeAmount - 1
+        coffeeAmount: parseFloat((this.data.coffeeAmount - 0.5).toFixed(1))
       });
       this.calculateWaterAmount();
     }
@@ -188,9 +222,9 @@ Page({
 
   increaseCoffeeAmount() {
     console.log('增加咖啡量');
-    if (this.data.coffeeAmount < 30) {
+    if (this.data.coffeeAmount < 50) {
       this.setData({
-        coffeeAmount: this.data.coffeeAmount + 1
+        coffeeAmount: parseFloat((this.data.coffeeAmount + 0.5).toFixed(1))
       });
       this.calculateWaterAmount();
     }
@@ -200,7 +234,7 @@ Page({
     console.log('降低水温');
     if (this.data.waterTemp > 85) {
       this.setData({
-        waterTemp: this.data.waterTemp - 1
+        waterTemp: parseFloat((this.data.waterTemp - 0.5).toFixed(1))
       });
     }
   },
@@ -209,7 +243,7 @@ Page({
     console.log('提高水温');
     if (this.data.waterTemp < 100) {
       this.setData({
-        waterTemp: this.data.waterTemp + 1
+        waterTemp: parseFloat((this.data.waterTemp + 0.5).toFixed(1))
       });
     }
   },
@@ -236,7 +270,8 @@ Page({
   calculateWaterAmount() {
     if (this.data.autoCalculate) {
       const ratioValue = parseInt(this.data.waterRatio.split(':')[1]);
-      const waterAmount = this.data.coffeeAmount * ratioValue;
+      // 计算水量，乘以比例，然后四舍五入到最接近的整数
+      const waterAmount = Math.round(this.data.coffeeAmount * ratioValue);
       this.setData({
         waterAmount: waterAmount
       });
@@ -285,27 +320,104 @@ Page({
   
   // 显示冲泡指南
   showBrewingGuide() {
-    const guideMap = {
-      'V60': '/assets/guides/v60_guide.png',
-      'Kalita': '/assets/guides/kalita_guide.png',
-      'Chemex': '/assets/guides/chemex_guide.png',
-      'Melitta': '/assets/guides/melitta_guide.png',
-      'Bee House': '/assets/guides/beehouse_guide.png',
-      'Kono': '/assets/guides/kono_guide.png'
-    };
+    const methodName = this.data.methodNameShort;
     
-    const guidePath = guideMap[this.data.methodNameShort];
-    
-    if (guidePath) {
-      wx.previewImage({
-        current: guidePath,
-        urls: [guidePath]
-      });
-    } else {
+    console.log('显示冲泡指南:', methodName);
+    // 直接导航到帮助页面显示指南
+    wx.navigateTo({
+      url: `../help/help?source=guide&method=${methodName}`,
+      success: () => {
+        console.log('导航到指南页面成功');
+      },
+      fail: (error) => {
+        console.error('导航到指南页面失败:', error);
+        wx.showToast({
+          title: '打开指南失败，请重试',
+          icon: 'none'
+        });
+      }
+    });
+  },
+
+  // 显示咖啡粉量输入对话框
+  showCoffeeInputDialog() {
+    this.setData({
+      showInputDialog: true,
+      dialogTitle: '输入咖啡粉量',
+      dialogInputValue: this.data.coffeeAmount.toString(),
+      dialogUnit: 'g',
+      currentInputType: 'coffee'
+    });
+  },
+
+  // 显示水温输入对话框
+  showWaterTempInputDialog() {
+    this.setData({
+      showInputDialog: true,
+      dialogTitle: '输入水温',
+      dialogInputValue: this.data.waterTemp.toString(),
+      dialogUnit: '°C',
+      currentInputType: 'waterTemp'
+    });
+  },
+
+  // 关闭输入对话框
+  closeInputDialog() {
+    this.setData({
+      showInputDialog: false
+    });
+  },
+
+  // 处理对话框中的输入
+  onDialogInput(e) {
+    this.setData({
+      dialogInputValue: e.detail.value
+    });
+  },
+
+  // 防止背景滚动
+  preventTouchMove() {
+    return false;
+  },
+
+  // 确认输入值
+  confirmInputValue() {
+    const value = parseFloat(this.data.dialogInputValue);
+    if (isNaN(value)) {
       wx.showToast({
-        title: '指南暂不可用',
+        title: '请输入有效数字',
         icon: 'none'
       });
+      return;
     }
-  }
+
+    if (this.data.currentInputType === 'coffee') {
+      // 检查咖啡粉量范围
+      if (value < 5 || value > 50) {
+        wx.showToast({
+          title: '咖啡粉量应在5-50g之间',
+          icon: 'none'
+        });
+        return;
+      }
+      this.setData({
+        coffeeAmount: parseFloat(value.toFixed(1))
+      });
+      this.calculateWaterAmount();
+    } else if (this.data.currentInputType === 'waterTemp') {
+      // 检查水温范围
+      if (value < 85 || value > 100) {
+        wx.showToast({
+          title: '水温应在85-100°C之间',
+          icon: 'none'
+        });
+        return;
+      }
+      this.setData({
+        waterTemp: parseFloat(value.toFixed(1))
+      });
+    }
+
+    this.closeInputDialog();
+  },
 }); 

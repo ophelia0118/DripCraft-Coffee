@@ -5,15 +5,7 @@
     <view class="method-name">{{methodName}} {{methodDesc}}</view>
     <image class="method-image" src="{{methodImage}}" mode="aspectFit"></image>
     <view class="guide-link" bindtap="showBrewingGuide">{{methodNameShort}}冲泡指南</view>
-  </view>
-  
-  <!-- 科学参数提示框 -->
-  <view class="science-tooltip" wx:if="{{showScienceTooltip}}">
-    <view class="tooltip-header">
-      <text class="tooltip-title">科学冲泡指导</text>
-      <view class="close-btn" bindtap="closeScienceTip">×</view>
-    </view>
-    <view class="tooltip-content">{{scienceTip}}</view>
+    <view class="auto-tip">已自动填入推荐参数，您可以根据口味偏好进行调整</view>
   </view>
   
   <view class="params-form">
@@ -21,7 +13,7 @@
       <view class="param-label">咖啡粉量</view>
       <view class="param-control">
         <view class="btn-decrease" bindtap="decreaseCoffeeAmount">-</view>
-        <view class="param-value">{{coffeeAmount}} g</view>
+        <view class="param-value" bindtap="showCoffeeInputDialog">{{coffeeAmount}} g</view>
         <view class="btn-increase" bindtap="increaseCoffeeAmount">+</view>
       </view>
     </view>
@@ -30,7 +22,7 @@
       <view class="param-label">水温</view>
       <view class="param-control">
         <view class="btn-decrease" bindtap="decreaseWaterTemp">-</view>
-        <view class="param-value">{{waterTemp}}°C</view>
+        <view class="param-value" bindtap="showWaterTempInputDialog">{{waterTemp}}°C</view>
         <view class="btn-increase" bindtap="increaseWaterTemp">+</view>
       </view>
     </view>
@@ -80,4 +72,20 @@
   </view>
   
   <view class="start-btn" bindtap="startBrewing">开始</view>
+</view>
+
+<!-- 输入对话框 -->
+<view class="input-dialog {{showInputDialog ? 'show' : ''}}" catchtouchmove="preventTouchMove">
+  <view class="dialog-mask" bindtap="closeInputDialog"></view>
+  <view class="dialog-content">
+    <view class="dialog-title">{{dialogTitle}}</view>
+    <view class="dialog-input-container">
+      <input class="dialog-input" type="digit" value="{{dialogInputValue}}" focus="{{showInputDialog}}" bindinput="onDialogInput" />
+      <text class="dialog-unit">{{dialogUnit}}</text>
+    </view>
+    <view class="dialog-buttons">
+      <button class="dialog-btn cancel" bindtap="closeInputDialog">取消</button>
+      <button class="dialog-btn confirm" bindtap="confirmInputValue">确定</button>
+    </view>
+  </view>
 </view> 

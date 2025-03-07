@@ -75,8 +75,23 @@
 .param-value {
   flex: 1;
   text-align: center;
-  font-size: 30rpx;
-  font-weight: bold;
+  font-size: 40rpx;
+  position: relative;
+}
+
+.param-value:active {
+  opacity: 0.7;
+}
+
+.param-value::after {
+  content: "";
+  position: absolute;
+  bottom: -5rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80rpx;
+  height: 2rpx;
+  background-color: #6F4E37;
 }
 
 .param-slider {
@@ -178,4 +193,158 @@
   font-size: 26rpx;
   color: #333;
   line-height: 1.6;
+}
+
+/* 添加推荐参数按钮样式 */
+.recommended-params-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 40rpx auto 20rpx;
+  padding: 20rpx 30rpx;
+  background-color: #F9F3E9;
+  border: 1rpx solid #BA8C63;
+  border-radius: 40rpx;
+  color: #6F4E37;
+  font-size: 28rpx;
+  font-weight: 500;
+  box-shadow: 0 2rpx 6rpx rgba(111, 78, 55, 0.1);
+  transition: all 0.2s ease;
+}
+
+.recommended-params-btn:active {
+  background-color: #F0E4D6;
+  transform: scale(0.98);
+}
+
+.recommend-icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 10rpx;
+  opacity: 0.8;
+}
+
+/* 添加自动填充提示样式 */
+.auto-tip {
+  font-size: 24rpx;
+  color: #BA8C63;
+  text-align: center;
+  margin-top: 16rpx;
+  opacity: 0.8;
+  font-style: italic;
+}
+
+/* 输入对话框样式 */
+.input-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.input-dialog.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.input-dialog.show .dialog-content {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.dialog-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+}
+
+.dialog-content {
+  width: 75%;
+  max-width: 600rpx;
+  background-color: #fff;
+  border-radius: 16rpx;
+  padding: 40rpx 30rpx 30rpx;
+  position: relative;
+  z-index: 1001;
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.15);
+  transform: translateY(20rpx);
+  opacity: 0.9;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.dialog-title {
+  font-size: 34rpx;
+  text-align: center;
+  margin-bottom: 30rpx;
+  color: #111;
+  font-weight: 600;
+  letter-spacing: 0.5rpx;
+}
+
+.dialog-input-container {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  margin-bottom: 16rpx;
+  padding: 6rpx 20rpx 16rpx;
+}
+
+.dialog-input {
+  flex: 1;
+  height: 80rpx;
+  font-size: 44rpx;
+  text-align: center;
+  font-weight: 500;
+  color: #222;
+  margin-top: 4rpx;
+}
+
+.dialog-unit {
+  font-size: 32rpx;
+  color: #666;
+  margin-left: 12rpx;
+  padding-bottom: 4rpx;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32rpx;
+  padding: 0 20rpx;
+}
+
+.dialog-btn {
+  flex: 1;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 12rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+.dialog-btn.cancel {
+  background-color: #F6F6F6;
+  color: #3A3A3A;
+  margin-right: 24rpx;
+}
+
+.dialog-btn.confirm {
+  background-color: #6F4E37;
+  color: white;
+  margin-left: 24rpx;
 } 
