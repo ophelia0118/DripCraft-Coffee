@@ -10,9 +10,9 @@
 }
 
 .brew-method-info {
-  padding: 40rpx 20rpx 10rpx;
+  padding: 40rpx 20rpx 5rpx;
   text-align: center;
-  margin-bottom: 20rpx;
+  margin-bottom: -90rpx;
 }
 
 .method-name {
@@ -45,6 +45,7 @@
   padding: 0 30rpx 20rpx;
   height: auto;
   justify-content: flex-start;
+  margin-top: 40rpx;
 }
 
 .total-time {
@@ -186,7 +187,7 @@
 }
 
 .step-hint {
-  margin-top: -10rpx;
+  margin-top: 0rpx;
   width: 100%;
 }
 
@@ -275,8 +276,8 @@
 .timer-controls {
   display: flex;
   justify-content: center;
-  margin-top: -250rpx;
-  margin-bottom: 30rpx;
+  margin-top: -200rpx;
+  margin-bottom: 50rpx;
   position: relative;
   z-index: 10;
 }
@@ -582,4 +583,329 @@
   background-color: #6F4E37;
   color: white;
   margin-left: 24rpx;
+}
+
+/* 移除智能设置开关样式 */
+.smart-settings, .setting-item, .setting-item text {
+  display: none;
+}
+
+/* 底部控制区样式 */
+.footer-controls {
+  position: fixed;
+  bottom: 30rpx;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30rpx;
+  z-index: 10;
+}
+
+.settings-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(60, 40, 30, 0.8);
+  border-radius: 16rpx;
+  padding: 16rpx 30rpx;
+  box-shadow: 0 4rpx 8rpx rgba(0, 0, 0, 0.2);
+}
+
+.settings-button.active-button {
+  background-color: rgba(169, 115, 66, 0.6);
+}
+
+.settings-button text {
+  color: #d1b89d;
+  font-size: 24rpx;
+  margin-top: 8rpx;
+}
+
+.button-icon {
+  font-size: 36rpx !important;
+  margin-top: 0 !important;
+  margin-bottom: 4rpx;
+}
+
+.modal-close {
+  font-size: 40rpx;
+  color: #8c6e5a;
+  padding: 0 20rpx;
+  cursor: pointer;
+}
+
+/* 自定义时间比例弹窗样式 */
+.time-customize-dialog {
+  width: 85%;
+  max-width: 600rpx;
+  max-height: 80vh;
+}
+
+.time-customize-description {
+  margin-bottom: 20rpx;
+  color: #8c6e5a;
+  font-size: 28rpx;
+  text-align: center;
+}
+
+.time-customize-list {
+  max-height: 60vh;
+  margin-bottom: 20rpx;
+}
+
+.time-customize-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+  padding: 16rpx;
+  background-color: rgba(246, 237, 227, 0.1);
+  border-radius: 10rpx;
+}
+
+.time-customize-label {
+  flex: 1;
+  color: #d1b89d;
+  font-size: 28rpx;
+}
+
+.time-customize-input {
+  width: 100rpx;
+  height: 60rpx;
+  background-color: rgba(246, 237, 227, 0.2);
+  border-radius: 8rpx;
+  color: #f6ede3;
+  text-align: center;
+  font-size: 28rpx;
+  padding: 0 10rpx;
+}
+
+.time-customize-unit {
+  margin-left: 8rpx;
+  color: #d1b89d;
+  font-size: 28rpx;
+}
+
+.time-customize-tips {
+  margin-top: 10rpx;
+  color: #8c6e5a;
+  font-size: 24rpx;
+  text-align: center;
+  font-style: italic;
+}
+
+/* 悬浮小窗口样式 */
+.floating-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #2c2018;
+  border-radius: 16rpx;
+  width: 85%;
+  max-width: 600rpx;
+  box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.4);
+  z-index: 1001;
+  border: 1px solid rgba(212, 162, 106, 0.3);
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  overflow: hidden;
+}
+
+.panel-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+}
+
+.panel-header {
+  padding: 24rpx 30rpx;
+  background-color: rgba(169, 115, 66, 0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(212, 162, 106, 0.3);
+}
+
+.panel-title {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #d4a26a;
+}
+
+.panel-close {
+  font-size: 40rpx;
+  color: #8c6e5a;
+  line-height: 1;
+  padding: 0 10rpx;
+}
+
+.panel-content {
+  padding: 20rpx 30rpx;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.mode-switch-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16rpx 10rpx 20rpx;
+  margin-bottom: 10rpx;
+  border-bottom: 1px solid rgba(212, 162, 106, 0.2);
+}
+
+.mode-switch-container text {
+  font-size: 28rpx;
+  color: #d1b89d;
+}
+
+.total-time-display {
+  text-align: center;
+  color: #d4a26a;
+  font-size: 28rpx;
+  margin-bottom: 16rpx;
+  padding: 10rpx;
+  background-color: rgba(212, 162, 106, 0.1);
+  border-radius: 8rpx;
+}
+
+.step-duration {
+  font-size: 22rpx;
+  color: rgba(209, 184, 157, 0.7);
+  margin-left: 6rpx;
+}
+
+.time-ratio-list {
+  max-height: 40vh;
+  margin: 10rpx 0 20rpx;
+}
+
+.time-ratio-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+  padding: 12rpx;
+  background-color: rgba(246, 237, 227, 0.1);
+  border-radius: 8rpx;
+}
+
+.ratio-label {
+  flex: 1;
+  color: #d1b89d;
+  font-size: 26rpx;
+}
+
+.ratio-input {
+  width: 90rpx;
+  height: 56rpx;
+  background-color: rgba(246, 237, 227, 0.15);
+  border-radius: 6rpx;
+  color: #f6ede3;
+  text-align: center;
+  font-size: 26rpx;
+  padding: 0 8rpx;
+  border: 1px solid transparent;
+}
+
+/* 增加焦点状态样式 */
+.ratio-input:focus {
+  background-color: rgba(246, 237, 227, 0.3);
+  border: 1px solid rgba(212, 162, 106, 0.5);
+  color: white;
+}
+
+.ratio-input[disabled] {
+  color: rgba(246, 237, 227, 0.5);
+  background-color: rgba(246, 237, 227, 0.05);
+  border: 1px solid transparent;
+}
+
+.ratio-unit {
+  margin-left: 8rpx;
+  color: #d1b89d;
+  font-size: 26rpx;
+}
+
+.panel-tips {
+  margin-top: 10rpx;
+  color: #8c6e5a;
+  font-size: 22rpx;
+  text-align: center;
+  font-style: italic;
+}
+
+.panel-footer {
+  display: flex;
+  padding: 16rpx;
+  justify-content: center;
+  border-top: 1px solid rgba(212, 162, 106, 0.3);
+  background-color: rgba(60, 40, 30, 0.3);
+}
+
+.panel-button {
+  width: 40%;
+  max-width: 240rpx;
+  margin: 0 20rpx;
+  height: 70rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  border-radius: 8rpx;
+}
+
+.panel-button.reset {
+  background-color: rgba(60, 40, 30, 0.8);
+  color: #d1b89d;
+}
+
+.panel-button.save {
+  background-color: rgba(169, 115, 66, 0.8);
+  color: #fff;
+}
+
+/* 顶部控制栏样式 */
+.top-controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 80rpx;
+  margin-top: -70rpx;
+  position: relative;
+  z-index: 10;
+}
+
+.custom-time-button {
+  display: flex;
+  align-items: center;
+  background-color: rgba(169, 115, 66, 0.3);
+  border-radius: 30rpx;
+  padding: 12rpx 25rpx;
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(212, 162, 106, 0.4);
+  transition: all 0.2s ease;
+}
+
+.custom-time-button:active {
+  transform: scale(0.98);
+  background-color: rgba(169, 115, 66, 0.4);
+}
+
+.custom-time-icon {
+  font-size: 32rpx;
+  color: #d4a26a;
+  margin-right: 10rpx;
+}
+
+.custom-time-text {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #d4a26a;
 } 
