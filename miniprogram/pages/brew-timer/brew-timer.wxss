@@ -3,14 +3,14 @@
   display: flex;
   flex-direction: column;
   padding: 20rpx;
-  margin-top: -120rpx;
+  margin-top: -30rpx;
   background-color: #281815;
   min-height: 100vh;
   color: white;
 }
 
 .brew-method-info {
-  padding: 10rpx 20rpx;
+  padding: 40rpx 20rpx 10rpx;
   text-align: center;
   margin-bottom: 20rpx;
 }
@@ -62,21 +62,84 @@
   align-items: center;
   margin-top: -20rpx;
   margin-bottom: 60rpx;
-  width: 400rpx;
-  height: 400rpx;
+  width: 500rpx;
+  height: 500rpx;
+}
+
+/* 霓虹光环效果 - 内层 */
+.neon-halo {
+  position: absolute;
+  width: 520rpx;
+  height: 520rpx;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 
+    0 0 40rpx 10rpx rgba(129, 89, 55, 0.2),
+    0 0 20rpx 2rpx rgba(169, 115, 66, 0.25);
+  z-index: 1;
+  opacity: 0.6;
+  filter: blur(10rpx);
+}
+
+/* 霓虹光环效果 - 外层 */
+.neon-halo-outer {
+  position: absolute;
+  width: 550rpx;
+  height: 550rpx;
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: 
+    0 0 80rpx 5rpx rgba(92, 63, 39, 0.15),
+    0 0 120rpx 8rpx rgba(114, 78, 49, 0.08);
+  z-index: 0;
+  opacity: 0.4;
+  filter: blur(18rpx);
+  animation: subtlePulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes subtlePulse {
+  0% {
+    opacity: 0.35;
+    box-shadow: 
+      0 0 80rpx 5rpx rgba(92, 63, 39, 0.12),
+      0 0 120rpx 8rpx rgba(114, 78, 49, 0.06);
+  }
+  50% {
+    opacity: 0.45;
+    box-shadow: 
+      0 0 90rpx 8rpx rgba(92, 63, 39, 0.18),
+      0 0 140rpx 10rpx rgba(114, 78, 49, 0.1);
+  }
+  100% {
+    opacity: 0.35;
+    box-shadow: 
+      0 0 80rpx 5rpx rgba(92, 63, 39, 0.12),
+      0 0 120rpx 8rpx rgba(114, 78, 49, 0.06);
+  }
 }
 
 /* 圆环计时器 */
 .timer-circle {
   position: relative;
-  width: 400rpx;
-  height: 400rpx;
+  width: 500rpx;
+  height: 500rpx;
   border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(30, 22, 18, 0.95);
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.5),
+              inset 0 0 30rpx rgba(114, 78, 49, 0.15);
+  border: 1px solid rgba(114, 78, 49, 0.2);
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+
+/* 清除之前的内部装饰环 */
+.timer-circle::before,
+.timer-circle::after {
+  display: none;
 }
 
 /* 进度环 */
@@ -87,15 +150,19 @@
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  opacity: 0.7;
+  opacity: 0.6;
+  background-image: conic-gradient(rgba(169, 115, 66, 0.5) 0% var(--progress, 0%), transparent var(--progress, 0%) 100%);
+  box-shadow: inset 0 0 30px rgba(169, 115, 66, 0.2);
 }
 
 /* 时间显示 */
 .timer-time {
-  font-size: 58px;
+  font-size: 75px;
   color: #fff;
   z-index: 2;
   font-weight: bold;
+  text-shadow: 0 0 15px rgba(255, 255, 255, 0.3), 0 0 5px rgba(169, 115, 66, 0.3);
+  letter-spacing: 2px;
 }
 
 /* 步骤标记 */
@@ -103,18 +170,19 @@
   position: absolute;
   width: 12px;
   height: 12px;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.18);
   border-radius: 50%;
   top: 0;
   left: calc(50% - 6px);
-  transform-origin: center 200rpx;
+  transform-origin: center 250rpx;
   z-index: 3;
+  box-shadow: 0 0 3px rgba(169, 115, 66, 0.2);
 }
 
 /* 激活的步骤标记 */
 .active-marker {
-  background-color: #d4a26a;
-  box-shadow: 0 0 5px #d4a26a;
+  background-color: rgba(169, 115, 66, 0.5);
+  box-shadow: 0 0 5px rgba(169, 115, 66, 0.4);
 }
 
 .step-hint {
@@ -207,8 +275,8 @@
 .timer-controls {
   display: flex;
   justify-content: center;
-  margin-top: -220rpx;
-  margin-bottom: -100rpx;
+  margin-top: -250rpx;
+  margin-bottom: 30rpx;
   position: relative;
   z-index: 10;
 }
@@ -240,76 +308,6 @@
 
 .control-btn.start {
   background-color: #5f4b41;
-}
-
-/* 时间轴样式 */
-.timeline {
-  margin-top: -160rpx;
-  width: 100%;
-  overflow-x: visible;
-  padding-bottom: 0rpx;
-  position: relative;
-}
-
-.timeline-container {
-  display: flex;
-  width: 90%;
-  padding: 0;
-  margin: 0 auto;
-  justify-content: center;
-}
-
-.timeline-step {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: relative;
-  flex: 1;
-  max-width: 150rpx;
-}
-
-.timeline-step:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  top: 8rpx;
-  left: 50%;
-  right: -50%;
-  height: 2rpx;
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.timeline-step.active:not(:last-child)::after {
-  background-color: #F9F1E7;
-}
-
-.timeline-point {
-  width: 18rpx;
-  height: 18rpx;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.3);
-  margin-bottom: 8rpx;
-  transition: background-color 0.3s;
-}
-
-.timeline-step.active .timeline-point {
-  background-color: #F9F1E7;
-  box-shadow: 0 0 6rpx rgba(255, 255, 255, 0.6);
-}
-
-.timeline-time {
-  font-size: 26rpx;
-  color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 0;
-  font-weight: 500;
-}
-
-.timeline-label {
-  display: none;
-}
-
-.timeline-step.active .timeline-time,
-.timeline-step.active .timeline-label {
-  color: #F9F1E7;
 }
 
 /* SVG 图标作为背景图像 */

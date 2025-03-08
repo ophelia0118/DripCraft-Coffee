@@ -11,7 +11,7 @@ Page({
     targetTotalTime: 240, // 目标总时间（秒）
     currentStepInfo: {},
     stepProgress: 0,
-    progressStyle: 'conic-gradient(#d4a26a 0% 0%, rgba(255, 255, 255, 0.15) 0% 100%)', // 初始进度样式，改为咖啡金色
+    progressStyle: 'conic-gradient(rgba(169, 115, 66, 0.5) 0% 0%, transparent 0% 100%)', // 深咖啡色进度样式
     showSaveModal: false,
     // 输入对话框相关数据
     showInputDialog: false,
@@ -355,7 +355,7 @@ Page({
       totalTime: '00:00',
       currentStepInfo: this.data.steps[0],
       stepProgress: 0,
-      progressStyle: 'conic-gradient(#d4a26a 0% 0%, rgba(255, 255, 255, 0.15) 0% 100%)'
+      progressStyle: 'conic-gradient(rgba(169, 115, 66, 0.5) 0% 0%, transparent 0% 100%)'
     });
   },
 
@@ -407,7 +407,7 @@ Page({
       
       // 计算进度百分比并转换为CSS样式
       const progress = this.calculateStepProgress(currentTime, newStep);
-      const progressStyle = `conic-gradient(#d4a26a 0% ${progress}%, rgba(255, 255, 255, 0.15) ${progress}% 100%)`;
+      const progressStyle = `conic-gradient(rgba(169, 115, 66, 0.5) 0% ${progress}%, transparent ${progress}% 100%)`;
       
       // 更新数据
       this.setData({

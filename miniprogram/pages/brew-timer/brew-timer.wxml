@@ -13,6 +13,10 @@
   <view class="timer-container">
     <!-- 改造后的圆环计时器 -->
     <view class="timer-circle-container">
+      <!-- 霓虹光圈层 -->
+      <view class="neon-halo"></view>
+      <view class="neon-halo-outer"></view>
+      
       <!-- 圆形进度条 -->
       <view class="timer-circle">
         <!-- 进度环 -->
@@ -45,19 +49,6 @@
     </view>
     <!-- 暂停状态下显示保存按钮 -->
     <view class="control-btn save-btn" bindtap="showSaveDataModal" wx:if="{{!isRunning && currentTime > 0}}">
-    </view>
-  </view>
-  
-  <!-- 步骤时间轴 -->
-  <view class="timeline">
-    <view class="timeline-container">
-      <view class="timeline-step {{index <= currentStep ? 'active' : ''}}" 
-            wx:for="{{steps}}" 
-            wx:key="index">
-        <view class="timeline-point"></view>
-        <text class="timeline-time">{{index === 0 ? '0:00' : formatTime(item.timeMarker)}}</text>
-        <text class="timeline-label">{{item.name}}</text>
-      </view>
     </view>
   </view>
 </view>
