@@ -10,6 +10,14 @@
     </view>
   </view>
   
+  <!-- 上方控制栏 -->
+  <view class="top-controls">
+    <view class="custom-time-button" bindtap="toggleProfessionalMode">
+      <text class="custom-time-icon">⏱</text>
+      <text class="custom-time-text">自定义时间</text>
+    </view>
+  </view>
+  
   <view class="timer-container">
     <!-- 改造后的圆环计时器 -->
     <view class="timer-circle-container">
@@ -36,7 +44,7 @@
       <view class="step-box">
         <text class="step-name">{{currentStepInfo.name}}</text>
         <text class="step-instruction">{{currentStepInfo.instruction}}</text>
-        <text class="water-amount" wx:if="{{currentStepInfo.waterAmount > 0}}">累计水量: {{currentStepInfo.waterAmount}}ml</text>
+        <text class="water-amount" wx:if="{{currentStepInfo.waterAmount > 0}}">累计水量: {{currentStepInfo.waterAmountRange}}ml</text>
         <text class="step-tips">{{currentStepInfo.tips}}</text>
       </view>
     </view>
@@ -87,4 +95,46 @@
       <button class="dialog-btn confirm" bindtap="confirmInputValue">确定</button>
     </view>
   </view>
-</view> 
+</view>
+
+<!-- 自定义时间比例悬浮小窗口 -->
+<view class="floating-panel" wx:if="{{showTimeCustomizeModal}}">
+  <view class="panel-header">
+    <text class="panel-title">自定义萃取时间</text>
+    <text class="panel-close" bindtap="closeTimeCustomizeModal">×</text>
+  </view>
+  
+  <view class="panel-content">
+    <!-- 专业模式开关 -->
+    <view class="mode-switch-container">
+      <text>专业模式</text>
+      <switch checked="{{isProfessionalMode}}" bindchange="toggleProfessionalModeState" color="#d4a26a" />
+    </view>
+    
+    <view class="total-time-display">总计时间: {{targetTotalTime}}秒</view>
+    
+    <scroll-view scroll-y class="time-ratio-list">
+      <view class="time-ratio-item" wx:for="{{steps}}" wx:key="index">
+        <text class="ratio-label">{{item.name}} <text class="step-duration" wx:if="{{item.durationSeconds}}">({{item.durationSeconds}}秒)</text></text>
+        <input class="ratio-input" type="number" data-index="{{index}}" 
+               bindinput="onTimeRatioInput" 
+               placeholder="{{Math.round(item.timeRatio * targetTotalTime)}}"
+               value="{{stepSeconds[index]}}" 
+               disabled="{{!isProfessionalMode}}" />
+        <text class="ratio-unit">秒</text>
+      </view>
+    </scroll-view>
+    
+    <view class="panel-tips" wx:if="{{isProfessionalMode}}">
+      <text>提示: 总冲泡时间约{{targetTotalTime}}秒，可调整各步骤所需时间</text>
+    </view>
+  </view>
+  
+  <view class="panel-footer" wx:if="{{isProfessionalMode}}">
+    <button class="panel-button reset" bindtap="resetTimeRatios">恢复默认</button>
+    <button class="panel-button save" bindtap="saveCustomTimeRatios">应用设置</button>
+  </view>
+</view>
+
+<!-- 点击外部关闭悬浮窗 -->
+<view class="panel-mask" wx:if="{{showTimeCustomizeModal}}" bindtap="closeTimeCustomizeModal"></view> 
