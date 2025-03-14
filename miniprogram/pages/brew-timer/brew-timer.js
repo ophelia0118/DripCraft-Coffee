@@ -432,14 +432,15 @@ Page({
         }
       }
       
-      // 优化：提前10秒检查下一步骤变化（而非之前的5秒）
+      // 简化：只在步骤即将变化前8秒提前通知一次，不重复提醒
       if (newStep < steps.length - 1) {
         const nextStepTime = steps[newStep].timeMarker;
         const timeToNextStep = nextStepTime - currentTime;
         
-        // 修改为提前10秒通知，解决延迟问题
-        if (timeToNextStep <= 10 && timeToNextStep >= 8 && !this.data.isPreNotified) {
+        // 修改为只在接近步骤变化前8秒通知一次，避免频繁打扰
+        if (timeToNextStep === 8 && !this.data.isPreNotified) {
           console.log('提前通知即将到来的步骤变化', timeToNextStep, '秒后');
+          
           wx.showToast({
             title: `即将进入${steps[newStep+1].name}`,
             icon: 'none',
@@ -456,7 +457,7 @@ Page({
         }
       }
       
-      // 步骤发生变化时，立即震动并提前5秒触发主要震动
+      // 步骤发生变化时，只触发一次明显的震动，并显示提示
       if (newStep !== currentStep) {
         console.log(`步骤变化：从${currentStep}到${newStep}`);
         
@@ -466,36 +467,23 @@ Page({
           isPreNotified: false // 重置预通知标记
         });
           
-        // 立即进行第一次震动提醒
-        wx.vibrateShort({
-          success: () => console.log('步骤变化立即震动成功')
+        // 使用一次长震动代替多次震动，减少干扰
+        wx.vibrateLong({
+          success: () => console.log('步骤变化震动成功')
         });
         
-        // 延迟300毫秒进行主要震动提醒，确保用户能感知到
-        setTimeout(() => {
-          // 步骤变化时震动提醒
-          this.triggerStepChangeNotification(steps[newStep].name);
-        }, 300);
+        // 显示步骤变化提示
+        wx.showToast({
+          title: `${steps[newStep].name}阶段开始`,
+          icon: 'none',
+          duration: 2500
+        });
       }
       
-      // 提前5-10秒检测步骤即将变化，解决震动延迟问题
-      if (newStep < steps.length - 1) {
-        const nextStepTime = steps[newStep].timeMarker;
-        // 计算到下一步骤的时间
-        const timeUntilNextStep = nextStepTime - currentTime;
-        
-        // 在接近步骤变化前5秒触发震动（解决震动延迟问题）
-        if (timeUntilNextStep === 5) {
-          wx.vibrateShort();
-          console.log('提前5秒进行震动预告');
-        }
-      }
-      
-      // 检查是否在提醒时间点
+      // 检查是否在提醒时间点，仅保留关键提醒
       if (reminderTimes && reminderTimes.length > 0) {
         for (let i = 0; i < reminderTimes.length; i++) {
-          // 修改为提前5秒触发提醒，解决延迟问题
-          if (currentTime === reminderTimes[i].time - 5) {
+          if (currentTime === reminderTimes[i].time) {
             // 触发提醒
             wx.vibrateShort();
             wx.showToast({
@@ -535,8 +523,8 @@ Page({
         }
       }
       
-      // 继续更新计时器，提高更新频率到500ms一次，使得时间检测更精确
-      this.timer = setTimeout(updateTimer, 500);
+      // 继续更新计时器，使用1000ms的更新频率减轻资源消耗
+      this.timer = setTimeout(updateTimer, 1000);
     };
     
     // 启动定时器
@@ -722,129 +710,105 @@ Page({
     // 暂停计时器
     this.pauseTimer();
     
-    // 冲泡完成强制震动提醒 - 双重长震动
+    // 冲泡完成只使用一次明显的长震动
     wx.vibrateLong({
-      success: () => console.log('冲泡完成第一次长震动成功'),
-      fail: (err) => console.error('冲泡完成第一次长震动失败:', err)
+      success: () => console.log('冲泡完成震动成功'),
+      fail: (err) => console.error('冲泡完成震动失败:', err)
     });
     
-    // 延迟1秒后第二次长震动
+    // 显示成功提示并弹出保存对话框
+    wx.showToast({
+      title: '冲泡完成',
+      icon: 'success',
+      duration: 2000
+    });
+    
+    // 显示保存数据的模态窗口
     setTimeout(() => {
-      wx.vibrateLong({
-        success: () => console.log('冲泡完成第二次长震动成功'),
-        fail: (err) => console.error('冲泡完成第二次长震动失败:', err)
+      this.setData({
+        showSaveModal: true
       });
-      
-      // 显示成功提示并弹出保存对话框
-      wx.showToast({
-        title: '冲泡完成',
-        icon: 'success',
-        duration: 2000
-      });
-      
-      // 显示保存数据的模态窗口
-      setTimeout(() => {
-        this.setData({
-          showSaveModal: true
-        });
-      }, 1000);
-      
-    }, 1000);
+    }, 1500);
   },
 
-  // 新增: 生成提醒时间点，与缩短的步骤时间匹配
+  // 新增: 生成提醒时间点，减少提醒频率，只保留关键节点
   generateReminderTimes() {
     const { steps } = this.data;
     let reminderTimes = [];
     
     if (steps.length === 0) return reminderTimes;
     
-    // 创建步骤转换时间点的提前通知
-    for (let i = 0; i < steps.length - 1; i++) {
+    // 只为长时间步骤添加中间点提醒，减少提醒频率
+    for (let i = 0; i < steps.length; i++) {
       const stepTime = steps[i].timeMarker;
+      const prevStepTime = i > 0 ? steps[i-1].timeMarker : 0;
+      const stepDuration = stepTime - prevStepTime;
       
-      // 每个步骤结束前10秒添加提醒
-      if (stepTime > 10) {
-        reminderTimes.push({
-          time: stepTime - 10,
-          message: `即将完成${steps[i].name}，准备进入${steps[i+1].name}`
-        });
+      // 只有当步骤持续时间超过45秒时，才添加中间点提醒
+      if (stepDuration > 45) {
+        const midTime = prevStepTime + Math.floor(stepDuration / 2);
+        
+        // 根据步骤类型添加不同提醒
+        if (steps[i].name.includes('闷蒸') || steps[i].name.includes('Bloom')) {
+          reminderTimes.push({
+            time: midTime,
+            message: '检查咖啡粉是否均匀浸湿'
+          });
+        } else if (steps[i].name.includes('注水')) {
+          reminderTimes.push({
+            time: midTime,
+            message: '保持匀速注水，观察水位'
+          });
+        } else if (steps[i].name.includes('等待')) {
+          reminderTimes.push({
+            time: midTime,
+            message: '观察咖啡液滴落速度'
+          });
+        }
       }
     }
     
-    // 获取总水量和咖啡粉量
-    const totalWater = parseInt(this.data.brewParams.waterAmount);
-    const coffeeAmount = parseFloat(this.data.brewParams.coffeeAmount);
-    
-    // 添加方法特定的提醒
+    // 获取方法名和总冲泡时间
     const methodName = this.data.brewParams.methodName;
-    
-    if (methodName === 'Hario V60') {
-      // V60方法的特定提醒
-      // 闷蒸中间点提醒
-      if (steps[0] && steps[0].timeMarker > 15) {
-        reminderTimes.push({
-          time: 15,
-          message: '检查咖啡粉是否均匀浸湿'
-        });
-      }
-      
-      // 第一次注水中点提醒
-      if (steps[1] && steps[0]) {
-        const firstPourMid = Math.floor(steps[0].timeMarker + (steps[1].timeMarker - steps[0].timeMarker) / 2);
-        reminderTimes.push({
-          time: firstPourMid,
-          message: '继续匀速注水，保持水位稳定'
-        });
-      }
-      
-    } else if (methodName === 'Chemex') {
-      // Chemex的特定提醒
-      // 第一段注水中提醒搅拌
-      if (steps[0] && steps[0].timeMarker > 10) {
-        reminderTimes.push({
-          time: 10,
-          message: '轻轻搅拌确保咖啡粉均匀浸湿'
-        });
-      }
-      
-      // 第二段注水提醒观察水位
-      if (steps[1] && steps[2]) {
-        const secondPourMid = Math.floor(steps[1].timeMarker + (steps[2].timeMarker - steps[1].timeMarker) / 2);
-        reminderTimes.push({
-          time: secondPourMid,
-          message: '观察滤杯水位，保持稳定注水'
-        });
-      }
-    }
-    
-    // 根据总冲泡时间添加中点提醒
     const totalTime = this.data.targetTotalTime;
     
-    if (totalTime > 120) {
+    // 只为长时间冲泡添加总时间中点提醒
+    if (totalTime > 180) { // 只有冲泡时间超过3分钟才添加
       const midTime = Math.floor(totalTime / 2);
-      reminderTimes.push({
-        time: midTime,
-        message: '冲泡进行中，注意观察咖啡液颜色'
-      });
+      
+      // 避免与其他提醒时间点太接近
+      let tooClose = false;
+      for (const reminder of reminderTimes) {
+        if (Math.abs(reminder.time - midTime) < 20) {
+          tooClose = true;
+          break;
+        }
+      }
+      
+      if (!tooClose) {
+        reminderTimes.push({
+          time: midTime,
+          message: '冲泡进行中，观察咖啡液颜色'
+        });
+      }
     }
     
     // 排序并去重
     reminderTimes.sort((a, b) => a.time - b.time);
     
-    // 去除时间点重复的提醒
-    let uniqueReminders = [];
-    let timeSet = new Set();
+    // 确保提醒之间的间隔至少为30秒，避免过于频繁
+    let filteredReminders = [];
+    let lastReminderTime = -30; // 初始化为负值，确保第一个提醒被保留
     
     for (const reminder of reminderTimes) {
-      if (!timeSet.has(reminder.time)) {
-        timeSet.add(reminder.time);
-        uniqueReminders.push(reminder);
+      if (reminder.time - lastReminderTime >= 30) {
+        filteredReminders.push(reminder);
+        lastReminderTime = reminder.time;
       }
     }
     
-    console.log('生成的提醒时间点:', uniqueReminders);
-    return uniqueReminders;
+    console.log('优化后的提醒时间点:', filteredReminders);
+    return filteredReminders;
   },
 
   // 保存冲泡数据
