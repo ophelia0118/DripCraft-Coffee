@@ -432,16 +432,16 @@ Page({
         }
       }
       
-      // 检查是否需要提前通知即将到来的步骤变化（预警机制）
+      // 优化：提前10秒检查下一步骤变化（而非之前的5秒）
       if (newStep < steps.length - 1) {
         const nextStepTime = steps[newStep].timeMarker;
         const timeToNextStep = nextStepTime - currentTime;
         
-        // 如果距离下一步骤还有5秒，提前通知
-        if (timeToNextStep === 5 && !this.data.isPreNotified) {
-          console.log('提前通知即将到来的步骤变化');
+        // 修改为提前10秒通知，解决延迟问题
+        if (timeToNextStep <= 10 && timeToNextStep >= 8 && !this.data.isPreNotified) {
+          console.log('提前通知即将到来的步骤变化', timeToNextStep, '秒后');
           wx.showToast({
-            title: `5秒后进入${steps[newStep+1].name}`,
+            title: `即将进入${steps[newStep+1].name}`,
             icon: 'none',
             duration: 2000
           });
@@ -456,7 +456,7 @@ Page({
         }
       }
       
-      // 步骤发生变化
+      // 步骤发生变化时，立即震动并提前5秒触发主要震动
       if (newStep !== currentStep) {
         console.log(`步骤变化：从${currentStep}到${newStep}`);
         
@@ -466,14 +466,36 @@ Page({
           isPreNotified: false // 重置预通知标记
         });
           
-        // 步骤变化时震动提醒
-        this.triggerStepChangeNotification(steps[newStep].name);
+        // 立即进行第一次震动提醒
+        wx.vibrateShort({
+          success: () => console.log('步骤变化立即震动成功')
+        });
+        
+        // 延迟300毫秒进行主要震动提醒，确保用户能感知到
+        setTimeout(() => {
+          // 步骤变化时震动提醒
+          this.triggerStepChangeNotification(steps[newStep].name);
+        }, 300);
+      }
+      
+      // 提前5-10秒检测步骤即将变化，解决震动延迟问题
+      if (newStep < steps.length - 1) {
+        const nextStepTime = steps[newStep].timeMarker;
+        // 计算到下一步骤的时间
+        const timeUntilNextStep = nextStepTime - currentTime;
+        
+        // 在接近步骤变化前5秒触发震动（解决震动延迟问题）
+        if (timeUntilNextStep === 5) {
+          wx.vibrateShort();
+          console.log('提前5秒进行震动预告');
+        }
       }
       
       // 检查是否在提醒时间点
       if (reminderTimes && reminderTimes.length > 0) {
         for (let i = 0; i < reminderTimes.length; i++) {
-          if (currentTime === reminderTimes[i].time) {
+          // 修改为提前5秒触发提醒，解决延迟问题
+          if (currentTime === reminderTimes[i].time - 5) {
             // 触发提醒
             wx.vibrateShort();
             wx.showToast({
@@ -513,8 +535,8 @@ Page({
         }
       }
       
-      // 继续更新计时器
-      this.timer = setTimeout(updateTimer, 1000);
+      // 继续更新计时器，提高更新频率到500ms一次，使得时间检测更精确
+      this.timer = setTimeout(updateTimer, 500);
     };
     
     // 启动定时器
@@ -677,13 +699,13 @@ Page({
       fail: (err) => console.error('步骤变化短震动失败:', err)
     });
     
-    // 延迟200ms后第二次震动 - 强调提醒
+    // 延迟300ms后第二次震动 - 强调提醒
     setTimeout(() => {
-      wx.vibrateShort({
-        success: () => console.log('步骤变化延迟震动成功'),
-        fail: (err) => console.error('步骤变化延迟震动失败:', err)
+      wx.vibrateLong({
+        success: () => console.log('步骤变化长震动成功'),
+        fail: (err) => console.error('步骤变化长震动失败:', err)
       });
-    }, 200);
+    }, 300);
     
     // 显示步骤变化提示
     wx.showToast({
