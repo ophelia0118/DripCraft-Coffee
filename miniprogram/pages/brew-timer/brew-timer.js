@@ -1224,4 +1224,34 @@ Page({
       stepSeconds
     });
   },
+
+  // 新增: 分享功能
+  onShareAppMessage: function() {
+    const { brewParams, currentStep, totalTime } = this.data;
+    const methodName = brewParams.methodName || '手冲咖啡';
+    const coffeeAmount = brewParams.coffeeAmount || '未设置';
+    const waterAmount = brewParams.waterAmount || '未设置';
+    
+    return {
+      title: `我正在用DripCraft冲泡${methodName}，快来看看吧！`,
+      path: '/pages/brew-timer/brew-timer',
+      imageUrl: '/images/share-image.png', // 如果有分享图片的话
+      success: function(res) {
+        // 分享成功
+        wx.showToast({
+          title: '分享成功',
+          icon: 'success',
+          duration: 2000
+        });
+      },
+      fail: function(res) {
+        // 分享失败
+        wx.showToast({
+          title: '分享失败',
+          icon: 'none',
+          duration: 2000
+        });
+      }
+    };
+  },
 }); 

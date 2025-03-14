@@ -64,5 +64,20 @@ App({
     } catch (e) {
       console.error('加载设置失败', e);
     }
+  },
+
+  // 新增：全局分享配置
+  onShow: function() {
+    // 设置全局分享
+    wx.showShareMenu({
+      withShareTicket: true,
+      menus: ['shareAppMessage', 'shareTimeline'],
+      success: function() {
+        console.log('全局分享菜单设置成功');
+      },
+      fail: function(err) {
+        console.error('全局分享菜单设置失败:', err);
+      }
+    });
   }
 }); 

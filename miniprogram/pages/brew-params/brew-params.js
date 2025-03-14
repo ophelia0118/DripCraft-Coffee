@@ -477,4 +477,31 @@ Page({
   onHide() {
     this.saveCurrentParams();
   },
+
+  // 新增: 分享功能
+  onShareAppMessage: function() {
+    const { methodName, coffeeAmount, waterAmount, waterTemp, grindSize } = this.data;
+    
+    return {
+      title: `我在用DripCraft设置${methodName}冲泡参数，快来看看吧！`,
+      path: '/pages/brew-params/brew-params?method=' + encodeURIComponent(methodName),
+      imageUrl: '/images/share-params.png', // 如果有分享图片的话
+      success: function(res) {
+        // 分享成功
+        wx.showToast({
+          title: '分享成功',
+          icon: 'success',
+          duration: 2000
+        });
+      },
+      fail: function(res) {
+        // 分享失败
+        wx.showToast({
+          title: '分享失败',
+          icon: 'none',
+          duration: 2000
+        });
+      }
+    };
+  },
 }); 

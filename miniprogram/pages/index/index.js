@@ -75,5 +75,30 @@ Page({
     this.setData({
       debugInfo: '按钮点击测试: ' + new Date().toLocaleTimeString()
     });
-  }
+  },
+
+  // 新增: 分享功能
+  onShareAppMessage: function() {
+    return {
+      title: '发现一款超赞的咖啡冲泡助手 - DripCraft Coffee',
+      path: '/pages/index/index',
+      imageUrl: '/images/share-home.png', // 如果有分享图片的话
+      success: function(res) {
+        // 分享成功
+        wx.showToast({
+          title: '分享成功',
+          icon: 'success',
+          duration: 2000
+        });
+      },
+      fail: function(res) {
+        // 分享失败
+        wx.showToast({
+          title: '分享失败',
+          icon: 'none',
+          duration: 2000
+        });
+      }
+    };
+  },
 }); 
