@@ -36,8 +36,8 @@ Page({
       wx.nextTick(() => {
         this.setMethodDetails(options.method);
         
-        // 自动应用推荐参数
-        this.applyScienceParams(false);
+        // 尝试加载保存的参数
+        this.loadSavedParams();
       });
     }
   },
@@ -288,6 +288,9 @@ Page({
   },
 
   startBrewing() {
+    // 保存当前参数
+    this.saveCurrentParams();
+    
     console.log('开始冲泡');
     const brewParams = {
       methodName: this.data.methodName,
@@ -419,5 +422,59 @@ Page({
     }
 
     this.closeInputDialog();
+  },
+
+  // 新增：加载已保存的参数
+  loadSavedParams() {
+    const method = this.data.methodName;
+    // 构建存储键名，针对每种冲泡方法分别存储
+    const storageKey = `saved_params_${method}`;
+    const savedParams = wx.getStorageSync(storageKey);
+    
+    if (savedParams) {
+      console.log(`加载已保存的${method}参数:`, savedParams);
+      
+      // 更新界面数据
+      this.setData({
+        ...savedParams
+      });
+      
+      // 显示提示
+      wx.showToast({
+        title: '已加载保存参数',
+        icon: 'success',
+        duration: 1000
+      });
+    } else {
+      // 如果没有保存的参数，则应用推荐参数
+      console.log('没有保存的参数，使用推荐参数');
+      this.applyScienceParams(false);
+    }
+  },
+
+  // 新增：保存当前参数
+  saveCurrentParams() {
+    const method = this.data.methodName;
+    const storageKey = `saved_params_${method}`;
+    
+    // 提取需要保存的参数
+    const paramsToSave = {
+      coffeeAmount: this.data.coffeeAmount,
+      waterTemp: this.data.waterTemp,
+      grindSizeValue: this.data.grindSizeValue,
+      grindSize: this.data.grindSize,
+      ratioIndex: this.data.ratioIndex,
+      waterRatio: this.data.waterRatio,
+      waterAmount: this.data.waterAmount
+    };
+    
+    // 保存参数
+    wx.setStorageSync(storageKey, paramsToSave);
+    console.log(`已保存${method}参数:`, paramsToSave);
+  },
+
+  // 在页面隐藏时自动保存参数
+  onHide() {
+    this.saveCurrentParams();
   },
 }); 
