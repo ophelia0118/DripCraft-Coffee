@@ -347,4 +347,15 @@
   background-color: #6F4E37;
   color: white;
   margin-left: 24rpx;
+}
+
+.panel-button {
+  width: 40%;
+  max-width: 240rpx;
+  margin: 0 20rpx;
+  text-align: center;
+}
+
+.panel-footer {
+  justify-content: center;
 } 

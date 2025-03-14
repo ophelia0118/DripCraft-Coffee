@@ -6,6 +6,6 @@
   },
   "libVersion": "3.6.6",
   "setting": {
-    "compileHotReLoad": true
+    "compileHotReLoad": false
   }
 }
