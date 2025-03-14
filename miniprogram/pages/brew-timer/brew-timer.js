@@ -432,22 +432,42 @@ Page({
         }
       }
       
+      // 检查是否需要提前通知即将到来的步骤变化（预警机制）
+      if (newStep < steps.length - 1) {
+        const nextStepTime = steps[newStep].timeMarker;
+        const timeToNextStep = nextStepTime - currentTime;
+        
+        // 如果距离下一步骤还有5秒，提前通知
+        if (timeToNextStep === 5 && !this.data.isPreNotified) {
+          console.log('提前通知即将到来的步骤变化');
+          wx.showToast({
+            title: `5秒后进入${steps[newStep+1].name}`,
+            icon: 'none',
+            duration: 2000
+          });
+          
+          // 轻微震动提示
+          wx.vibrateShort();
+          
+          // 设置已通知标记，避免重复通知
+          this.setData({
+            isPreNotified: true
+          });
+        }
+      }
+      
       // 步骤发生变化
       if (newStep !== currentStep) {
+        console.log(`步骤变化：从${currentStep}到${newStep}`);
+        
         this.setData({
           currentStep: newStep,
-          currentStepInfo: steps[newStep]
+          currentStepInfo: steps[newStep],
+          isPreNotified: false // 重置预通知标记
         });
           
-        // 提示新步骤
-        wx.vibrateShort();
-        
-        // 显示步骤变化提示
-        wx.showToast({
-          title: steps[newStep].name + '阶段',
-          icon: 'none',
-          duration: 1500
-        });
+        // 步骤变化时震动提醒
+        this.triggerStepChangeNotification(steps[newStep].name);
       }
       
       // 检查是否在提醒时间点
@@ -488,13 +508,7 @@ Page({
       // 如果到达最后一步，并且超过了目标时间，自动停止计时器
       if (currentTime > this.data.targetTotalTime && newStep === steps.length - 1) {
         if (currentTime > this.data.targetTotalTime + 30) { // 允许多30秒缓冲
-          wx.vibrateShort();
-          this.pauseTimer();
-          wx.showToast({
-            title: '冲泡完成',
-            icon: 'success',
-            duration: 2000
-          });
+          this.triggerCompletionNotification();
           return;
         }
       }
@@ -649,33 +663,168 @@ Page({
       clearTimeout(this.timer);
     }
     
-    // 冲泡完成强制震动提醒
-    console.log('冲泡完成触发震动');
-    wx.vibrateLong({
-      success: function() {
-        console.log('冲泡完成震动1触发成功');
-      },
-      fail: function(err) {
-        console.error('冲泡完成震动1触发失败:', err);
-      }
-    });
-    setTimeout(() => {
-      wx.vibrateLong({
-        success: function() {
-          console.log('冲泡完成震动2触发成功');
-        },
-        fail: function(err) {
-          console.error('冲泡完成震动2触发失败:', err);
-        }
-      });
-    }, 1000);
+    // 使用新的完成通知函数
+    this.triggerCompletionNotification();
+  },
+  
+  // 新增: 触发步骤变化通知函数
+  triggerStepChangeNotification(stepName) {
+    console.log('触发步骤变化震动:', stepName);
     
-    // 显示保存数据的模态窗口，而不是直接返回
-    this.setData({
-      showSaveModal: true
+    // 第一次震动 - 短振动
+    wx.vibrateShort({
+      success: () => console.log('步骤变化短震动成功'),
+      fail: (err) => console.error('步骤变化短震动失败:', err)
+    });
+    
+    // 延迟200ms后第二次震动 - 强调提醒
+    setTimeout(() => {
+      wx.vibrateShort({
+        success: () => console.log('步骤变化延迟震动成功'),
+        fail: (err) => console.error('步骤变化延迟震动失败:', err)
+      });
+    }, 200);
+    
+    // 显示步骤变化提示
+    wx.showToast({
+      title: `${stepName}阶段开始`,
+      icon: 'none',
+      duration: 2500
     });
   },
   
+  // 新增: 触发完成通知函数
+  triggerCompletionNotification() {
+    console.log('触发冲泡完成震动');
+    
+    // 暂停计时器
+    this.pauseTimer();
+    
+    // 冲泡完成强制震动提醒 - 双重长震动
+    wx.vibrateLong({
+      success: () => console.log('冲泡完成第一次长震动成功'),
+      fail: (err) => console.error('冲泡完成第一次长震动失败:', err)
+    });
+    
+    // 延迟1秒后第二次长震动
+    setTimeout(() => {
+      wx.vibrateLong({
+        success: () => console.log('冲泡完成第二次长震动成功'),
+        fail: (err) => console.error('冲泡完成第二次长震动失败:', err)
+      });
+      
+      // 显示成功提示并弹出保存对话框
+      wx.showToast({
+        title: '冲泡完成',
+        icon: 'success',
+        duration: 2000
+      });
+      
+      // 显示保存数据的模态窗口
+      setTimeout(() => {
+        this.setData({
+          showSaveModal: true
+        });
+      }, 1000);
+      
+    }, 1000);
+  },
+
+  // 新增: 生成提醒时间点，与缩短的步骤时间匹配
+  generateReminderTimes() {
+    const { steps } = this.data;
+    let reminderTimes = [];
+    
+    if (steps.length === 0) return reminderTimes;
+    
+    // 创建步骤转换时间点的提前通知
+    for (let i = 0; i < steps.length - 1; i++) {
+      const stepTime = steps[i].timeMarker;
+      
+      // 每个步骤结束前10秒添加提醒
+      if (stepTime > 10) {
+        reminderTimes.push({
+          time: stepTime - 10,
+          message: `即将完成${steps[i].name}，准备进入${steps[i+1].name}`
+        });
+      }
+    }
+    
+    // 获取总水量和咖啡粉量
+    const totalWater = parseInt(this.data.brewParams.waterAmount);
+    const coffeeAmount = parseFloat(this.data.brewParams.coffeeAmount);
+    
+    // 添加方法特定的提醒
+    const methodName = this.data.brewParams.methodName;
+    
+    if (methodName === 'Hario V60') {
+      // V60方法的特定提醒
+      // 闷蒸中间点提醒
+      if (steps[0] && steps[0].timeMarker > 15) {
+        reminderTimes.push({
+          time: 15,
+          message: '检查咖啡粉是否均匀浸湿'
+        });
+      }
+      
+      // 第一次注水中点提醒
+      if (steps[1] && steps[0]) {
+        const firstPourMid = Math.floor(steps[0].timeMarker + (steps[1].timeMarker - steps[0].timeMarker) / 2);
+        reminderTimes.push({
+          time: firstPourMid,
+          message: '继续匀速注水，保持水位稳定'
+        });
+      }
+      
+    } else if (methodName === 'Chemex') {
+      // Chemex的特定提醒
+      // 第一段注水中提醒搅拌
+      if (steps[0] && steps[0].timeMarker > 10) {
+        reminderTimes.push({
+          time: 10,
+          message: '轻轻搅拌确保咖啡粉均匀浸湿'
+        });
+      }
+      
+      // 第二段注水提醒观察水位
+      if (steps[1] && steps[2]) {
+        const secondPourMid = Math.floor(steps[1].timeMarker + (steps[2].timeMarker - steps[1].timeMarker) / 2);
+        reminderTimes.push({
+          time: secondPourMid,
+          message: '观察滤杯水位，保持稳定注水'
+        });
+      }
+    }
+    
+    // 根据总冲泡时间添加中点提醒
+    const totalTime = this.data.targetTotalTime;
+    
+    if (totalTime > 120) {
+      const midTime = Math.floor(totalTime / 2);
+      reminderTimes.push({
+        time: midTime,
+        message: '冲泡进行中，注意观察咖啡液颜色'
+      });
+    }
+    
+    // 排序并去重
+    reminderTimes.sort((a, b) => a.time - b.time);
+    
+    // 去除时间点重复的提醒
+    let uniqueReminders = [];
+    let timeSet = new Set();
+    
+    for (const reminder of reminderTimes) {
+      if (!timeSet.has(reminder.time)) {
+        timeSet.add(reminder.time);
+        uniqueReminders.push(reminder);
+      }
+    }
+    
+    console.log('生成的提醒时间点:', uniqueReminders);
+    return uniqueReminders;
+  },
+
   // 保存冲泡数据
   saveBrewData: function() {
     // 获取当前冲泡数据
@@ -861,80 +1010,6 @@ Page({
         duration: 2000
       });
     }
-  },
-
-  // 新增: 生成提醒时间点
-  generateReminderTimes() {
-    const { steps } = this.data;
-    let reminderTimes = [];
-    
-    if (steps.length === 0) return reminderTimes;
-    
-    // Hario V60特定提醒
-    if (this.data.methodName === 'Hario V60') {
-      // 在闷蒸阶段的15秒处添加提醒
-      if (steps[0].timeMarker >= 15) {
-        reminderTimes.push({
-          time: 15,
-          message: '请确保所有咖啡粉均匀浸湿'
-        });
-      }
-      
-      // 在开始第二阶段前5秒添加提醒
-      if (steps[0].timeMarker > 5) {
-        reminderTimes.push({
-          time: steps[0].timeMarker - 5,
-          message: '准备开始注水阶段'
-        });
-      }
-      
-      // 计算注水阶段的时间分配
-      const totalBrewTime = steps[steps.length - 1].timeMarker;
-      const bloomTime = steps[0].timeMarker;
-      const remainingTime = totalBrewTime - bloomTime;
-      
-      // 获取总水量
-      const totalWater = this.data.brewParams.waterAmount;
-      const bloomWater = Math.round(totalWater * 0.2); // 闷蒸阶段水量（20%）
-      
-      // 第二次注水提醒（闷蒸结束后约1/3的注水时间）
-      const secondPourTime = Math.round(bloomTime + remainingTime * 0.33);
-      const secondPourWater = Math.round(totalWater * 0.5); // 累计水量达到50%
-      reminderTimes.push({
-        time: secondPourTime,
-        message: `开始第二次注水，累计水量约${secondPourWater}ml`
-      });
-      
-      // 第三次注水提醒（闷蒸结束后约2/3的注水时间）
-      const thirdPourTime = Math.round(bloomTime + remainingTime * 0.66);
-      const thirdPourWater = Math.round(totalWater * 0.75); // 累计水量达到75%
-      reminderTimes.push({
-        time: thirdPourTime,
-        message: `开始第三次注水，累计水量约${thirdPourWater}ml`
-      });
-      
-      // 如果总时间超过2分钟，在2分钟处添加提醒
-      if (totalBrewTime > 120) {
-        reminderTimes.push({
-          time: 120,
-          message: '冲泡进行中，注意观察咖啡液颜色'
-        });
-      }
-    } else {
-      // 其他滤杯方法的通用提醒
-      // 在每个步骤开始前5秒添加提醒
-      for (let i = 1; i < steps.length; i++) {
-        const previousStepTime = steps[i-1].timeMarker;
-        if (previousStepTime > 5) {
-          reminderTimes.push({
-            time: previousStepTime - 5,
-            message: `即将进入${steps[i].name}阶段`
-          });
-        }
-      }
-    }
-    
-    return reminderTimes;
   },
 
   // 修改函数：点击专业模式按钮直接显示时间自定义窗口
